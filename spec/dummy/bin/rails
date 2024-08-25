@@ -4,6 +4,8 @@ require_relative "../config/boot"
 
 if ENV["RAILS_ENV"] == "test"
   require "simplecov"
+  require "simplecov-json"
+  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
   SimpleCov.start "rails"
 end
 

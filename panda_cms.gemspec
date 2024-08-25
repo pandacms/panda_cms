@@ -55,6 +55,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler-audit", "~> 0.9"
   spec.add_development_dependency "capybara", "~> 3.40"
   spec.add_development_dependency "danger", "~> 9.5"
+  spec.add_development_dependency "danger-reek", "~> 0.3"
+  spec.add_development_dependency "danger-rubocop", "~> 0.13"
+  spec.add_development_dependency "danger-simplecov_json", "~> 0.3"
+  spec.add_development_dependency "danger-todoist", "~> 2.0"
   spec.add_development_dependency "erb_lint", "~> 0.5"
   spec.add_development_dependency "faker", "~> 3.4"
   spec.add_development_dependency "fasterer", "~> 0.11"
@@ -75,6 +79,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "solargraph-standardrb", "~> 0.0.4"
   spec.add_development_dependency "standard", "~> 1.33", ">= 1.33.0"
   spec.add_development_dependency "turbo-rails", "~> 2.0"
+  spec.add_development_dependency "undercover", "~> 0.5"
   spec.add_development_dependency "yard-activerecord", "~> 0.0.16"
 
   spec.post_install_message = "🐼 💜"

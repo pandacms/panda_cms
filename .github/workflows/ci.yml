@@ -104,18 +104,3 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/spec/tmp/capybara
           if-no-files-found: ignore
-
-      - name: RSpec Report
-        uses: SonicGarden/rspec-report-action@v5
-        with:
-          json-path: tmp/rspec_results.json
-          title: RSpec Report
-        if: always()
-
-      - name: Test Coverage
-        uses: joshmfrankel/simplecov-check-action@main
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          minimum_suite_coverage: 70
-          check_job_name: "Test Coverage"
-        if: always()

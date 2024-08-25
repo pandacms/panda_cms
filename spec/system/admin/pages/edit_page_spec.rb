@@ -36,12 +36,13 @@ end
 
 def create_user_with(provider, admin: false)
   info = OmniAuth.config.mock_auth[provider][:info]
+  name_parts = info[:name].split(" ")
 
   PandaCms::Current.user = PandaCms::User.create!(
     admin: admin,
     email: info[:email],
-    firstname: info[:name].split(" ").first,
-    lastname: info[:name].split(" ").last,
+    firstname: name_parts.first,
+    lastname: name_parts.last,
     image_url: info[:image]
   )
 end
@@ -70,14 +71,11 @@ def login_as(user, provider: :github)
   # browser = Capybara.current_session.driver.browser
   # browser.manage.add_cookie :name => 'ab', :value => 'true', :expires => Time.now + 3600
   # page.driver.browser.manage.add_cookie(name: "session_id", value: cookie_jar[:session_id], sameSite: :Lax, httpOnly: true)
+  # visit "/admin"
 
-  visit "/admin"
   find("#button-sign-in-#{provider}").click
 end
 
 def base_url
   Capybara.app_host + ":" + Capybara.current_session.server.port.to_s
-end
-
-def view_edit_page(page)
 end
