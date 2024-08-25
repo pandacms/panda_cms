@@ -114,7 +114,7 @@ jobs:
       - name: Test Coverage
         uses: joshmfrankel/simplecov-check-action@main
         with:
-          github_token: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           minimum_suite_coverage: 70
           check_job_name: "Test Coverage"
         if: always()
