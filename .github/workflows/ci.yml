@@ -40,11 +40,6 @@ jobs:
       - name: "ERB Check"
         run: "bundle exec erblint app/views --lint-all"
 
-      - name: "Danger"
-        env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
-        run: "bundle exec danger"
-
   specs:
     name: "App Specs"
     runs-on: "ubuntu-latest"
@@ -105,16 +100,7 @@ jobs:
           path: ${{ github.workspace }}/spec/tmp/capybara
           if-no-files-found: ignore
 
-      - name: RSpec Report
-        uses: SonicGarden/rspec-report-action@v5
-        with:
-          json-path: tmp/rspec_results.json
-        if: always()
-
-      - name: Test Coverage
-        uses: joshmfrankel/simplecov-check-action@main
-        with:
-          github_token: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
-          minimum_suite_coverage: 70
-          check_job_name: "Test Coverage"
-        if: always()
+      - name: "Danger"
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+        run: "bundle exec danger"

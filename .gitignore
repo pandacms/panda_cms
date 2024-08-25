@@ -5,7 +5,7 @@
 /node_modules/**/*
 /pkg/
 /spec/dummy/log/*.log
-/spec/dummy/public/
+!/spec/dummy/public/*.html
 /spec/dummy/storage/
 /spec/dummy/tmp/
 /spec/examples.txt

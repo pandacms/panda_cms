@@ -4,14 +4,14 @@ RSpec.describe "Edit a page", js: true do
   scenario "when the user is not logged in it returns a 404 error" do
     homepage = create(:homepage, title: "Home Page")
     visit "/admin/pages/#{homepage.id}/edit"
-    expect(page).to have_content("The page you were looking for doesn't exist.")
+    expect(page).to have_content("The page you were looking for could not be found. Sad panda.")
   end
 
   scenario "when the user is logged in as a user it returns a 404 error", js: true do
     homepage = create(:homepage, title: "Home Page")
     create_and_login_user_with(:github)
     visit "/admin/pages/#{homepage.id}/edit"
-    expect(page).to have_content("The page you were looking for doesn't exist.")
+    expect(page).to have_content("The page you were looking for could not be found. Sad panda.")
   end
   # todo: permissions here?
 
@@ -36,12 +36,13 @@ end
 
 def create_user_with(provider, admin: false)
   info = OmniAuth.config.mock_auth[provider][:info]
+  name_parts = info[:name].split(" ")
 
   PandaCms::Current.user = PandaCms::User.create!(
     admin: admin,
     email: info[:email],
-    firstname: info[:name].split(" ").first,
-    lastname: info[:name].split(" ").last,
+    firstname: name_parts.first,
+    lastname: name_parts.last,
     image_url: info[:image]
   )
 end
@@ -70,14 +71,11 @@ def login_as(user, provider: :github)
   # browser = Capybara.current_session.driver.browser
   # browser.manage.add_cookie :name => 'ab', :value => 'true', :expires => Time.now + 3600
   # page.driver.browser.manage.add_cookie(name: "session_id", value: cookie_jar[:session_id], sameSite: :Lax, httpOnly: true)
+  # visit "/admin"
 
-  visit "/admin"
   find("#button-sign-in-#{provider}").click
 end
 
 def base_url
   Capybara.app_host + ":" + Capybara.current_session.server.port.to_s
-end
-
-def view_edit_page(page)
 end
