@@ -1,0 +1,21 @@
+<div class="table overflow-x-auto mb-12 w-full rounded-lg border border-mid">
+  <div class="table-header-group">
+    <div class="table-row text-base font-medium text-white bg-mid">
+      <% columns.each_with_index do |column, i| %>
+        <div class="table-cell sticky top-0 z-10 p-4 <% if i.zero? %>rounded-tl-md<% elsif i == columns.size - 1 %>rounded-tr-md<% end %>"><%= column.label %></div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="table-row-group">
+    <% @rows.each do |row| %>
+      <div class="table-row relative bg-mid/5 hover:bg-mid/20">
+        <% @columns.each do |column| %>
+          <div class="table-cell py-5 px-3 h-20 text-sm align-middle whitespace-nowrap border-b border-mid/20">
+            <%= view_context.capture(row, &column.cell) %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= PandaCms.title %> &middot; <%= @title %></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= yield :head_includes %>
+  </head>
+
+  <body class="h-full bg-zinc-50">
+
+    <header class="bg-sky-100">
+      <nav class="px-6 mx-auto max-w-7xl lg:px-8" aria-label="Top">
+        <div class="flex justify-between items-center py-6 w-full border-b border-indigo-500 lg:border-none">
+          <div class="flex items-center">
+            <a href="#">
+              <span class="sr-only">Panda CMS</span>
+              <img class="w-auto h-10" src="/panda-cms-assets/panda-logo-screenprint.png" alt="">
+            </a>
+            <% if (main_menu = PandaCms::Menu.find_by(name: "Main Menu")) %>
+            <div class="hidden ml-10 space-x-8 lg:block">
+              <% main_menu.menu_items.each do |menu_item| %>
+                <a href="<%= menu_item.page.path %>" class="text-base font-medium hover:underline text-zinc-800"><%= menu_item.text %></a>
+              <% end %>
+            </div>
+            <% end %>
+          </div>
+          <div class="ml-10 space-x-4">
+            <a href="#" class="inline-block py-2 px-4 text-base font-medium text-white bg-pink-400 rounded-md border border-transparent hover:bg-opacity-80">Button 1</a>
+            <a href="#" class="inline-block py-2 px-4 text-base font-medium text-pink-400 bg-white rounded-md border border-transparent hover:bg-opacity-80">Button 2</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <div class="p-12">

@@ -1,0 +1,55 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Bundler: bundle install",
+      "type": "shell",
+      "command": "bundle install"
+    },
+    {
+      "label": "Bundler: bundle update",
+      "type": "shell",
+      "command": "bundle update"
+    },
+    {
+      "label": "Run YARD server",
+      "type": "shell",
+      "command": "yard server --reload",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build"
+      },
+      "presentation": {
+        "reveal": "never",
+        "revealProblems": "onProblem",
+        "panel": "dedicated",
+        "focus": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
+      "label": "Build assets",
+      "type": "shell",
+      "command": "bundle exec rake panda_cms:assets:watch_admin",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build"
+      },
+      "presentation": {
+        "reveal": "never",
+        "revealProblems": "onProblem",
+        "panel": "dedicated",
+        "focus": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}

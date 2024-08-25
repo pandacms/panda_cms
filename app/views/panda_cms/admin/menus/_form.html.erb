@@ -1,0 +1,21 @@
+  <%= panda_cms_form_with model: menu, url: admin_menus_path, method: :post do |form| %>
+    <%= form.text_field :name %>
+
+    <div data-controller="nested-form" nested_form_wrapper_selector_value=".nested-form-wrapper">
+      <template data-nested-form-target="template">
+        <%= form.fields_for :menu_items, PandaCms::MenuItem.new, child_index: 'NEW_RECORD' do |item| %>
+          <%= render "menu_item_fields", form: item %>
+        <% end %>
+      </template>
+
+      <%= form.fields_for :menu_items do |item| %>
+        <%= render "menu_item_fields", form: item %>
+      <% end %>
+
+      <div data-nested-form-target="target"></div>
+
+      <%= render PandaCms::Admin::ButtonComponent.new(text: "Add Menu Item", action: :add, data: {action: "nested-form#add"}, size: :small) %>
+    </div>
+
+    <%= form.submit "Create" %>
+  <% end %>

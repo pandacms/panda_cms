@@ -1,0 +1,78 @@
+{
+  "[json]": {
+    "editor.formatOnSave": true
+  },
+  "[ruby]": {
+    "editor.defaultFormatter": "testdouble.vscode-standard-ruby",
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.inlineSuggest.enabled": true,
+    "editor.semanticHighlighting.enabled": true,
+    "editor.tabSize": 2
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.tabSize": 2
+  },
+  "editor.bracketPairColorization.enabled": true,
+  "editor.defaultFormatter": "testdouble.vscode-standard-ruby",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 16,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "editor.semanticHighlighting.enabled": true,
+  "editor.tabSize": 2,
+  "editor.lineHeight": 24,
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.scss": "tailwindcss"
+  },
+  "files.autoSave": "onFocusChange",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.ignoreRebaseWarning": true,
+  "less.format.spaceAroundSelectorSeparator": true,
+  "scss.format.spaceAroundSelectorSeparator": true,
+  "solargraph.autoformat": true,
+  "solargraph.definitions": true,
+  "solargraph.diagnostics": true,
+  "solargraph.formatting": true,
+  "solargraph.useBundler": true,
+  "standardRuby.mode": "enableViaGemfile",
+  "terminal.integrated.env.osx": {
+    "PATH": "${env:PATH}"
+  },
+  "terminal.integrated.fontSize": 15,
+  "window.title": "${activeFolderMedium} ${activeEditorShort}${separator}${rootName}${separator}${profileName}",
+  "workbench.startupEditor": "none",
+  "yaml.format.enable": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#2673e7",
+    "activityBar.background": "#2673e7",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#8f1043",
+    "activityBarBadge.foreground": "#e7e7e7",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#2673e7",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#2673e7",
+    "statusBarItem.remoteBackground": "#165bc4",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#165bc4",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#165bc499",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "peacock.color": "#165bc4"
+}

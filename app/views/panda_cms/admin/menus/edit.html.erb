@@ -1,0 +1,58 @@
+<%= render PandaCms::Admin::ContainerComponent.new do |component| %>
+  <% component.with_heading(text: "Edit Menu", level: 1) %>
+
+  <%= panda_cms_form_with model: @menu, url: admin_menu_path, method: :put do |form| %>
+    <%= form.text_field :name %>
+
+    <% if @menu.kind == "static" %>
+    <div data-controller="nested-form" data-nested-form-wrapper-selector-value=".nested-form-wrapper">
+      <template data-nested-form-target="template">
+        <%= form.fields_for :menu_items, PandaCms::MenuItem.new, child_index: "NEW_RECORD" do |item| %>
+          <%= render "menu_item_fields", form: item %>
+        <% end %>
+      </template>
+
+      <% if @menu.menu_items.count > 0 %>
+        <%= form.fields_for :menu_items, @menu.menu_items.sort_by(&:lft) do |item| %>
+          <%= render "menu_item_fields", form: item %>
+        <% end %>
+      <% end %>
+
+      <div data-nested-form-target="target"></div>
+
+      <%= render PandaCms::Admin::ButtonComponent.new(text: "Add Menu Item", action: :add, data: {action: "nested-form#add"}, size: :small) %>
+    </div>
+    <% else %>
+    <table class="-mx-3 min-w-full divide-y divide-gray-300">
+      <thead>
+        <tr>
+          <th scope="col" class="py-3.5 px-3 text-sm font-semibold text-left text-gray-900">Text</th>
+          <th scope="col" class="py-3.5 px-3 text-sm font-semibold text-left text-gray-900">Page</th>
+          <th scope="col" class="py-3.5 px-3 text-sm font-semibold text-left text-gray-900">External Link</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% @menu.menu_items.root.self_and_descendants.each do |menu_item| %>
+        <tr>
+          <td class="py-5 pr-3 pl-3 text-sm whitespace-nowrap">
+            <div class="flex items-center">
+              <div class="<%= table_indent(menu_item) %>">
+                <div class="font-medium text-gray-900"><%= menu_item.text %></div>
+              </div>
+            </div>
+          </td>
+          <td class="py-5 px-3 text-sm text-gray-500 whitespace-nowrap">
+            <div class="text-gray-900"><%= menu_item.page.title %></div>
+          </td>
+          <td class="py-5 px-3 text-sm text-gray-500 whitespace-nowrap">
+            <div class="text-gray-900"><%= menu_item.external_url %></div>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <% end %>
+
+    <%= form.button %>
+  <% end %>
+<% end %>

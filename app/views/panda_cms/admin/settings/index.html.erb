@@ -1,0 +1,19 @@
+<%= render PandaCms::Admin::ContainerComponent.new do |component| %>
+  <% component.with_heading(text: "Settings", level: 1) %>
+
+  <a href="https://api.instagram.com/oauth/authorize?client_id=1149927569456763&redirect_uri=http://localhost:3000/admin/integrations/instagram/callback&scope=user_profile,user_media">Login to Instagram</a>
+
+  <%= render PandaCms::Admin::PanelComponent.new do |panel| %>
+    <% panel.with_heading(text: "System Status") %>
+
+    <p class="text-base leading-loose"><i class="mr-2 text-active fa fa-check-circle"></i> <span class="font-medium">Panda CMS:</span> v<%= PandaCms::VERSION %></p>
+    <p class="text-base leading-loose"><i class="mr-2 text-active fa fa-check-circle"></i> <span class="font-medium">Rails:</span> v<%= Rails.version %></p>
+    <p class="text-base leading-loose"><i class="mr-2 text-active fa fa-check-circle"></i> <span class="font-medium">Ruby:</span> v<%= RUBY_VERSION %></p>
+    <p class="text-base leading-loose"><i class="mr-2 text-active fa fa-check-circle"></i> <span class="font-medium">Environment:</span> <%= Rails.env.titleize %></p>
+  <% end %>
+
+  <div class="text-center mt-6 space-y-2">
+    <p class="text-sm font-semibold">🐼 Panda CMS version: <%= PandaCms::VERSION %></p>
+    <p class="text-sm">&copy; <%= Date.current.year %> Panda Software Limited. All rights reserved.</p>
+  </div>
+<% end %>

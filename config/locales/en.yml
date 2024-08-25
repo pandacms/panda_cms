@@ -1,0 +1,29 @@
+en:
+  activerecord:
+    attributes:
+      panda_cms/page:
+        title: Title
+        path: Path
+        panda_cms_template_id: Template
+      panda_cms/menu:
+        name: Menu Name
+      panda_cms/menu_item:
+        text: Menu Item
+        external_url: External URL
+        panda_cms_page_id: Page
+  panda_cms:
+    authentication:
+      sign_in_with: Sign in with %{provider}
+      providers:
+        github: GitHub
+        google: Google
+        microsoft: Microsoft 365
+    admin:
+      sessions:
+        create:
+          error: There was an error logging you in. Please check your login details and try again, or contact support.
+          success: You are logged in!
+        destroy:
+          success: You have been logged out!
+        new:
+          title: Sign in to your account

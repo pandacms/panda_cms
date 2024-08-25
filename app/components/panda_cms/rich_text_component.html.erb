@@ -1,0 +1,40 @@
+<%= content_tag(:div, @content, @options) %>
+
+<script type="text/javascript">
+    document.addEventListener("pandaCmsRichTextEditorLoaded", function() {
+      console.debug("[Panda CMS] Called event listener: pandaCmsRichTextEditorLoaded for <%= @options[:id] %>");
+
+      // Allowing per-element toolbar configuration, if needed
+      let quillOptions = {
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, 3, false] }],
+            ["bold", "italic", "underline"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            [{ script: "sub" }, { script: "super" }],
+            [{ color: [] }, { background: [] }],
+            [{ align: [] }],
+            ["link", "image", "video", "code-block", "clean"],
+          ],
+          magicUrl: true,
+          imageCompressor: {
+            quality: 0.9,
+            maxWidth: 2000,
+            maxHeight: 2000,
+            imageType: "image/png",
+            keepImageTypes: ["image/jpeg", "image/jpg", "image/png"],
+          },
+        },
+        theme: "bubble",
+      };
+
+      let quillVar = "<%= @options[:id] %>";
+      console.debug(`[Panda CMS] Enabling Quill editor: ${quillVar}`);
+
+      console.debug(`[Panda CMS] Quill options for ${quillVar}: `, quillOptions);
+
+      Quill.register("modules/imageCompressor", imageCompressor);
+
+      quillVar = new Quill("#" + quillVar, quillOptions);
+    });
+  </script>

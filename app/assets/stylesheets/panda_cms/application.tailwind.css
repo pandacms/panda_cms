@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html[data-theme="default"] {
+    --color-white: 249 249 249; /* #F9F9F9 */
+    --color-black: 26 22 29; /* #1A161D */
+
+    --color-light: 238 206 230; /* #EECEE6 */
+    --color-mid: 141 94 183; /* #8D5EB7 */
+    --color-dark: 33 29 73; /* #211D49 */
+
+    --color-highlight: 208 64 20; /* #D04014 */
+
+    --color-active: 188 230 163; /* #BCE6A3 */
+    --color-warning: 250 207 142; /* #FACF8E */
+    --color-inactive: 211 229 249; /* #D3E5F9 */
+    --color-error: 245 129 129; /* #F58181 */
+  }
+
+  html[data-theme="sky"] {
+    --color-white: 249 249 249; /* #F9F9F9 */
+    --color-black: 26 22 29; /* #1A161D */
+    --color-light: 204 238 242; /* #CCEEF2 */
+    --color-mid: 42 102 159; /* #2A669F */
+    --color-dark: 20 32 74; /* #14204A */
+    --color-highlight: 208 64 20; /* #D04014 */
+
+    --color-active: 166 211 129; /* #A6D381 */
+    --color-warning: 244 190 102; /* #F4BE66 */
+    --color-error: 208 64 20; /* #D04014 */
+  }
+
+  a.block-link:after {
+    position: absolute;
+    content: "";
+    inset: 0;
+  }
+}
+
+.ql-editor {
+  border: none;
+  font-size: 1.3em !important;
+  padding: 0;
+  margin: 0;
+
+  &:active, &:focus {
+    border: none;
+    outline: none;
+  }
+
+  h1, h2, h3, p {
+    margin-bottom: 20px !important;
+    font-size: 130% !important;
+  }
+
+  li {
+    font-size: 130% !important;
+  }
+}
