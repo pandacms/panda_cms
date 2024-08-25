@@ -1,4 +1,6 @@
 require "simplecov"
+require "simplecov-json"
+SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
 SimpleCov.start
 
 ENV["RAILS_ENV"] ||= "test"
@@ -123,7 +125,7 @@ RSpec.configure do |config|
   # Include FactoryBot methods such as build and create
   config.include FactoryBot::Syntax::Methods
 
-  # Allow using fit, etc.
+  # Allow using focus keywords "f... before a specific test"
   config.filter_run_when_matching :focus
 
   # Log examples to allow using --only-failures and --next-failure

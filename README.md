@@ -1,7 +1,7 @@
 # Panda CMS
 
 > [!CAUTION]
-> This application is being developed in public. It is not ready for production use. If you'd like to try it out (or help with documentation), please contact [@jfi](https://github.com/jfi).
+> This application is being developed in public. It is not ready for production use. If you'd like to try it out (or help with documentation), please contact [@jfi](https://github.com/jfi) by emailing [bamboo@pandacms.io](mailto:bamboo@pandacms.io).
 
 ## Panda CMS is the CMS we always wanted. 🐼
 
@@ -9,7 +9,7 @@ Better websites, on Rails.
 
 [Read more about the project...](https://github.com/pandacms/.github/blob/main/profile/README.md) ✨
 
-Panda is grown from our work at [Otaina](https://www.otaina.co.uk), a small group of freelancers. We needed something that could handle websites large and small – but where we could expand it too. We sent our first websites live in March 2024.
+🐼 is grown from our work at [Otaina](https://www.otaina.co.uk), a small group of freelancers. We needed something that could handle websites large and small – but where we could expand it too. We sent our first websites live in March 2024.
 
 ![GitHub Last Commit](https://img.shields.io/github/last-commit/pandacms/panda_cms) [![Ruby Code Style](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/standardrb/standard)
 
@@ -30,9 +30,7 @@ The easiest way for you to get started is to visit http://localhost:3000/admin a
 Add the following to `Gemfile`:
 
 ```ruby
-source "https://rubygems.pkg.github.com/pandacms" do
-  gem "panda_cms"
-end
+gem "panda_cms"
 ```
 
 For initial setup, run:
@@ -44,6 +42,8 @@ rails db:migrate
 rails db:seed
 ```
 
+You may want to check this does not re-run any of your existing seeds!
+
 If you don't want to use GitHub to login, you'll need to configure a user provider (in `config/initializers/panda_cms.rb`), and then set your user's `admin` attribute to `true` once you've first tried to login. (And yes, there should be a better first-time setup experience than this. We're working on it!)
 
 ## Gotchas
@@ -51,7 +51,7 @@ If you don't want to use GitHub to login, you'll need to configure a user provid
 This is a non-exhuastive list (there will be many more):
 
 * To date, this has only been tested with Rails 7.1 and 7.2.
-* This assumes you're using Tailwind CSS for your frontend. We'll attempt to relax this in future, but supporting Tailwind CSS is our current priority.
+* There may be conflicts if you're not using Tailwind CSS on the frontend. Please report this.
 * If you change your login path from `/admin` the GitHub application we supply won't work on first login, so probably don't do that until you're setup!
 
 ## Contributing
