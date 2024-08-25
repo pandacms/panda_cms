@@ -109,6 +109,7 @@ jobs:
         uses: SonicGarden/rspec-report-action@v5
         with:
           json-path: tmp/rspec_results.json
+          title: RSpec Report
         if: always()
 
       - name: Test Coverage
