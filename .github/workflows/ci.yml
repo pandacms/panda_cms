@@ -40,11 +40,6 @@ jobs:
       - name: "ERB Check"
         run: "bundle exec erblint app/views --lint-all"
 
-      - name: "Danger"
-        env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
-        run: "bundle exec danger"
-
   specs:
     name: "App Specs"
     runs-on: "ubuntu-latest"
@@ -104,3 +99,8 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/spec/tmp/capybara
           if-no-files-found: ignore
+
+      - name: "Danger"
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+        run: "bundle exec danger"
