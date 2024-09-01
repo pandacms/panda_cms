@@ -18,7 +18,7 @@ GIT
 PATH
   remote: .
   specs:
-    panda_cms (0.5.0)
+    panda_cms (0.5.1)
       activestorage-office-previewer (~> 0.1)
       awesome_nested_set (~> 3.6)
       aws-sdk-s3 (~> 1)
