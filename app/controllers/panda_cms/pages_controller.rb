@@ -15,8 +15,10 @@ module PandaCms
       path_to_find = "/" + params[:path].to_s
       page = Page.find_by(path: path_to_find) || Page.find_by(path: "/404")
       PandaCms::Current.page = page
+      layout = page&.template&.file_path
 
-      if page
+      # TODO: If page is active?
+      if page && layout
         globals = {
           page: page,
           title: page.title
@@ -35,7 +37,7 @@ module PandaCms
           )
         end
 
-        render inline: "", assigns: globals, status: :ok, layout: page.template.file_path
+        render inline: "", assigns: globals, status: :ok, layout: layout
       else
         # This works for now, but we may want to override in future (e.g. custom 404s)
         render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
