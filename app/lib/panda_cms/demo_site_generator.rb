@@ -20,26 +20,10 @@ module PandaCms
       ]
 
       initial_templates.each do |template|
-        @templates[template[:name].downcase.to_sym] = PandaCms::Template.find_or_create_by!(template)
+        PandaCms::Template.find_or_create_by!(template)
       end
 
-      # Blocks
-      initial_blocks = [
-        {kind: "rich_text", name: "Introduction Text", key: "introduction_text", template: @templates[:homepage]},
-        {kind: "rich_text", name: "Main Content", key: "main_content", template: @templates[:homepage]},
-        {kind: "rich_text", name: "Main Content", key: "main_content", template: @templates[:page]}
-      ]
-
-      initial_blocks.each do |block_data|
-        PandaCms::Block.find_or_create_by!(block_data)
-      end
-
-      # Empty block contents
-      PandaCms::Block.find_each do |block|
-        block.template.pages.each do |page|
-          PandaCms::BlockContent.find_or_create_by!(page: page, block: block, content: "")
-        end
-      end
+      PandaCms::Template.generate_missing_blocks
     end
 
     #

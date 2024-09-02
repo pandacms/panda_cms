@@ -27,38 +27,6 @@ module PandaCms
     scope :ordered, -> { order(:sort_order) }
     scope :available, -> { where("max_uses IS NULL OR (pages_count < max_uses)") }
 
-    private
-
-    # Custom validation method to check if the file_path is a valid layout file path
-    # NB: Currently only supports .html.erb templates, may want to expand in future?
-    # @return [void]
-    def validate_template_file_exists
-      # Remove any directory traversal attempts from the file_path
-      safe_file_path = file_path.to_s.gsub("../", "")
-      # Check if the file_path is an ERB template that exists in app/views
-      template_path = Rails.root.join("app", "views", "#{safe_file_path}.html.erb")
-      # NB: file? checks for files and excludes directories (unlike exist?)
-      errors.add(:file_path, "must be an existing layout file path") unless File.file?(template_path)
-    end
-
-    # Import templates from the filesystem into the database
-    # @return [void]
-    def self.load_from_filesystem
-      Rails.root.glob("app/views/layouts/**/*.html.erb").each do |file|
-        # Extract the file path from the Rails root
-        file_path = file.to_s.sub("#{Rails.root}/app/views/", "").sub(".html.erb", "")
-
-        next if file_path == "layouts/application" || file_path == "layouts/mailer"
-
-        # Find or create the template based on the file path
-        find_or_create_by(file_path: file_path) do |t|
-          t.name = file_path.sub("layouts/", "").titleize
-        end
-      end
-    end
-
-    private_class_method :load_from_filesystem
-
     # Generate missing blocks for all templates
     # @return [void]
     def self.generate_missing_blocks
@@ -112,6 +80,36 @@ module PandaCms
       end
     end
 
-    private_class_method :generate_missing_blocks
+    private
+
+    # Custom validation method to check if the file_path is a valid layout file path
+    # NB: Currently only supports .html.erb templates, may want to expand in future?
+    # @return [void]
+    def validate_template_file_exists
+      # Remove any directory traversal attempts from the file_path
+      safe_file_path = file_path.to_s.gsub("../", "")
+      # Check if the file_path is an ERB template that exists in app/views
+      template_path = Rails.root.join("app", "views", "#{safe_file_path}.html.erb")
+      # NB: file? checks for files and excludes directories (unlike exist?)
+      errors.add(:file_path, "must be an existing layout file path") unless File.file?(template_path)
+    end
+
+    # Import templates from the filesystem into the database
+    # @return [void]
+    def self.load_from_filesystem
+      Rails.root.glob("app/views/layouts/**/*.html.erb").each do |file|
+        # Extract the file path from the Rails root
+        file_path = file.to_s.sub("#{Rails.root}/app/views/", "").sub(".html.erb", "")
+
+        next if file_path == "layouts/application" || file_path == "layouts/mailer"
+
+        # Find or create the template based on the file path
+        find_or_create_by(file_path: file_path) do |t|
+          t.name = file_path.sub("layouts/", "").titleize
+        end
+      end
+    end
+
+    private_class_method :load_from_filesystem
   end
 end
