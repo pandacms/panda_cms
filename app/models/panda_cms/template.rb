@@ -39,7 +39,6 @@ module PandaCms
           # PandaCms::RichTextComponent.new(key: :value)
           # PandaCms::RichTextComponent.new key: :value, key: value
           line.match(/PandaCms::([a-zA-Z]+)Component\.new[ \(]+([^\)]+)[\)]*/) do |match|
-            puts "- #{match[0]}"
             # Extract the hash values
             template_path = file.gsub("app/views/", "").gsub(".html.erb", "")
             template_name = template_path.gsub("layouts/", "").titleize
@@ -48,6 +47,9 @@ module PandaCms
             template = PandaCms::Template.find_or_create_by!(file_path: template_path) do |template|
               template.name = template_name
             end
+
+            next if match[1] == "PageMenu" # Skip PageMenu blocks
+            next if match[1] == "Menu" # Skip Menu blocks
 
             # Previously used match[1].underscore but this supports more complex database
             # operations, and is more secure as it'll force the usage of a class

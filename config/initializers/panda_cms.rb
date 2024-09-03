@@ -1,5 +1,3 @@
-# Base URL
-PandaCms.url = "http://localhost:3000"
 # The main title of your website
 # The default is "Demo Site"
 PandaCms.title = "Demo Site"
@@ -41,7 +39,11 @@ PandaCms.authentication = {
   github: {
     enabled: true,
     create_account_on_first_login: true,
-    create_admin_account_on_first_login: false,
+    create_admin_account_on_first_login: true,
+    # client_id: Rails.application.credentials.dig(:github, :client_id),
+    # client_secret: Rails.application.credentials.dig(:github, :client_secret),
+    client_id: "Ov23li9k0LpMXtq8FShb", # Will only work on localhost
+    client_secret: "07233b63472b7f287ac11854e627670ddc096a22", # Will only work on localhost
     redirect_uri: Rails.application.credentials.dig(:github, :redirect_uri)
   }
 }

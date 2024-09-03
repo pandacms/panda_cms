@@ -11,7 +11,7 @@ module PandaCms
     #
     # Creates initial templates and empty blocks
     #
-    # @return [Hash] A hash containing the created templates
+    # @return void
     def create_templates
       # Templates
       initial_templates = [
@@ -20,10 +20,13 @@ module PandaCms
       ]
 
       initial_templates.each do |template|
-        PandaCms::Template.find_or_create_by!(template)
+        key = template[:name].downcase.to_sym
+        @templates[key] = PandaCms::Template.find_or_create_by!(template)
       end
 
       PandaCms::Template.generate_missing_blocks
+
+      @templates
     end
 
     #
@@ -34,21 +37,26 @@ module PandaCms
       @pages[:home] = PandaCms::Page.find_or_create_by!({path: "/", title: "Home", template: @templates[:homepage]})
       @pages[:about] = PandaCms::Page.find_or_create_by!({path: "/about", title: "About", template: @templates[:page], parent: @pages[:home]})
       @pages[:terms] = PandaCms::Page.find_or_create_by!({path: "/terms-and-conditions", title: "Terms & Conditions", template: @templates[:page], parent: @pages[:home]})
+
+      @pages
     end
 
     #
     # Creates initial menus
     #
     # @return [Hash] A hash containing the created menus
-    #
     def create_menus
       @menus = {}
       @menus[:main] = PandaCms::Menu.find_or_create_by!(name: "Main Menu")
       @menus[:footer] = PandaCms::Menu.find_or_create_by!(name: "Footer Menu")
 
       # Automatically create main menu from homepage
-      @menus[:main].update(kind: :auto, start_page: @pages[:home])
-      @menus[:main].generate_auto_menu_items
+      unless @pages[:home].nil?
+        @menus[:main].update(kind: :auto, start_page: @pages[:home])
+        @menus[:main].generate_auto_menu_items
+      end
+
+      @menus
     end
   end
 end
