@@ -45,6 +45,7 @@ When creating new branches, please use the following format: `prefix/name-of-bra
 * `config` - configuration changes
 * `dep` – dependency updates, e.g. gem updates or similar
 * `release` - a new release of the gem
+* `ux` - frontend changes that do not fit into the categories above
 
 If available, include the ID of the Github issue in the branch, e.g. `bugfix/123-correct-timezones-on-page-edit`
 

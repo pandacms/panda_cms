@@ -27,7 +27,7 @@ module PandaCms
 
     def panda_cms_form_with(**options, &)
       options[:builder] = PandaCms::FormBuilder
-      options[:class] ||= ""
+      options[:class] = "p-6 bg-mid/5 rounded-lg border-mid border"
       form_with(**options, &)
     end
 

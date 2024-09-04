@@ -13,15 +13,15 @@ module PandaCms
       def text_colour_css
         case kind
         when :success
-          "text-green-700"
+          "text-active"
         when :alert, :error
-          "text-red-700"
+          "text-error"
         when :warning
-          "text-yellow-700"
+          "text-warning"
         when :info, :notice
-          "text-blue-700"
+          "text-highlight"
         else
-          "text-blue-700"
+          "text-mid"
         end
       end
 

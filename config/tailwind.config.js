@@ -4,6 +4,7 @@ module.exports = {
     files: [
       "../public/*.html",
       "../app/views/**/*.html.erb",
+      "../app/builders/panda_cms/**/*.rb",
       "../app/components/panda_cms/**/*.html.erb",
       "../app/components/panda_cms/**/*.rb",
       "../app/helpers/panda_cms/**/*.rb",

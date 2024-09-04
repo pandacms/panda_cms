@@ -18,7 +18,7 @@ module PandaCms
       # Loads the add page form
       # @type GET
       def new
-        locals = setup_new_page_form(page: PandaCms::Page.new)
+        locals = setup_new_page_form(page: page)
         render :new, locals: locals
       end
 
@@ -62,9 +62,9 @@ module PandaCms
       # @return PandaCms::Page
       def page
         @page ||= if params[:id]
-          PandaCms::Page.find(params[:id])
+          PandaCms::Page.includes([:parent]).find(params[:id])
         else
-          PandaCms::Page.new
+          PandaCms::Page.new(template: PandaCms::Template.most_used)
         end
       end
 

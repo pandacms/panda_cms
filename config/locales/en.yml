@@ -3,7 +3,7 @@ en:
     attributes:
       panda_cms/page:
         title: Title
-        path: Path
+        path: URL
         panda_cms_template_id: Template
       panda_cms/menu:
         name: Menu Name
@@ -19,6 +19,10 @@ en:
         google: Google
         microsoft: Microsoft 365
     admin:
+      pages:
+        new:
+          path:
+            meta: "This will be the URL of the page. It should be unique and not contain spaces or special characters. If you're unsure, it'll be auto-generated for you. 🐼"
       sessions:
         create:
           error: There was an error logging you in. Please check your login details and try again, or contact support.
