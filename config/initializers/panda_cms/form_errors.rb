@@ -1,8 +1,8 @@
 ActionView::Base.field_error_proc = proc do |html_tag, instance|
   html = ""
   form_fields = %w[input select textarea trix-editor label].join(", ")
-  error_class = "text-red-600 dark:text-red-500 bg-red-50 border-red-500 border-1 box-shadow-red-500 focus:ring-red-500 focus:border-red-500 dark:bg-red-900 dark:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500"
-  message_class = "block w-full text-sm font-bold p-0 m-0 mt-1 text-red-700"
+  error_class = "text-error bg-error/10 border-error border-1 box-shadow-error focus:ring-error focus:border-error dark:bg-red-900 dark:border-error dark:focus:ring-error dark:focus:border-error"
+  message_class = "block w-full text-base p-0 m-0 mt-1 text-error font-semibold"
   autofocused = false
 
   Nokogiri::HTML::DocumentFragment.parse(html_tag).css(form_fields).each do |element|

@@ -3,58 +3,58 @@ module PandaCms
     include ActionView::Helpers::TagHelper
 
     def label(attribute, text = nil, options = {}, &block)
-      super(attribute, text, options.reverse_merge(class: "font-medium text-sm leading-6 text-gray-500"))
+      super(attribute, text, options.reverse_merge(class: label_styles))
     end
 
     def text_field(attribute, options = {})
       if options.dig(:data, :prefix)
         content_tag :div, class: container_styles do
-          label(attribute) +
+          label(attribute) + meta_text(options) +
             content_tag(:div, class: "flex flex-grow") do
-              content_tag(:span, class: "inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600 whitespace-nowrap break-keep") { options.dig(:data, :prefix) } +
-                super(attribute, options.reverse_merge(class: input_styles_prefix + " rounded-l-none"))
+              content_tag(:span, class: "inline-flex items-center px-3 text-base border border-r-none rounded-s-md whitespace-nowrap break-keep") { options.dig(:data, :prefix) } +
+                super(attribute, options.reverse_merge(class: input_styles_prefix + " rounded-l-none border-l-none"))
             end
         end
       else
         content_tag :div, class: container_styles do
-          label(attribute) + super(attribute, options.reverse_merge(class: input_styles))
+          label(attribute) + meta_text(options) + super(attribute, options.reverse_merge(class: input_styles))
         end
       end
     end
 
     def email_field(attribute, options = {})
       content_tag :div, class: container_styles do
-        label(attribute) + super(attribute, options.reverse_merge(class: input_styles))
+        label(attribute) + meta_text(options) + super(attribute, options.reverse_merge(class: input_styles))
       end
     end
 
     def password_field(attribute, options = {})
       content_tag :div, class: container_styles do
-        label(attribute) + super(attribute, options.reverse_merge(class: input_styles))
+        label(attribute) + meta_text(options) + super(attribute, options.reverse_merge(class: input_styles))
       end
     end
 
     def select(method, choices = nil, options = {}, html_options = {}, &block)
       content_tag :div, class: container_styles do
-        label(method) + super(method, choices, options, html_options.reverse_merge(class: input_styles))
+        label(method) + meta_text(options) + super(method, choices, options, html_options.reverse_merge(class: input_styles))
       end
     end
 
     def collection_select(method, collection, value_method, text_method, options = {}, html_options = {})
       content_tag :div, class: container_styles do
-        label(method) + super(method, collection, value_method, text_method, options, html_options.reverse_merge(class: input_styles))
+        label(method) + meta_text(options) + super(method, collection, value_method, text_method, options, html_options.reverse_merge(class: input_styles))
       end
     end
 
     def time_zone_select(method, priority_zones = nil, options = {}, html_options = {})
       content_tag :div, class: container_styles do
-        label(method) + super(method, priority_zones, options, html_options.reverse_merge(class: input_styles))
+        label(method) + meta_text(options) + super(method, priority_zones, options, html_options.reverse_merge(class: input_styles))
       end
     end
 
     def file_field(method, options = {})
       content_tag :div, class: container_styles do
-        label(method) + super(method, options.reverse_merge(class: "file:rounded file:border-0 file:text-sm file:bg-white file:text-gray-500 hover:file:bg-gray-50 bg-white px-2.5 hover:bg-gray-50".concat(input_styles)))
+        label(method) + meta_text(options) + super(method, options.reverse_merge(class: "file:rounded file:border-0 file:text-sm file:bg-white file:text-gray-500 hover:file:bg-gray-50 bg-white px-2.5 hover:bg-gray-50".concat(input_styles)))
       end
     end
 
@@ -75,7 +75,7 @@ module PandaCms
       value = if block
         @template.capture { yield(value) }
       else
-        content_tag(:i, "", class: "fa-sharp fa-circle-check mr-2 pt-[0.2rem]") + value
+        content_tag(:i, "", class: "fa-sharp fa-circle-check mr-1 pt-[0.2rem]") + value
       end
 
       @template.button_tag(value, options.reverse_merge(class: button_styles))
@@ -97,10 +97,20 @@ module PandaCms
       end
     end
 
+    def meta_text(options)
+      if options[:meta]
+        content_tag :span, options[:meta], class: "block text-black/60 italic text-sm mb-2"
+      end
+    end
+
     private
 
+    def label_styles
+      "font-light inline-block mb-1 text-base leading-6"
+    end
+
     def input_styles
-      "block w-full rounded-md border-0 p-2 text-gray-900 ring-1 ring-inset ring-mid placeholder:text-gray-300 focus:outline-panda-light focus:ring-1 focus:ring-inset focus:ring-dark sm:text-sm sm:leading-6 hover:pointer"
+      "block w-full rounded-md border border-mid focus:border-dark p-2 text-base text-dark outline-none focus:outline-none ring-0 focus:ring-0 focus:ring-black ring-offset-0 focus:ring-offset-0 shadow-none focus:shadow-none focus:text-black"
     end
 
     def input_styles_prefix
@@ -112,7 +122,7 @@ module PandaCms
     end
 
     def container_styles
-      "panda-field-container mb-2"
+      "panda-cms-field-container mb-4"
     end
   end
 end
