@@ -1,25 +1,58 @@
 {
   "version": "2.0.0",
+  "command": "bundle",
   "tasks": [
     {
-      "label": "Bundler: bundle install",
-      "type": "shell",
-      "command": "bundle install"
+      "label": "bundle install",
+      "args": [
+        "install"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "none"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "panel": "dedicated",
+        "close": true
+      },
+      "problemMatcher": []
     },
     {
-      "label": "Bundler: bundle update",
-      "type": "shell",
-      "command": "bundle update"
+      "label": "bundle update",
+      "args": [
+        "update"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "none"
+      },
+      "presentation": {
+        "reveal": "silent",
+        "revealProblems": "onProblem",
+        "panel": "dedicated",
+        "close": true
+      },
+      "problemMatcher": []
     },
     {
       "label": "Run YARD server",
-      "type": "shell",
-      "command": "yard server --reload",
+      "args": [
+        "exec",
+        "yard",
+        "server",
+        "--reload"
+      ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "group": {
-        "kind": "build"
+        "kind": "none"
       },
       "presentation": {
         "reveal": "never",
@@ -32,14 +65,17 @@
       }
     },
     {
-      "label": "Build assets",
-      "type": "shell",
-      "command": "bundle exec rake panda_cms:assets:watch_admin",
+      "label": "Build admin assets",
+      "args": [
+        "exec",
+        "rake",
+        "panda_cms:assets:watch_admin"
+      ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "group": {
-        "kind": "build"
+        "kind": "none"
       },
       "presentation": {
         "reveal": "never",
@@ -50,6 +86,27 @@
       "runOptions": {
         "runOn": "folderOpen"
       }
+    },
+    {
+      "label": "RSpec (all files)",
+      "args": [
+        "exec",
+        "rspec"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "none"
+      },
+      "presentation": {
+        "revealProblems": "onProblem",
+        "panel": "dedicated",
+        "close": false,
+        "showReuseMessage": false,
+        "focus": false
+      },
+      "problemMatcher": []
     }
   ]
 }

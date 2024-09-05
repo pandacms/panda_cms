@@ -5,10 +5,11 @@ module PandaCms
 
     def show
       post = PandaCms::Post.find_by(slug: params[:slug])
+
       # TODO: Make this much nicer in future
       globals = {
         post: post,
-        title: ""
+        title: post.title
       }
 
       render inline: "", assigns: globals, status: :ok, layout: "layouts/post"

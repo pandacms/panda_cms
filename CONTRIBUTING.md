@@ -49,6 +49,8 @@ When creating new branches, please use the following format: `prefix/name-of-bra
 
 If available, include the ID of the Github issue in the branch, e.g. `bugfix/123-correct-timezones-on-page-edit`
 
+Here's an example of a PR which follows these guidelines: https://github.com/pandacms/panda_cms/pull/5
+
 ## Lefthook
 
 We use [Lefthook](https://github.com/evilmartians/lefthook) for running pre-commit hooks. You can install this using:

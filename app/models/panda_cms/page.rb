@@ -30,6 +30,13 @@ module PandaCms
 
     scope :ordered, -> { order(:lft) }
 
+    enum :status, {
+      active: "active",
+      draft: "draft",
+      hidden: "hidden",
+      archived: "archived"
+    }
+
     private
 
     #

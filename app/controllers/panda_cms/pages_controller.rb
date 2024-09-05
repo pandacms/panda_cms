@@ -48,7 +48,7 @@ module PandaCms
 
     def ignore_visit?
       # Ignore visits from bots (TODO: make this configurable)
-      # return true if request.user_agent =~ /bot/i
+      return true if /bot/i.match?(request.user_agent)
       # Ignore visits from Honeybadger
       return true if request.headers.to_h.key? "Honeybadger-Token"
 

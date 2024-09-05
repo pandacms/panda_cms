@@ -9,6 +9,7 @@
   <%= stylesheet_link_tag "panda_cms", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags "panda_cms/base" %>
   <%= render "panda_cms/shared/favicons" %>
+  <%= yield :head %>
 </head>
 
 <body class="overflow-hidden h-full">

@@ -1,7 +1,7 @@
 ActionView::Base.field_error_proc = proc do |html_tag, instance|
   html = ""
   form_fields = %w[input select textarea trix-editor label].join(", ")
-  error_class = "text-error bg-error/10 border-error border-1 box-shadow-error focus:ring-error focus:border-error dark:bg-red-900 dark:border-error dark:focus:ring-error dark:focus:border-error"
+  error_class = "text-error bg-error border-error border-1 box-shadow-error focus:ring-error focus:border-error "
   message_class = "block w-full text-base p-0 m-0 mt-1 text-error font-semibold"
   autofocused = false
 

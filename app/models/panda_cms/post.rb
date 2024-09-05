@@ -11,15 +11,28 @@ module PandaCms
     belongs_to :user, class_name: "PandaCms::User"
 
     validates :title, presence: true
+    validates :slug, presence: true, uniqueness: true, format: {with: /\A[a-z0-9-]+\z/}
 
     scope :ordered, -> { order(published_at: :desc) }
+    scope :with_user, -> { includes(:user) }
+
+    has_rich_text :post_content
+
+    belongs_to :tag, class_name: "PandaCms::PostTag", foreign_key: :post_tag_id
+
+    enum :status, {
+      active: "active",
+      draft: "draft",
+      hidden: "hidden",
+      archived: "archived"
+    }
 
     def excerpt(length = 100)
       content.gsub(/<[^>]*>/, "").truncate(length)
     end
 
     def path
-      PandaCms.posts[:prefix] + "/" + slug.to_s
+      "/" + PandaCms.posts[:prefix] + slug.to_s
     end
   end
 end
