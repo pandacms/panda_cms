@@ -17,13 +17,6 @@ if github.pr_body.length < 5
   fail "Please provide a summary in the Pull Request description"
 end
 
-# Let people say that this isn't worth a CHANGELOG entry in the PR if they choose
-declared_trivial = (github.pr_title + github.pr_body).include?("#trivial") || !has_app_changes
-
-if !git.modified_files.include?("CHANGELOG.md") && !declared_trivial
-  fail("Please include a CHANGELOG entry. \nYou can find it at CHANGELOG.md.", sticky: false)
-end
-
 # Make it more obvious that a PR is a work in progress and shouldn't be merged yet
 warn("PR is classed as Work in Progress") if github.pr_title.include? "[WIP]"
 
