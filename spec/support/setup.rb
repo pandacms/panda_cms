@@ -23,13 +23,17 @@
 #   :chrome
 # end
 
-Capybara.configure do |config|
-  config.always_include_port = true
-  # config.server = :puma, {Silent: true}
-  # config.default_driver = :headless_chrome
-end
+# Capybara.configure do |config|
+#   config.always_include_port = true
+#   # config.server = :puma, {Silent: true}
+#   # config.default_driver = :headless_chrome
+# end
 
 #### TODO: What about lib/panda_cms/slug_spec.rb?
+
+# def base_url
+#   Capybara.app_host + ":" + Capybara.current_session.server.port.to_s
+# end
 
 def pause
   $stderr.write "Press enter to continue"

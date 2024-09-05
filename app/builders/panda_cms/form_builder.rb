@@ -28,6 +28,18 @@ module PandaCms
       end
     end
 
+    def datetime_field(attribute, options = {})
+      content_tag :div, class: container_styles do
+        label(attribute) + meta_text(options) + super(attribute, options.reverse_merge(class: input_styles))
+      end
+    end
+
+    def text_area(method, options = {})
+      content_tag :div, class: container_styles do
+        label(method) + meta_text(options) + super(method, options.reverse_merge(class: input_styles))
+      end
+    end
+
     def password_field(attribute, options = {})
       content_tag :div, class: container_styles do
         label(attribute) + meta_text(options) + super(attribute, options.reverse_merge(class: input_styles))
@@ -87,13 +99,25 @@ module PandaCms
 
     def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
       content_tag :div, class: container_styles do
-        label(method) + super(method, options.reverse_merge(class: "border-gray-300 ml-2"), checked_value, unchecked_value)
+        label(method) + meta_text(options) + super(method, options.reverse_merge(class: "border-gray-300 ml-2"), checked_value, unchecked_value)
       end
     end
 
     def date_field(method, options = {})
       content_tag :div, class: container_styles do
-        label(method) + super(method, options.reverse_merge(class: input_styles))
+        label(method) + meta_text(options) + super(method, options.reverse_merge(class: input_styles))
+      end
+    end
+
+    def rich_text_area(method, options = {})
+      content_tag :div, class: container_styles do
+        label(method) + meta_text(options) + super(method, options.reverse_merge(class: textarea_styles))
+      end
+    end
+
+    def rich_text_field(method, options = {})
+      content_tag :div, class: container_styles do
+        label(method) + meta_text(options) + super(method, options.reverse_merge(class: textarea_styles))
       end
     end
 
@@ -110,7 +134,7 @@ module PandaCms
     end
 
     def input_styles
-      "block w-full rounded-md border border-mid focus:border-dark p-2 text-base text-dark outline-none focus:outline-none ring-0 focus:ring-0 focus:ring-black ring-offset-0 focus:ring-offset-0 shadow-none focus:shadow-none focus:text-black"
+      "bg-white block w-full rounded-md border border-mid focus:border-dark p-2 text-base text-dark outline-none focus:outline-none ring-0 focus:ring-0 focus:ring-black ring-offset-0 focus:ring-offset-0 shadow-none focus:shadow-none focus:text-black"
     end
 
     def input_styles_prefix
@@ -123,6 +147,10 @@ module PandaCms
 
     def container_styles
       "panda-cms-field-container mb-4"
+    end
+
+    def textarea_styles
+      input_styles.concat(" min-h-32")
     end
   end
 end

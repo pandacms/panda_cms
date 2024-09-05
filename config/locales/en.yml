@@ -5,6 +5,19 @@ en:
         title: Title
         path: URL
         panda_cms_template_id: Template
+      panda_cms/post:
+        title: Title
+        slug: URL
+        content: Content
+        panda_cms_template_id: Template
+        user_id: Author
+        published_at: Published At
+        post_content: Content
+        statuses:
+          active: Active
+          draft: Draft
+          archived: Archived
+          hidden: Hidden
       panda_cms/menu:
         name: Menu Name
       panda_cms/menu_item:

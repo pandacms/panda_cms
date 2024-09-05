@@ -37,6 +37,8 @@
     "shanehofstetter.rails-open-partial",
     "aki77.rails-view-component",
     "szymonborucki.railsgotoviewcomponent",
-    "marcoroth.stimulus-lsp"
+    "marcoroth.stimulus-lsp",
+    "sporto.rails-go-to-spec",
+    "connorshea.vscode-ruby-test-adapter"
   ]
 }

@@ -1,5 +1,6 @@
 <%= render PandaCms::Admin::ContainerComponent.new do |component| %>
   <% component.with_heading(text: "Posts", level: 1) do |heading| %>
+    <% heading.with_button(action: :add, text: "Add Post", link: new_admin_post_path) %>
   <% end %>
 
   <%= render PandaCms::Admin::TableComponent.new(rows: posts) do |table| %>
@@ -10,6 +11,7 @@
       </div>
     <% end %>
     <% table.column("Status") { |post| render PandaCms::Admin::TagComponent.new(status: post.status) } %>
+    <% table.column("Published") { |post| render PandaCms::Admin::UserActivityComponent.new(at: post.published_at, user: post.user)} %>
     <% table.column("Last Updated") { |post| render PandaCms::Admin::UserActivityComponent.new(whodunnit_to: post)} %>
   <% end %>
 

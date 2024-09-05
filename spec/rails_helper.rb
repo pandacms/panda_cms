@@ -27,6 +27,10 @@ FactoryBot.find_definitions
 # require only the support files necessary.
 Rails.root.join("../support/").glob("**/*.rb").sort.each { |f| require f }
 
+RSpec.configure do |config|
+  config.include PandaCms::SessionHelpers, type: :system
+end
+
 ENGINE_ROOT = File.join(File.dirname(__FILE__), "../")
 
 # Where to store system tests artifacts (e.g. screenshots, downloaded files, etc.).
@@ -157,7 +161,14 @@ RSpec.configure do |config|
   config.include ViewComponent::TestHelpers, type: :view_component
   config.include Capybara::RSpecMatchers, type: :view_component
 
-  # config.define_derived_metadata(file_path: "") do |metadata|
-  #   metadata[:type] = :view_component
-  # end
+  if Bullet.enable?
+    config.before(:each) do
+      Bullet.start_request
+    end
+
+    config.after(:each) do
+      Bullet.perform_out_of_channel_notifications if Bullet.notification?
+      Bullet.end_request
+    end
+  end
 end

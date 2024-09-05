@@ -3,14 +3,20 @@
     <% heading.with_button(action: :add, text: "Add Page", link: new_admin_page_path) %>
   <% end %>
 
-  <%= render PandaCms::Admin::TableComponent.new(rows: root_page.self_and_descendants) do |table| %>
-    <% table.column("Name") do |page| %>
-      <div class="<%= table_indent(page) %>">
-        <%= link_to page.title, edit_admin_page_path(page), class: "block h-full w-full" %>
-        <span class="block text-xs text-black/60"><%= page.path %></span>
-      </div>
+  <% if root_page %>
+    <%= render PandaCms::Admin::TableComponent.new(rows: root_page.self_and_descendants) do |table| %>
+      <% table.column("Name") do |page| %>
+        <div class="<%= table_indent(page) %>">
+          <%= link_to page.title, edit_admin_page_path(page), class: "block h-full w-full" %>
+          <span class="block text-xs text-black/60"><%= page.path %></span>
+        </div>
+      <% end %>
+      <% table.column("Status") { |page| render PandaCms::Admin::TagComponent.new(status: page.status) } %>
+      <% table.column("Last Updated") { |page| render PandaCms::Admin::UserActivityComponent.new(whodunnit_to: page)} %>
     <% end %>
-    <% table.column("Status") { |page| render PandaCms::Admin::TagComponent.new(status: page.status) } %>
-    <% table.column("Last Updated") { |page| render PandaCms::Admin::UserActivityComponent.new(whodunnit_to: page)} %>
+  <% else %>
+    <div class="p-6 bg-error/10 text-error rounded-lg">
+      <p class="text-base">No homepage (at <code>/</code>) found. Please create a homepage to start building your site.</p>
+    </div>
   <% end %>
 <% end %>
