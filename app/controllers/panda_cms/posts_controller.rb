@@ -4,7 +4,7 @@ module PandaCms
     end
 
     def show
-      post = PandaCms::Post.find_by(slug: "/" + params[:slug])
+      post = PandaCms::Post.find_by(slug: params[:slug])
 
       # TODO: Make this much nicer in future
       globals = {
