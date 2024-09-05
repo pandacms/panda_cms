@@ -47,8 +47,8 @@ module PandaCms
       "text-white hover:bg-mid/60 transition-all group flex gap-x-3 py-3 px-2 mb-2 rounded-md text-base leading-6 font-normal "
     end
 
-    def table_indent(item_with_level_attribute)
-      case item_with_level_attribute.level
+    def level_indent(level)
+      case level
       when 0
         "ml-0"
       when 1
@@ -74,6 +74,10 @@ module PandaCms
       else
         "ml-48"
       end
+    end
+
+    def table_indent(item_with_level_attribute)
+      level_indent(item_with_level_attribute.level)
     end
 
     def menu_indent(item_with_level_attribute)

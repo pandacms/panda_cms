@@ -68,7 +68,7 @@ module PandaCms
       # @return PandaCms::post
       def post
         @post ||= if params[:id]
-          PandaCms::Post.find(params[:id])
+          PandaCms::Post.find_by_slug(params[:id])
         else
           PandaCms::Post.new
         end

@@ -27,8 +27,14 @@ module PandaCms
       archived: "archived"
     }
 
-    def excerpt(length = 100)
-      content.gsub(/<[^>]*>/, "").truncate(length).html_safe
+    def to_param
+      slug.to_s
+    end
+
+    def excerpt(length = 100, squish: true)
+      excerpt = post_content.to_plain_text
+      excerpt = excerpt.squish if squish
+      excerpt.truncate(length).html_safe
     end
 
     def path
