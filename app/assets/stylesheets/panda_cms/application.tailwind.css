@@ -40,10 +40,12 @@
 }
 
 .ql-editor {
-  border: none;
-  font-size: 1.3em !important;
-  padding: 0;
+  border: none !important;
+  /* font-size: 1.3rem !important; */
+  padding: 0 !important;
   margin: 0;
+
+  margin-top: -1rem;
 
   &:active, &:focus {
     border: none;

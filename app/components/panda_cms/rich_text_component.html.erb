@@ -25,16 +25,14 @@
             keepImageTypes: ["image/jpeg", "image/jpg", "image/png"],
           },
         },
-        theme: "bubble",
+        theme: "snow",
       };
 
       let quillVar = "<%= @options[:id] %>";
       console.debug(`[Panda CMS] Enabling Quill editor: ${quillVar}`);
-
       console.debug(`[Panda CMS] Quill options for ${quillVar}: `, quillOptions);
 
       Quill.register("modules/imageCompressor", imageCompressor);
-
       quillVar = new Quill("#" + quillVar, quillOptions);
     });
   </script>

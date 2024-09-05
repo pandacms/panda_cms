@@ -62,7 +62,7 @@ module PandaCms
       # @return PandaCms::Page
       def page
         @page ||= if params[:id]
-          PandaCms::Page.includes([:parent]).find(params[:id])
+          PandaCms::Page.find(params[:id])
         else
           PandaCms::Page.new(template: PandaCms::Template.most_used)
         end

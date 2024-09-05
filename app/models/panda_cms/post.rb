@@ -28,11 +28,19 @@ module PandaCms
     }
 
     def excerpt(length = 100)
-      content.gsub(/<[^>]*>/, "").truncate(length)
+      content.gsub(/<[^>]*>/, "").truncate(length).html_safe
     end
 
     def path
       "/" + PandaCms.posts[:prefix] + slug.to_s
+    end
+
+    def formatted_slug
+      if params[:slug][0] != "/"
+        "/#{params[:slug]}"
+      else
+        params[:slug]
+      end
     end
   end
 end

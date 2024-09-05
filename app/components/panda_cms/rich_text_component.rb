@@ -24,6 +24,8 @@ module PandaCms
       block_content = block.block_contents.find_by(panda_cms_page_id: Current.page.id)
       @content = block_content.content.html_safe
       @options[:id] = "editor_rich_text_#{block_content&.id&.tr("-", "_")}"
+      @options[:class] ||= ""
+      @options[:class] += " content-rich-text"
 
       if @editable
         @options[:data] = {
