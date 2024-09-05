@@ -24,12 +24,14 @@ export default class extends PandaCmsController {
     ).replace(/\/$/, "");
   }
 
+  // TODO: Invoke a library or helper which can be shared with the backend
+  // and check for uniqueness at the same time
   createSlug(input) {
     var str = input
       .toLowerCase()
       .trim()
       .replace(/[^\w\s-]/g, "-")
-      .replace(/&/, "and")
+      .replace(/&/g, "and")
       .replace(/[\s_-]+/g, "-")
       .trim();
 
