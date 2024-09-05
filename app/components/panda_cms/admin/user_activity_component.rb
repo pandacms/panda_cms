@@ -22,7 +22,8 @@ module PandaCms
         end
 
         if !@time
-          raise ArgumentError, "Invalid arguments passed to UserActivityComponent"
+          @user = nil
+          @time = nil
         end
       end
     end

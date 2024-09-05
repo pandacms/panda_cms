@@ -30,7 +30,6 @@ class EditableController {
 
     this.embedPlainTextEditors();
 
-    this.styleRichTextEditor();
     this.embedRichTextEditor();
   }
 
@@ -119,23 +118,87 @@ class EditableController {
   }
 
   embedRichTextEditor() {
-    if (this.body.getElementsByClassName("ql-editor").length == 0) {
+    if (this.body.getElementsByClassName("content-rich-text").length == 0) {
       this.setFrameVisible();
       return;
     }
 
+    console.debug("[Panda CMS] Loading Quill rich text editor...");
+
     this.addStylesheet(
       this.frameDocument,
       this.head,
-      "https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.bubble.css"
+      "/panda-cms-assets/javascripts/embed/rich_text.css?ver=1.0.0"
+    );
+
+    var style = this.frameDocument.createElement("style");
+    // TODO: Base these on "default" set styles
+    style.innerHTML = `
+      .ql-snow .ql-editor h2 {
+        font-size: 1.5em
+      }
+
+      .ql-snow .ql-editor h3 {
+        font-size: 1.17em
+      }
+
+      .ql-snow .ql-editor h4 {
+        font-size: 1em
+      }
+
+      .ql-snow .ql-editor h5 {
+        font-size: .83em
+      }
+
+      .ql-snow .ql-editor h6 {
+        font-size: .67em
+      }
+
+      .ql-snow .ql-editor a {
+        text-decoration: underline
+      }
+
+      .ql-snow .ql-editor blockquote {
+        border-left: 4px solid #ccc;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        padding-left: 16px
+      }
+
+      .ql-snow .ql-editor code,
+      .ql-snow .ql-editor .ql-code-block-container {
+        background-color: #f0f0f0;
+        border-radius: 3px
+      }
+
+      .ql-snow .ql-editor .ql-code-block-container {
+        margin-bottom: 5px;
+        margin-top: 5px;
+        padding: 5px 10px
+      }
+
+      .ql-snow .ql-editor code {
+        font-size: 85%;
+        padding: 2px 4px
+      }
+
+      .ql-snow .ql-editor .ql-code-block-container {
+        background-color: #23241f;
+        color: #f8f8f2;
+        overflow: visible
+      }
+
+      .ql-snow .ql-editor img {
+        max-width: 100%
+      }
+`;
+    this.head.append(style);
+
+    this.loadScript(
+      this.frameDocument,
+      this.head,
+      "https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"
     )
-      .then(() => {
-        return this.loadScript(
-          this.frameDocument,
-          this.head,
-          "https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"
-        );
-      })
       .then(() => {
         return this.loadScript(
           this.frameDocument,
@@ -150,14 +213,16 @@ class EditableController {
           "https://unpkg.com/quill-magic-url@3.0.0/dist/index.js"
         );
       })
+      // .then(() => {
+      //   return this.loadScript(
+      //     this.frameDocument,
+      //     this.head,
+      //     "https://cdn.jsdelivr.net/npm/quill-markdown-shortcuts@latest/dist/markdownShortcuts.js"
+      //   );
+      // })
       .then(() => {
-        return this.loadScript(
-          this.frameDocument,
-          this.head,
-          "https://cdn.jsdelivr.net/npm/quill-markdown-shortcuts@latest/dist/markdownShortcuts.js"
-        );
-      })
-      .then(() => {
+        this.styleRichTextEditor();
+
         console.debug(
           "[Panda CMS] Dispatching event: pandaCmsRichTextEditorLoaded"
         );
@@ -203,28 +268,17 @@ class EditableController {
     }
 
     var style = this.frameDocument.createElement("style");
-    style.innerHTML = `.ql-container,
-    .ql-editor, .ql-editor * {
-      margin: inherit !important;
-      padding: inherit !important;
-      font-size: inherit !important;
-      line-height: inherit !important;
-      font-family: inherit !important;
-    }
-
-    .ql-toolbar {
-      background-color: #282e3270;
-      border-radius: 10px;
-    }
-
-    .ql-editor:hover, .ql-container:hover {
+    style.innerHTML = `.ql-editor:hover, .ql-container:hover {
       cursor: pointer !important;
+    }
+
+    .ql-container.ql-snow {
+      margin-top: 0 important;
     }
 
     .ql-editor:hover, .ql-editor:focus, .ql-editor:active {
       background-color: #e1effa;
       cursor: pointer !important;
-      font-size: inherit !important;
       -webkit-transition: background-color 500ms linear;
       -ms-transition: background-color 500ms linear;
       transition: background-color 500ms linear;
@@ -235,14 +289,10 @@ class EditableController {
       -webkit-transition: background-color 1000ms linear;
       -ms-transition: background-color 1000ms linear;
       transition: background-color 1000ms linear;
-    }
-
-    .ql-tooltip {
-      z-index: 999;
-      min-width: 90vw;
     }`;
 
     this.head.append(style);
+    console.log("Appended styles to head");
   }
 
   bindSaveHandler(blockContentId, content) {
