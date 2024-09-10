@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    panda_cms (0.5.6)
+    panda_cms (0.5.7)
       activestorage-office-previewer (~> 0.1)
       awesome_nested_set (~> 3.7)
       aws-sdk-s3 (~> 1)
