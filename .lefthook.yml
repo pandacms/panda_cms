@@ -10,7 +10,7 @@ seclint:
     bundle-audit:
       run: bundle exec bundle-audit --update
     bundle-outdated:
-      run: bundle outdated --only-explicit
+      run: bundle outdated --strict
     standardrb:
       run: bundle exec standardrb
     erblint:

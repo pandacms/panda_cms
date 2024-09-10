@@ -31,6 +31,9 @@ jobs:
       - name: "Bundler Audit"
         run: "bundle exec bundle-audit --update"
 
+      - name: "Bundler Outdated"
+        run: "bundle outdated --strict"
+
       - name: "Brakeman"
         run: "bundle exec brakeman --quiet"
 
