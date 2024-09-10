@@ -69,7 +69,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "msgpack", "~> 1.7"
   spec.add_development_dependency "lefthook", "~> 1.7"
   spec.add_development_dependency "puma", "~> 6.4"
-  spec.add_development_dependency "propshaft", "~> 0.9"
+  spec.add_development_dependency "propshaft", "~> 1.0"
   spec.add_development_dependency "rails-route-checker", "~> 0.6"
   spec.add_development_dependency "rspec-rails", "~> 7.0"
   spec.add_development_dependency "rspec-github", "~> 2.4"

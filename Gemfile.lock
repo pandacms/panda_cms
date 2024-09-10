@@ -395,7 +395,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pg (1.5.8)
-    propshaft (0.9.1)
+    propshaft (1.0.0)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
       rack
@@ -671,7 +671,7 @@ DEPENDENCIES
   lefthook (~> 1.7)
   msgpack (~> 1.7)
   panda_cms!
-  propshaft (~> 0.9)
+  propshaft (~> 1.0)
   puma (~> 6.4)
   rails-route-checker (~> 0.6)
   rspec-github (~> 2.4)
