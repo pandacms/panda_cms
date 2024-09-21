@@ -27,19 +27,23 @@ PandaCms.authentication = {
     },
     # If you assign specific users or groups, you will likely want to set this to true to enable
     # auto-provisioning
-    create_account_on_first_login: true,
+    create_account_on_first_login: false,
     redirect_uri: Rails.application.credentials.dig(:microsoft, :redirect_uri)
   },
   google: {
     enabled: false,
-    create_account_on_first_login: true,
+    create_account_on_first_login: false,
     create_admin_account_on_first_login: false,
+    # client_id: Rails.application.credentials.dig(:google, :client_id),
+    # client_secret: Rails.application.credentials.dig(:google, :client_secret),
+    client_id: "552337866923-o1jd9ushva70su79c2ke8ftnu623chsl.apps.googleusercontent.com", # Will only work on localhost
+    client_secret: "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", # Will only work on localhost
     redirect_uri: Rails.application.credentials.dig(:google, :redirect_uri)
   },
   github: {
     enabled: true,
-    create_account_on_first_login: true,
-    create_admin_account_on_first_login: true,
+    create_account_on_first_login: false,
+    create_admin_account_on_first_login: false,
     # client_id: Rails.application.credentials.dig(:github, :client_id),
     # client_secret: Rails.application.credentials.dig(:github, :client_secret),
     client_id: "Ov23li9k0LpMXtq8FShb", # Will only work on localhost
