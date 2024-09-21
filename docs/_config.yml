@@ -1,0 +1,10 @@
+title: Panda CMS
+description: User and developer documentation for Panda CMS
+theme: just-the-docs
+
+domain: pandacms.github.io
+url: https://pandacms.github.io
+# baseurl: /
+
+aux_links:
+  Template Repository: https://github.com/pandacms/panda_cms
