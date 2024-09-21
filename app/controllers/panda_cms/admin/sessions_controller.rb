@@ -26,7 +26,9 @@ module PandaCms
 
           # Always create the first user as admin, regardless of what our settings look like
           # else we can't ever really login. :)
-          create_as_admin = true if !create_as_admin && PandaCms::User.count.zero?
+          if !create_as_admin
+            create_as_admin = true if !create_as_admin && PandaCms::User.count.zero?
+          end
 
           if user_info["first_name"] && user_info["last_name"]
             firstname = user_info["first_name"]
