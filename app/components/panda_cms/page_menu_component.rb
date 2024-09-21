@@ -14,6 +14,7 @@ module PandaCms
 
       menu = PandaCms::Menu.find_by(kind: "auto", start_page: start_page)
       @menu_item = menu.menu_items.order(:lft)&.first unless menu.nil?
+
       @children = menu_item&.descendants unless menu_item.nil?
     end
 
