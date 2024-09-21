@@ -1,9 +1,10 @@
 {
   "version": "2.0.0",
-  "command": "bundle",
   "tasks": [
     {
       "label": "bundle install",
+      "type": "shell",
+      "command": "bundle",
       "args": [
         "install"
       ],
@@ -23,9 +24,8 @@
     },
     {
       "label": "bundle update",
-      "args": [
-        "update"
-      ],
+      "type": "shell",
+      "command": "bundle update",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -42,12 +42,8 @@
     },
     {
       "label": "Run YARD server",
-      "args": [
-        "exec",
-        "yard",
-        "server",
-        "--reload"
-      ],
+      "type": "shell",
+      "command": "bundle exec yard server --reload",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -66,11 +62,8 @@
     },
     {
       "label": "Build admin assets",
-      "args": [
-        "exec",
-        "rake",
-        "panda_cms:assets:watch_admin"
-      ],
+      "type": "shell",
+      "command": "bundle exec rake panda_cms:assets:watch_admin",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -88,11 +81,9 @@
       }
     },
     {
-      "label": "RSpec (all files)",
-      "args": [
-        "exec",
-        "rspec"
-      ],
+      "label": "Run tests",
+      "type": "shell",
+      "command": "bundle exec rspec",
       "options": {
         "cwd": "${workspaceFolder}"
       },
