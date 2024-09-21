@@ -2,7 +2,7 @@
   <% component.with_heading(text: "Forms", level: 1) do |heading| %>
   <% end %>
 
-  <%= render PandaCms::Admin::TableComponent.new(rows: forms) do |table| %>
+  <%= render PandaCms::Admin::TableComponent.new(term: "form", rows: forms) do |table| %>
     <% table.column("Name") { |form| block_link_to form.name, admin_form_path(form) } %>
     <% table.column("Status") { |form| render PandaCms::Admin::TagComponent.new(status: :active) } %>
     <% table.column("Last Submission") do |form| %>

@@ -1,7 +1,11 @@
 module PandaCms
   module ApplicationHelper
     def title_tag
-      PandaCms.title
+      if @breadcrumbs.nil? || @breadcrumbs.to_a.empty?
+        PandaCms.title
+      else
+        "#{@breadcrumbs&.last&.name} &middot; #{PandaCms.title}".html_safe
+      end
     end
 
     def panda_cms_editor

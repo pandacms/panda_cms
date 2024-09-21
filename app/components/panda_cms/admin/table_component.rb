@@ -5,7 +5,8 @@ module PandaCms
     class TableComponent < ViewComponent::Base
       attr_reader :columns
 
-      def initialize(rows:)
+      def initialize(term:, rows:)
+        @term = term
         @rows = rows
         @columns = []
       end

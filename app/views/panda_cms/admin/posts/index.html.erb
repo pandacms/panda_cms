@@ -3,7 +3,7 @@
     <% heading.with_button(action: :add, text: "Add Post", link: new_admin_post_path) %>
   <% end %>
 
-  <%= render PandaCms::Admin::TableComponent.new(rows: posts) do |table| %>
+  <%= render PandaCms::Admin::TableComponent.new(term: "post", rows: posts) do |table| %>
     <% table.column("Title") do |post| %>
       <div class="">
         <%= link_to post.title, edit_admin_post_path(post), class: "block h-full w-full" %>
