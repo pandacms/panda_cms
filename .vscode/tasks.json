@@ -81,6 +81,26 @@
       }
     },
     {
+      "label": "Run documentation server",
+      "type": "shell",
+      "command": "bundle exec jekyll serve",
+      "options": {
+        "cwd": "${workspaceFolder}/docs"
+      },
+      "group": {
+        "kind": "none"
+      },
+      "presentation": {
+        "reveal": "never",
+        "revealProblems": "onProblem",
+        "panel": "dedicated",
+        "focus": false
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    },
+    {
       "label": "Run tests",
       "type": "shell",
       "command": "bundle exec rspec",
