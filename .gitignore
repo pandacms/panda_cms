@@ -25,3 +25,5 @@
 /docs/.jekyll-metadata/**/*
 /docs/.bundle/**/*
 /docs/vendor/**/*
+.DS_Store
+.env
