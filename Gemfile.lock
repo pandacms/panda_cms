@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/viewcomponent/view_component.git
+  revision: def144807684e69871cba63c29c41a8fd7aa1a2e
+  branch: main
+  specs:
+    view_component (3.14.0)
+      activesupport (>= 5.2.0, < 8.0)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
+
 PATH
   remote: .
   specs:
@@ -614,10 +624,6 @@ GEM
     uri (0.13.1)
     useragent (0.16.10)
     version_gem (1.1.4)
-    view_component (3.14.0)
-      activesupport (>= 5.2.0, < 8.0)
-      concurrent-ruby (~> 1.0)
-      method_source (~> 1.0)
     webrick (1.8.2)
     websocket (1.2.11)
     websocket-driver (0.7.6)
@@ -690,6 +696,7 @@ DEPENDENCIES
   standard (~> 1.40)
   turbo-rails (~> 2.0)
   undercover (~> 0.5)
+  view_component!
   yard-activerecord (~> 0.0.16)
 
 BUNDLED WITH
