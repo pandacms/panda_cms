@@ -2,6 +2,7 @@ require "groupdate"
 require "importmap-rails"
 require "paper_trail"
 require "view_component"
+require "lookbook"
 
 require "omniauth"
 require "omniauth/rails_csrf_protection"
@@ -19,9 +20,6 @@ module PandaCms
     config.to_prepare do
       ApplicationController.helper(::ApplicationHelper)
     end
-
-    # We rely on ViewComponent here before we can continue
-    config.railties_order = [::ViewComponent::Engine, PandaCms::Engine, :main_app, :all]
 
     # Set our generators
     config.generators do |g|

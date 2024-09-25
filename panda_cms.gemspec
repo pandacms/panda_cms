@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "image_processing", "~> 1.13"
   spec.add_dependency "importmap-rails", "~> 2.0"
   spec.add_dependency "local_time", "~> 3.0"
+  spec.add_dependency "lookbook"
   spec.add_dependency "omniauth", "~> 2.1"
   spec.add_dependency "omniauth-github", "~> 2.0"
   spec.add_dependency "omniauth-google-oauth2", "~> 1.1"
