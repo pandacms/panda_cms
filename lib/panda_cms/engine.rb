@@ -21,9 +21,6 @@ module PandaCms
       ApplicationController.helper(::ApplicationHelper)
     end
 
-    # We rely on ViewComponent and Lookbook here before we can continue
-    config.railties_order = [::ViewComponent::Engine, PandaCms::Engine, ::Lookbook::Engine, :main_app, :all]
-
     # Set our generators
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
