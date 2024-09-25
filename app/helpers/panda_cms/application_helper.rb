@@ -1,10 +1,20 @@
 module PandaCms
   module ApplicationHelper
+    #
+    # Helper method to render a ViewComponent
+    # @see ViewComponent::Rendering#render
+    # @usage <%= component "example", title: "Hello World!" %>
+    #
+    def component(name, *, **, &)
+      component = name.to_s.camelize.constantize::Component
+      render(component.new(*, **), &)
+    end
+
     def title_tag
-      if @breadcrumbs.nil? || @breadcrumbs.to_a.empty?
-        PandaCms.title
+      if @breadcrumbs.present?
+        "#{@breadcrumbs.last&.name} &middot; #{PandaCms.title}".html_safe
       else
-        "#{@breadcrumbs&.last&.name} &middot; #{PandaCms.title}".html_safe
+        PandaCms.title
       end
     end
 
