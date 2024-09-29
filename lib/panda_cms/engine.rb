@@ -67,13 +67,13 @@ module PandaCms
 
     # Set up ViewComponent and Lookbook
     # config.view_component.component_parent_class = "PandaCms::BaseComponent"
-    # config.view_component.view_component_path = PandaCms::Engine.root.join("lib/components")
-    # config.eager_load_paths << PandaCms::Engine.root.join("lib/components")
-    # config.view_component.generate.sidecar = true
-    # config.view_component.generate.preview = true
-    # config.view_component.preview_paths ||= []
-    # config.view_component.preview_paths << PandaCms::Engine.root.join("lib/component_previews")
-    # config.view_component.generate.preview_path = "lib/component_previews"
+    config.view_component.view_component_path = PandaCms::Engine.root.join("lib/components")
+    config.eager_load_paths << PandaCms::Engine.root.join("lib/components")
+    config.view_component.generate.sidecar = true
+    config.view_component.generate.preview = true
+    config.view_component.preview_paths ||= []
+    config.view_component.preview_paths << PandaCms::Engine.root.join("lib/component_previews")
+    config.view_component.generate.preview_path = "lib/component_previews"
 
     # Set up authentication
     initializer "panda_cms.omniauth", before: "omniauth" do |app|

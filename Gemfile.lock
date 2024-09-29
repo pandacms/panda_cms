@@ -1,13 +1,3 @@
-GIT
-  remote: https://github.com/viewcomponent/view_component.git
-  revision: def144807684e69871cba63c29c41a8fd7aa1a2e
-  branch: main
-  specs:
-    view_component (3.14.0)
-      activesupport (>= 5.2.0, < 8.0)
-      concurrent-ruby (~> 1.0)
-      method_source (~> 1.0)
-
 PATH
   remote: .
   specs:
@@ -125,7 +115,7 @@ GEM
     awesome_nested_set (3.7.0)
       activerecord (>= 4.0.0, < 8.0)
     aws-eventstream (1.3.0)
-    aws-partitions (1.979.0)
+    aws-partitions (1.981.0)
     aws-sdk-core (3.209.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
@@ -306,7 +296,7 @@ GEM
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
     io-console (0.7.2)
-    irb (1.14.0)
+    irb (1.14.1)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
@@ -318,7 +308,7 @@ GEM
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     language_server-protocol (3.17.0.3)
-    lefthook (1.7.16)
+    lefthook (1.7.17)
     lint_roller (1.1.0)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -496,7 +486,7 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
-    rexml (3.3.7)
+    rexml (3.3.8)
     rouge (4.4.0)
     rspec-core (3.13.1)
       rspec-support (~> 3.13.0)
@@ -577,7 +567,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    sorbet-runtime (0.5.11581)
+    sorbet-runtime (0.5.11589)
     standard (1.40.0)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -624,6 +614,10 @@ GEM
     uri (0.13.1)
     useragent (0.16.10)
     version_gem (1.1.4)
+    view_component (3.15.0)
+      activesupport (>= 5.2.0, < 8.0)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
     webrick (1.8.2)
     websocket (1.2.11)
     websocket-driver (0.7.6)
@@ -696,7 +690,6 @@ DEPENDENCIES
   standard (~> 1.40)
   turbo-rails (~> 2.0)
   undercover (~> 0.5)
-  view_component!
   yard-activerecord (~> 0.0.16)
 
 BUNDLED WITH

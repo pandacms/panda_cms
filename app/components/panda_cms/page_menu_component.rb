@@ -17,9 +17,5 @@ module PandaCms
 
       @children = menu_item&.descendants unless menu_item.nil?
     end
-
-    def render?
-      @menu_item
-    end
   end
 end
