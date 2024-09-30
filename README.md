@@ -62,9 +62,7 @@ This is a non-exhuastive list (there will be many more):
 
 We welcome contributions.
 
-See our [Contributing Guidelines](https://github.com/pandacms/panda_cms/blob/main/CONTRIBUTING.md).
-
-See [Credits](https://github.com/pandacms/panda_cms/blob/main/CREDITS.md) for thanks, influences, libraries and other credits.
+See our [Contributing Guidelines](https://docs.pandacms.io/developers/contributing/)
 
 ## License
 
