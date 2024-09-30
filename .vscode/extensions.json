@@ -16,7 +16,6 @@
     "bung87.rails",
     "filipesabella.vscode-quick-file-actions",
     "jemmyw.rails-fast-nav",
-    "castwide.solargraph",
     "miguel-savignano.ruby-symbols",
     "testdouble.vscode-standard-ruby",
     "bourhaouta.tailwindshades",
@@ -39,6 +38,7 @@
     "szymonborucki.railsgotoviewcomponent",
     "marcoroth.stimulus-lsp",
     "sporto.rails-go-to-spec",
-    "connorshea.vscode-ruby-test-adapter"
+    "connorshea.vscode-ruby-test-adapter",
+    "shopify.ruby-lsp"
   ]
 }

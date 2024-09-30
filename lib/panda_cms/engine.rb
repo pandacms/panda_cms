@@ -2,6 +2,7 @@ require "groupdate"
 require "importmap-rails"
 require "paper_trail"
 require "view_component"
+require "lookbook"
 
 require "omniauth"
 require "omniauth/rails_csrf_protection"
@@ -19,9 +20,6 @@ module PandaCms
     config.to_prepare do
       ApplicationController.helper(::ApplicationHelper)
     end
-
-    # We rely on ViewComponent here before we can continue
-    config.railties_order = [::ViewComponent::Engine, PandaCms::Engine, :main_app, :all]
 
     # Set our generators
     config.generators do |g|
@@ -47,8 +45,8 @@ module PandaCms
       app.config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
     end
 
-    # Append routes to the routes file
     config.after_initialize do |app|
+      # Append routes to the routes file
       app.routes.append do
         mount PandaCms::Engine => "/", :as => "panda_cms"
         post "/_forms/:id", to: "panda_cms/form_submissions#create", as: :panda_cms_form_submit
@@ -66,6 +64,16 @@ module PandaCms
         end
       end
     end
+
+    # Set up ViewComponent and Lookbook
+    # config.view_component.component_parent_class = "PandaCms::BaseComponent"
+    config.view_component.view_component_path = PandaCms::Engine.root.join("lib/components").to_s
+    config.eager_load_paths << PandaCms::Engine.root.join("lib/components").to_s
+    config.view_component.generate.sidecar = true
+    config.view_component.generate.preview = true
+    config.view_component.preview_paths ||= []
+    config.view_component.preview_paths << PandaCms::Engine.root.join("lib/component_previews").to_s
+    config.view_component.generate.preview_path = "lib/component_previews"
 
     # Set up authentication
     initializer "panda_cms.omniauth", before: "omniauth" do |app|

@@ -37,6 +37,17 @@ module PandaCms
       archived: "archived"
     }
 
+    #
+    # Update any menus which include this page or its parent as a menu item
+    #
+    # @return nil
+    # @visibility public
+    #
+    def update_auto_menus
+      menus.find_each(&:generate_auto_menu_items)
+      menus_of_parent.find_each(&:generate_auto_menu_items)
+    end
+
     private
 
     #
@@ -72,17 +83,6 @@ module PandaCms
     #
     def update_existing_menu_items
       menu_items.where.not(text: title).update_all(text: title)
-    end
-
-    #
-    # Update any menus which include this page or its parent as a menu item
-    #
-    # @return nil
-    # @visibility private
-    #
-    def update_auto_menus
-      menus.find_each(&:generate_auto_menu_items)
-      menus_of_parent.find_each(&:generate_auto_menu_items)
     end
   end
 end

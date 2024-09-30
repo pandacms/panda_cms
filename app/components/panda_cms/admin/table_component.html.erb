@@ -7,6 +7,7 @@
     </div>
   </div>
 
+  <% if @rows.any? %>
   <div class="table-row-group">
     <% @rows.each do |row| %>
       <div class="table-row relative bg-mid/5 hover:bg-mid/20">
@@ -19,3 +20,10 @@
     <% end %>
   </div>
 </div>
+  <% else %>
+</div>
+<div class="text-center mx-12 block border border-dashed py-12 rounded-lg">
+  <h3 class="py-1 text-xl font-semibold text-gray-900">No <%= @term.pluralize %></h3>
+  <p class="py-1 text-base text-gray-500">Get started by creating a new <%= @term %>.</p>
+</div>
+<% end %>

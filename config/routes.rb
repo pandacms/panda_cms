@@ -16,6 +16,10 @@ PandaCms::Engine.routes.draw do
         get "bulk_editor", to: "bulk_editor#new"
         post "bulk_editor", to: "bulk_editor#create"
       end
+
+      if Rails.env.development?
+        mount Lookbook::Engine, at: "/lookbook"
+      end
     end
 
     get PandaCms.admin_path, to: "admin/dashboard#show", as: :admin_dashboard
