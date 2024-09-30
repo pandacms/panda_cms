@@ -12,9 +12,7 @@ gem install gem-release
 
 ### Releasing a new version of the `panda_cms` gem
 
-Commit your changes to the `main` branch, ideally by merging a pull request.
-
-To set the next version number, run:
+With no staged changes, to set the next version number, run:
 
 ```
 RELEASE_VERSION=$(gem bump --pretend --no-commit | awk '{ print $4 }' | tr -d '[:space:]')
@@ -22,7 +20,6 @@ echo $RELEASE_VERSION
 ```
 
 This should output the next patch release version.
-
 
 You can also set `RELEASE_VERSION` manually:
 
