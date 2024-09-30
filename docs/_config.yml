@@ -9,7 +9,7 @@ url: https://docs.pandacms.io
 # External navigation links
 nav_external_links:
   - title: Panda CMS on GitHub
-    url: https://github.com/panda_cms/pandacms
+    url: https://github.com/pandacms/panda_cms
 
 aux_links:
   Panda CMS Website: https://pandacms.io
