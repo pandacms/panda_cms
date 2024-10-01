@@ -1,3 +1,9 @@
+---
+title: Releasing the panda_cms gem
+layout: default
+parent: Contributing
+---
+
 ## Releasing
 
 The **panda_cms** gem uses semantic versioning.
@@ -32,6 +38,7 @@ To release the gem **to this version number**, run:
 ```
 gem bump --version "$RELEASE_VERSION"
 bundle install
+git checkout -b release/v$RELEASE_VERSION
 git add . && git commit --message "[RELEASE] v$RELEASE_VERSION"
 git push
 gem build panda_cms.gemspec
