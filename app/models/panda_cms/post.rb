@@ -11,7 +11,13 @@ module PandaCms
     belongs_to :user, class_name: "PandaCms::User"
 
     validates :title, presence: true
-    validates :slug, presence: true, uniqueness: true, format: {with: /\A[a-z0-9-]+\z/}
+    validates :slug,
+      presence: true,
+      uniqueness: true,
+      format: {
+        with: /\A\/[a-z0-9-]+\z/,
+        message: "must start with a forward slash and contain only lowercase letters, numbers, and hyphens"
+      }
 
     scope :ordered, -> { order(published_at: :desc) }
     scope :with_user, -> { includes(:user) }
@@ -28,7 +34,7 @@ module PandaCms
     }
 
     def to_param
-      slug.to_s
+      formatted_slug.to_s
     end
 
     def excerpt(length = 100, squish: true)
@@ -42,10 +48,10 @@ module PandaCms
     end
 
     def formatted_slug
-      if params[:slug][0] != "/"
-        "/#{params[:slug]}"
+      if slug[0] == "/"
+        slug[1, slug.length].to_s
       else
-        params[:slug]
+        slug
       end
     end
   end

@@ -1,18 +1,11 @@
 module PandaCms
   class PostsController < ApplicationController
-    def index
-    end
-
     def show
-      post = PandaCms::Post.find_by(slug: params[:slug])
+      @posts_index_page = PandaCms::Page.find_by(path: "/#{PandaCms.posts[:prefix]}")
+      @post = PandaCms::Post.find_by(slug: "/#{params[:slug]}")
+      @title = @post.title
 
-      # TODO: Make this much nicer in future
-      globals = {
-        post: post,
-        title: post.title
-      }
-
-      render inline: "", assigns: globals, status: :ok, layout: "layouts/post"
+      render inline: "", status: :ok, layout: "layouts/post"
     end
   end
 end
