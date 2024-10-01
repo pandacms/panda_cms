@@ -3,6 +3,7 @@ PATH
   specs:
     panda_cms (0.5.8)
       activestorage-office-previewer (~> 0.1)
+      amazing_print (~> 1.6)
       awesome_nested_set (~> 3.7)
       aws-sdk-s3 (~> 1)
       danger (~> 9.5)
@@ -651,7 +652,6 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  amazing_print (~> 1.6)
   annotate (~> 3.2)
   better_errors (~> 2.10)
   binding_of_caller (~> 1.0)
