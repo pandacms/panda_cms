@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.0"
 
   spec.add_dependency "activestorage-office-previewer", "~> 0.1"
+  spec.add_dependency "amazing_print", "~> 1.6"
   spec.add_dependency "awesome_nested_set", "~> 3.7"
   spec.add_dependency "aws-sdk-s3", "~> 1"
   spec.add_dependency "danger", "~> 9.5"
@@ -49,7 +50,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "view_component", "~> 3.14"
   spec.add_dependency "whois-parser", "~> 2.0"
 
-  spec.add_development_dependency "amazing_print", "~> 1.6"
   spec.add_development_dependency "annotate", "~> 3.2"
   spec.add_development_dependency "better_errors", "~> 2.10"
   spec.add_development_dependency "binding_of_caller", "~> 1.0"

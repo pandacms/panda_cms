@@ -37,7 +37,8 @@ PandaCms::Engine.routes.draw do
 
   if PandaCms.posts
     # TODO: Allow multiple types of post in future
-    get PandaCms.posts[:prefix], to: "posts#index", as: :posts
+    # TODO: This now requires a page to be created, make it explicit (with a rendering posts helper?)
+    # get PandaCms.posts[:prefix], to: "posts#index", as: :posts
     get "#{PandaCms.posts[:prefix]}/:slug", to: "posts#show", as: :post
   end
 

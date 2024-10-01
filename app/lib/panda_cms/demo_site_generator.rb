@@ -38,6 +38,9 @@ module PandaCms
       @pages[:about] = PandaCms::Page.find_or_create_by!({path: "/about", title: "About", template: @templates[:page], parent: @pages[:home]})
       @pages[:terms] = PandaCms::Page.find_or_create_by!({path: "/terms-and-conditions", title: "Terms & Conditions", template: @templates[:page], parent: @pages[:home]})
 
+      PandaCms::Page.reset_column_information
+      PandaCms::Page.rebuild!
+
       @pages
     end
 
@@ -52,7 +55,7 @@ module PandaCms
 
       # Automatically create main menu from homepage
       unless @pages[:home].nil?
-        @menus[:main].update(kind: :auto, start_page: @pages[:home])
+        @menus[:main].update(kind: :auto, start_page: @pages[:home], depth: 1)
         @menus[:main].generate_auto_menu_items
       end
 
