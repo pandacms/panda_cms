@@ -1,6 +1,12 @@
+<<<<<<<< HEAD:app/javascript/panda_cms/controllers/slug_controller.js
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
+========
+import { Controller as PandaCmsController } from "@hotwired/stimulus";
+
+export class TextFieldUpdateController extends PandaCmsController {
+>>>>>>>> 051dfc5 (Improve rich text editor support):app/javascript/panda_cms/controllers/text_field_update_controller.js
   static targets = [
     "existing_root",
     "input_select",
