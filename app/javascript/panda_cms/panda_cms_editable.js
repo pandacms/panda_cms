@@ -2,7 +2,7 @@
  * Represents a controller for managing editable content within an iframe.
  * @class
  */
-class EditableController {
+class PandaCmsEditableController {
   /**
    * Represents the constructor for the Editable class.
    * @param {HTMLIFrameElement} frame - The iFrame element to be used for editing.
@@ -12,10 +12,13 @@ class EditableController {
     this.frame = frame;
     this.frame.style.display = "none";
     this.csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    this.autosave = false; // Scares everyone, even me. ;-)
+
+    var pathNameArray = window.location.pathname.split("/");
+    this.adminPath = pathNameArray[1];
 
     this.frame.addEventListener("load", () => {
-      this.frameDocument =
-        this.frame.contentDocument || this.frame.contentWindow.document;
+      this.frameDocument = this.frame.contentDocument || this.frame.contentWindow.document;
       this.body = this.frameDocument.body;
       this.head = this.frameDocument.head;
       this.loadEvents();
@@ -29,7 +32,6 @@ class EditableController {
     console.debug("[Panda CMS] iFrame loaded...");
 
     this.embedPlainTextEditors();
-
     this.embedRichTextEditor();
   }
 
@@ -68,43 +70,20 @@ class EditableController {
     elements.forEach((element) => {
       this.stylePlainTextEditor(element, "initial");
 
-      // TODO: If content hasn't changed, don't call save
-      // Bind initial click handler and then auto-save on blur?
+      if (!this.autosave) {
+        return false;
+      }
 
       // This binds auto-save...
       element.addEventListener("blur", (event) => {
         var target = event.target;
-        var pageId = target.getAttribute("data-editable-page-id");
-        var blockContentId = target.getAttribute(
-          "data-editable-block-content-id"
-        );
-
-        fetch(`/admin/pages/${pageId}/block_contents/${blockContentId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": document
-              .querySelector('meta[name="csrf-token"]')
-              .getAttribute("content"),
-          },
-          body: JSON.stringify({ content: target.innerHTML }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            this.stylePlainTextEditor(target, "success");
-            setTimeout(() => {
-              this.stylePlainTextEditor(target, "initial");
-            }, 1000);
-          })
-          .catch((error) => {
-            this.stylePlainTextEditor(target, "error");
-            setTimeout(() => {
-              this.stylePlainTextEditor(target, "initial");
-            }, 1000);
-            alert("Error:", error);
-            console.log(error);
-          });
+        this.bindPlainTextSaveHandler(target);
       });
+    });
+
+    this.body.querySelector('#saveEditableButton').addEventListener('click', (event) => {
+      var target = event.target;
+      this.bindPlainTextSaveHandler(target);
     });
 
     console.debug(
@@ -115,6 +94,39 @@ class EditableController {
     this.frameDocument.dispatchEvent(
       new Event("pandaCmsPlainTextEditorLoaded")
     );
+  }
+
+  bindPlainTextSaveHandler(target) {
+    var pageId = target.getAttribute("data-editable-page-id");
+    var blockContentId = target.getAttribute(
+      "data-editable-block-content-id"
+    );
+
+    fetch(`/${this.adminPath}/pages/${pageId}/block_contents/${blockContentId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": document
+          .querySelector('meta[name="csrf-token"]')
+          .getAttribute("content"),
+      },
+      body: JSON.stringify({ content: target.innerHTML }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        this.stylePlainTextEditor(target, "success");
+        setTimeout(() => {
+          this.stylePlainTextEditor(target, "initial");
+        }, 1000);
+      })
+      .catch((error) => {
+        this.stylePlainTextEditor(target, "error");
+        setTimeout(() => {
+          this.stylePlainTextEditor(target, "initial");
+        }, 1000);
+        alert("Error:", error);
+        console.log(error);
+      });
   }
 
   embedRichTextEditor() {
@@ -128,70 +140,12 @@ class EditableController {
     this.addStylesheet(
       this.frameDocument,
       this.head,
-      "/panda-cms-assets/javascripts/embed/rich_text.css?ver=1.0.0"
+      "/panda-cms-assets/rich_text.css?ver=1.0.0"
     );
 
     var style = this.frameDocument.createElement("style");
     // TODO: Base these on "default" set styles
-    style.innerHTML = `
-      .ql-snow .ql-editor h2 {
-        font-size: 1.5em
-      }
-
-      .ql-snow .ql-editor h3 {
-        font-size: 1.17em
-      }
-
-      .ql-snow .ql-editor h4 {
-        font-size: 1em
-      }
-
-      .ql-snow .ql-editor h5 {
-        font-size: .83em
-      }
-
-      .ql-snow .ql-editor h6 {
-        font-size: .67em
-      }
-
-      .ql-snow .ql-editor a {
-        text-decoration: underline
-      }
-
-      .ql-snow .ql-editor blockquote {
-        border-left: 4px solid #ccc;
-        margin-bottom: 5px;
-        margin-top: 5px;
-        padding-left: 16px
-      }
-
-      .ql-snow .ql-editor code,
-      .ql-snow .ql-editor .ql-code-block-container {
-        background-color: #f0f0f0;
-        border-radius: 3px
-      }
-
-      .ql-snow .ql-editor .ql-code-block-container {
-        margin-bottom: 5px;
-        margin-top: 5px;
-        padding: 5px 10px
-      }
-
-      .ql-snow .ql-editor code {
-        font-size: 85%;
-        padding: 2px 4px
-      }
-
-      .ql-snow .ql-editor .ql-code-block-container {
-        background-color: #23241f;
-        color: #f8f8f2;
-        overflow: visible
-      }
-
-      .ql-snow .ql-editor img {
-        max-width: 100%
-      }
-`;
+    style.innerHTML = ``;
     this.head.append(style);
 
     this.loadScript(
@@ -235,6 +189,15 @@ class EditableController {
         // Autosave the editable elements
         this.enableRichTextEditorAutoSave();
 
+        document.getElementById('saveEditableButton').addEventListener('click', () => {
+          // Grab each element that's editable and append a save handler to it
+          var elements = this.frameDocument.querySelectorAll(".ql-editor");
+          elements.forEach((element) => {
+            var blockContentId = element.parentElement.getAttribute("data-block-content-id");
+            this.bindSaveHandler(blockContentId, element.innerHTML);
+          });
+        });
+
         // This prevents the flash of content before the iFrame is ready
         this.setFrameVisible();
       });
@@ -242,9 +205,12 @@ class EditableController {
 
   /**
    * Autosave the editable elements in the iFrame
-   * @todo #TODO Only do this when we have "autosave" mode enabled?
    */
   enableRichTextEditorAutoSave() {
+    if (!this.autosave) {
+      return false;
+    }
+
     // Grab each element that's editable and append a save handler to it
     var elements = this.frameDocument.querySelectorAll(".ql-editor");
     elements.forEach((element) => {
@@ -268,28 +234,7 @@ class EditableController {
     }
 
     var style = this.frameDocument.createElement("style");
-    style.innerHTML = `.ql-editor:hover, .ql-container:hover {
-      cursor: pointer !important;
-    }
-
-    .ql-container.ql-snow {
-      margin-top: 0 important;
-    }
-
-    .ql-editor:hover, .ql-editor:focus, .ql-editor:active {
-      background-color: #e1effa;
-      cursor: pointer !important;
-      -webkit-transition: background-color 500ms linear;
-      -ms-transition: background-color 500ms linear;
-      transition: background-color 500ms linear;
-    }
-
-    .ql-editor.success {
-      background-color: #66bd6a50 !important;
-      -webkit-transition: background-color 1000ms linear;
-      -ms-transition: background-color 1000ms linear;
-      transition: background-color 1000ms linear;
-    }`;
+    style.innerHTML = ``;
 
     this.head.append(style);
     console.log("Appended styles to head");
@@ -297,7 +242,7 @@ class EditableController {
 
   bindSaveHandler(blockContentId, content) {
     console.debug(`[Panda CMS] Calling save handler for ${blockContentId}...`);
-    fetch(`/admin/pages/${this.pageId}/block_contents/${blockContentId}`, {
+    fetch(`/${this.adminPath}/pages/${this.pageId}/block_contents/${blockContentId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

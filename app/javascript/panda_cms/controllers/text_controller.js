@@ -1,6 +1,6 @@
 import { Controller as PandaCmsController } from "@hotwired/stimulus";
 
-export default class extends PandaCmsController {
+export class TextController extends PandaCmsController {
   static targets = ["source"];
   static values = { page: String, blockcontent: String };
   static classes = ["initial", "success", "error"];

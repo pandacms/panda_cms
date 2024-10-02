@@ -8,9 +8,12 @@ window.pandaStimulus = panda_cms;
 
 export { panda_cms };
 
-// Eager load all controllers defined in the import map under controllers/**/*_controller
-import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading";
-eagerLoadControllersFrom("panda_cms/controllers", panda_cms);
+import { MenuController } from "controllers/menu_controller";
+panda_cms.register("menu", MenuController);
+import { TextController } from "controllers/text_controller";
+panda_cms.register("text", TextController);
+import { TextFieldUpdateController } from "controllers/text_field_update_controller";
+panda_cms.register("text-field-update", TextFieldUpdateController);
 
 import {
   Alert,
@@ -22,7 +25,7 @@ import {
   Popover,
   Toggle,
   Slideover,
-} from "panda_cms/vendor/tailwindcss-stimulus-components";
+} from "tailwindcss-stimulus-components";
 panda_cms.register("alert", Alert);
 panda_cms.register("autosave", Autosave);
 panda_cms.register("color-preview", ColorPreview);
@@ -33,5 +36,5 @@ panda_cms.register("slideover", Slideover);
 panda_cms.register("tabs", Tabs);
 panda_cms.register("toggle", Toggle);
 
-import RailsNestedForm from "panda_cms/vendor/stimulus-components-rails-nested-form";
+import RailsNestedForm from 'stimulus-components-rails-nested-form'
 panda_cms.register("nested-form", RailsNestedForm);

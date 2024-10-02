@@ -30,19 +30,27 @@ module PandaCms
       g.templates.unshift File.expand_path("../../templates", __FILE__)
     end
 
-    # Make files in public available to the main app (e.g. favicon.ico)
+    # Make files in public available to the main app (e.g. /panda-cms-assets/favicon.ico)
     config.app_middleware.use(
       Rack::Static,
       urls: ["/panda-cms-assets"],
       root: PandaCms::Engine.root.join("public")
     )
 
+    # Custom error handling
     config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
 
-    # Create an importmap for the engine's JS
+    initializer "panda_cms.assets" do |app|
+      if Rails.application.config.respond_to?(:assets)
+        app.config.assets.paths << PandaCms::Engine.root.join("app/javascript/panda_cms")
+        app.config.assets.precompile += %w[panda_cms/**/*.js]
+      end
+    end
+
     initializer "panda_cms.importmap", before: "importmap" do |app|
-      app.config.importmap.cache_sweeper(watches: PandaCms::Engine.root.join("public/panda-cms-assets"))
       app.config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
+      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("app/javascript")
+      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("public/panda-cms-assets")
     end
 
     config.after_initialize do |app|

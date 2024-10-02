@@ -1,6 +1,6 @@
 import { Controller as PandaCmsController } from "@hotwired/stimulus"
 
-export default class extends PandaCmsController {
+export class MenuController extends PandaCmsController {
   static targets = ["pandaCmsMenu"]
   static values = {
     open: { type: Boolean, default: false }
