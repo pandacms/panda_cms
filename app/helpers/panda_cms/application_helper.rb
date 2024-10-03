@@ -94,20 +94,20 @@ module PandaCms
       level_indent(item_with_level_attribute.level)
     end
 
-    def menu_indent(item_with_level_attribute)
+    def menu_indent(item_with_level_attribute, indent_with: "pl-")
       case item_with_level_attribute.level
       when 0
-        "pl-0"
+        "#{indent_with}0"
       when 1
-        "pl-4"
+        "#{indent_with}4"
       when 2
-        "pl-8"
+        "#{indent_with}8"
       when 3
-        "pl-12"
+        "#{indent_with}12"
       when 4
-        "pl-16"
+        "#{indent_with}16"
       else
-        "pl-20"
+        "#{indent_with}20"
       end
     end
   end

@@ -5,7 +5,7 @@ module PandaCms
     attr_accessor :menu_item
     attr_accessor :children
 
-    def initialize(page:, start_depth:)
+    def initialize(page:, start_depth:, styles: {})
       start_page = if page.depth == start_depth
         page
       else
@@ -16,6 +16,10 @@ module PandaCms
       @menu_item = menu.menu_items.order(:lft)&.first unless menu.nil?
 
       @children = menu_item&.descendants unless menu_item.nil?
+
+      # Set some default styles for sanity
+      @styles = styles
+      @styles[:indent_with] ||= "pl-2"
     end
   end
 end

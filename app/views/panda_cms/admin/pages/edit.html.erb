@@ -1,26 +1,24 @@
 <%= render PandaCms::Admin::ContainerComponent.new do |component| %>
   <% component.with_heading(text: "#{page.title}", level: 1) %>
-
   <% component.with_slideover(title: "Page Details") do %>
     <%= panda_cms_form_with model: page, url: admin_page_path, method: :put do |f| %>
-        <%= f.text_field :title, class: "block w-full rounded-md border-0 p-2 text-gray-900 ring-1 ring-inset ring-mid placeholder:text-gray-300 focus:ring-1 focus:ring-inset focus:ring-dark sm:text-sm sm:leading-6 hover:pointer" %>
-
-        <%= f.text_field :template, value: template.name,  readonly: true, class: "read-only:bg-gray-100 block w-full rounded-md border-0 p-2 text-gray-900 ring-1 ring-inset ring-mid placeholder:text-gray-300 focus:ring-1 focus:ring-inset focus:ring-dark sm:text-sm sm:leading-6 hover:pointer" %>
-
-        <%= f.select :status, options_for_select([["Active", "active"], ["Draft", "draft"], ["Hidden", "hidden"], ["Archived", "archived"]], selected: page.status), {}, class: "block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-mid focus:ring-1 focus:ring-inset focus:ring-dark sm:text-sm sm:leading-6 hover:pointer" %>
-
-        <%= f.submit "Save" %>
+      <%= f.text_field :title, class: "block w-full rounded-md border-0 p-2 text-gray-900 ring-1 ring-inset ring-mid placeholder:text-gray-300 focus:ring-1 focus:ring-inset focus:ring-dark sm:text-sm sm:leading-6 hover:pointer" %>
+      <%= f.text_field :template, value: template.name,  readonly: true, class: "read-only:bg-gray-100 block w-full rounded-md border-0 p-2 text-gray-900 ring-1 ring-inset ring-mid placeholder:text-gray-300 focus:ring-1 focus:ring-inset focus:ring-dark sm:text-sm sm:leading-6 hover:pointer" %>
+      <%= f.select :status, options_for_select([["Active", "active"], ["Draft", "draft"], ["Hidden", "hidden"], ["Archived", "archived"]], selected: page.status), {}, class: "block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-mid focus:ring-1 focus:ring-inset focus:ring-dark sm:text-sm sm:leading-6 hover:pointer" %>
+      <%= f.submit "Save" %>
     <% end %>
   <% end %>
-
-  <a class="block mb-2 -mt-4 text-sm text-black/60" target="_blank" href="<%= @page.path %>"><%= @page.path %> <i class="ml-2 fa-solid fa-arrow-up-right-from-square"></i></a>
-
+  <div class="grid grid-cols-2">
+    <a class="block mb-2 -mt-4 text-sm text-black/60" target="_blank" href="<%= @page.path %>"><%= @page.path %> <i class="ml-2 fa-solid fa-arrow-up-right-from-square"></i></a>
+    <a class="block mb-2 -mt-12 py-4 px-6 bg-mid text-white font-bold text-lg ml-auto" href="#" id="saveEditableButton">Save Changes</a>
+  </div>
   <iframe id="editablePageFrame" src="<%= page.path %>?embed_id=<%= page.id %>" class="p-0 m-0 w-full h-full border border-slate-200"></iframe>
-
-  <script src="/panda-cms-assets/javascripts/embed/editable.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const editable = new EditableController("<%= page.id %>", document.getElementById("editablePageFrame"));
-    });
-  </script>
+  <% content_for :head do %>
+    <%= javascript_include_tag "panda_cms_editable", "data-turbo-track": "reload", defer: true %>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editable = new PandaCmsEditableController("<%= page.id %>", document.getElementById("editablePageFrame"));
+      });
+    </script>
+  <% end %>
 <% end %>

@@ -1,11 +1,14 @@
-pin "@hotwired/stimulus", to: "https://ga.jspm.io/npm:stimulus@3.2.2/dist/stimulus.js"
-pin "@hotwired/stimulus-loading", to: "/panda-cms-assets/javascripts/vendor/stimulus-loading.js" # 3.2.2
-pin "@hotwired/turbo-rails", to: "turbo.min.js"
-pin "@rails/activestorage", to: "https://ga.jspm.io/npm:@rails/activestorage@7.2.0/app/assets/javascripts/activestorage.esm.js"
+pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
+pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
+pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
+pin "@rails/activestorage", to: "activestorage.min.js", preload: true
 
-pin "panda_cms/vendor/stimulus-components-rails-nested-form", to: "/panda-cms-assets/javascripts/vendor/stimulus-components-rails-nested-form.js", preload: false
-pin "panda_cms/vendor/tailwindcss-stimulus-components", to: "/panda-cms-assets/javascripts/vendor/tailwindcss-stimulus-components.js", preload: false
-pin "panda_cms/controllers/menu_controller", to: "/panda-cms-assets/javascripts/controllers/menu_controller.js", preload: false
-pin "panda_cms/controllers/text_field_update_controller", to: "/panda-cms-assets/javascripts/controllers/text_field_update_controller.js", preload: false
-pin "panda_cms/embed/editable", to: "/panda-cms-assets/javascripts/embed/editable.js", preload: false
-pin "panda_cms/base", to: "/panda-cms-assets/javascripts/base.js", preload: false
+pin "stimulus-components-rails-nested-form", preload: true
+pin "tailwindcss-stimulus-components", preload: true
+
+pin "controllers/menu_controller", preload: false
+pin "controllers/editable_controller", preload: false
+pin "controllers/text_controller", preload: false
+pin "controllers/text_field_update_controller", preload: false
+
+pin "panda_cms_base", preload: true
