@@ -1,6 +1,6 @@
-import { Controller as PandaCmsController } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus";
 
-export class TextFieldUpdateController extends PandaCmsController {
+export default class extends Controller {
   static targets = [
     "existing_root",
     "input_select",
