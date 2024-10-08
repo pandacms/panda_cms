@@ -6,14 +6,14 @@ module PandaCms
       layout "panda_cms/public"
 
       def new
-        @providers = PandaCms.authentication.select { |_, v| v[:enabled] && !v[:hidden] }.keys
+        @providers = PandaCms.config.authentication.select { |_, v| v[:enabled] && !v[:hidden] }.keys
       end
 
       def create
         user_info = request.env.dig("omniauth.auth", "info")
         provider = params[:provider].to_sym
 
-        unless PandaCms.authentication.dig(provider, :enabled)
+        unless PandaCms.config.authentication.dig(provider, :enabled)
           Rails.logger.error "Authentication provider '#{provider}' is not enabled"
           redirect_to admin_login_path, flash: {error: t("panda_cms.admin.sessions.create.error")}
           return
@@ -21,8 +21,8 @@ module PandaCms
 
         user = PandaCms::User.find_by(email: user_info["email"])
 
-        if !user && PandaCms.authentication.dig(provider, :create_account_on_first_login)
-          create_as_admin = PandaCms.authentication.dig(provider, :create_as_admin)
+        if !user && PandaCms.config.authentication.dig(provider, :create_account_on_first_login)
+          create_as_admin = PandaCms.config.authentication.dig(provider, :create_as_admin)
 
           # Always create the first user as admin, regardless of what our settings look like
           # else we can't ever really login. :)

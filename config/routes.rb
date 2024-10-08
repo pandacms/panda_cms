@@ -2,7 +2,7 @@ require_relative "../app/constraints/panda_cms/admin_constraint"
 
 PandaCms::Engine.routes.draw do
   constraints PandaCms::AdminConstraint.new(&:present?) do
-    namespace PandaCms.admin_path_symbol.to_sym, as: :admin, module: :admin do
+    namespace PandaCms.route_namespace, as: :admin, module: :admin do
       resources :files
       resources :forms, only: %i[index show]
       resources :menus
@@ -22,24 +22,24 @@ PandaCms::Engine.routes.draw do
       end
     end
 
-    get PandaCms.admin_path, to: "admin/dashboard#show", as: :admin_dashboard
+    get PandaCms.route_namespace, to: "admin/dashboard#show", as: :admin_dashboard
   end
 
   ### PUBLIC ROUTES ###
 
   # Authentication routes
-  get PandaCms.admin_path, to: "admin/sessions#new", as: :admin_login
+  get PandaCms.route_namespace, to: "admin/sessions#new", as: :admin_login
   # Get and post options here are for OmniAuth coming back in, not going out
-  match "#{PandaCms.admin_path}/auth/:provider/callback", to: "admin/sessions#create", as: :admin_login_callback, via: %i[get post]
-  match "#{PandaCms.admin_path}/auth/failure", to: "admin/sessions#failure", as: :admin_login_failure, via: %i[get post]
-  # OmniAuth additionally adds a GET route for "#{PandaCms.admin_path}/auth/:provider" but doesn't name it
-  delete PandaCms.admin_path, to: "admin/sessions#destroy", as: :admin_logout
+  match "#{PandaCms.route_namespace}/auth/:provider/callback", to: "admin/sessions#create", as: :admin_login_callback, via: %i[get post]
+  match "#{PandaCms.route_namespace}/auth/failure", to: "admin/sessions#failure", as: :admin_login_failure, via: %i[get post]
+  # OmniAuth additionally adds a GET route for "#{PandaCms.route_namespace}/auth/:provider" but doesn't name it
+  delete PandaCms.route_namespace, to: "admin/sessions#destroy", as: :admin_logout
 
-  if PandaCms.posts
+  if PandaCms.config.posts[:enabled]
     # TODO: Allow multiple types of post in future
     # TODO: This now requires a page to be created, make it explicit (with a rendering posts helper?)
     # get PandaCms.posts[:prefix], to: "posts#index", as: :posts
-    get "#{PandaCms.posts[:prefix]}/:slug", to: "posts#show", as: :post
+    get "#{PandaCms.config.posts[:prefix]}/:slug", to: "posts#show", as: :post
   end
 
   ### APPENDED ROUTES ###

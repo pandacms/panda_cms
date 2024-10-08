@@ -1,21 +1,10 @@
-require "groupdate"
-require "importmap-rails"
-require "paper_trail"
-require "view_component"
-require "lookbook"
-
-require "omniauth"
-require "omniauth/rails_csrf_protection"
-require "omniauth/strategies/microsoft_graph"
-require "omniauth/strategies/google_oauth2"
-require "omniauth/strategies/github"
-
-require "panda_cms/exceptions_app"
-
 module PandaCms
   class Engine < ::Rails::Engine
     isolate_namespace PandaCms
     engine_name "panda_cms"
+
+    initializer "panda_cms" do |app|
+    end
 
     config.to_prepare do
       ApplicationController.helper(::ApplicationHelper)
@@ -83,6 +72,8 @@ module PandaCms
     config.view_component.preview_paths << PandaCms::Engine.root.join("lib/component_previews").to_s
     config.view_component.generate.preview_path = "lib/component_previews"
 
+    # PandaCms.config.error_reporting.sentry.enabled = true
+
     # Set up authentication
     initializer "panda_cms.omniauth", before: "omniauth" do |app|
       app.config.session_store :cookie_store, key: "_panda_cms_session"
@@ -90,7 +81,7 @@ module PandaCms
       app.config.middleware.use ActionDispatch::Session::CookieStore, app.config.session_options
 
       OmniAuth.config.logger = Rails.logger
-      auth_path = "#{PandaCms.admin_path}/auth"
+      auth_path = "#{PandaCms.route_namespace}/auth"
       callback_path = "/callback"
 
       # TODO: Move this to somewhere more sensible
@@ -165,11 +156,11 @@ module PandaCms
       }
 
       available_providers.each do |provider, options|
-        if PandaCms.authentication.dig(provider, :enabled)
+        if PandaCms.config.authentication.dig(provider, :enabled)
           options[:defaults][:path_prefix] = auth_path
-          options[:defaults][:redirect_uri] = "#{PandaCms.url}#{auth_path}/#{provider}#{callback_path}"
+          options[:defaults][:redirect_uri] = "#{PandaCms.config.url}#{auth_path}/#{provider}#{callback_path}"
 
-          provider_config = options[:defaults].merge(PandaCms.authentication[provider])
+          provider_config = options[:defaults].merge(PandaCms.config.authentication[provider])
 
           Rails.logger.info("Configuring OmniAuth for #{provider} with #{provider_config}")
 
