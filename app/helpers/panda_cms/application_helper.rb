@@ -12,9 +12,9 @@ module PandaCms
 
     def title_tag
       if @breadcrumbs.present?
-        "#{@breadcrumbs.last&.name} &middot; #{PandaCms.title}".html_safe
+        "#{@breadcrumbs.last&.name} &middot; #{PandaCms.config.title}".html_safe
       else
-        PandaCms.title
+        PandaCms.config.title
       end
     end
 

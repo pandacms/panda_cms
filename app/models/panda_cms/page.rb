@@ -18,7 +18,7 @@ module PandaCms
     has_many :menu_items, foreign_key: :panda_cms_page_id, class_name: "PandaCms::MenuItem", inverse_of: :page
     has_many :menus, through: :menu_items
     has_many :menus_of_parent, through: :parent, source: :menus
-    has_one :page_menu, foreign_key: :panda_cms_menu_id, class_name: "PandaCms::Menu", inverse_of: :start_page
+    has_one :page_menu, foreign_key: :start_page_id, class_name: "PandaCms::Menu"
 
     validates :title, presence: true
     validates :path,

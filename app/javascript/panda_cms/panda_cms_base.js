@@ -6,8 +6,8 @@ const panda_cms = PandaCmsApplication.start();
 panda_cms.debug = false;
 window.pandaStimulus = panda_cms;
 
-// import { SlugController } from "./controllers/slug_controller";
-// panda_cms.register("slug", SlugController);
+import { SlugController } from "controllers/slug_controller";
+panda_cms.register("slug", SlugController);
 
 import {
   Alert,

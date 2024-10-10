@@ -8,7 +8,7 @@ module PandaCms
     end
 
     def show
-      if PandaCms.require_login_to_view && !user_signed_in?
+      if PandaCms.config.require_login_to_view && !user_signed_in?
         redirect_to panda_cms_maintenance_path and return
       end
 

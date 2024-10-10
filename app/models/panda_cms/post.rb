@@ -44,7 +44,7 @@ module PandaCms
     end
 
     def path
-      "/" + PandaCms.posts[:prefix] + slug.to_s
+      "/" + PandaCms.config.posts[:prefix] + slug.to_s
     end
 
     def formatted_slug
