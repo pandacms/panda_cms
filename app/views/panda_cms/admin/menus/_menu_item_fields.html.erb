@@ -1,7 +1,0 @@
-<div class="p-4 mt-2 mb-4 rounded-md border nested-form-wrapper border-grey-900" data-new-record="<%= form.object.new_record? %>">
-  <%= form.text_field :text %>
-  <%= form.text_field :external_url %>
-  <%= form.collection_select :panda_cms_page_id, PandaCms::Page.all, :id, :title, include_blank: true %>
-  <%= render PandaCms::Admin::ButtonComponent.new(text: "Remove Menu Item", action: :delete, data: {action: "nested-form#remove"}, size: :small) %>
-  <%= form.hidden_field :_destroy %>
-</div>

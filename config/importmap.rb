@@ -1,14 +1,9 @@
-pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
-pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
-pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
-pin "@rails/activestorage", to: "activestorage.min.js", preload: true
+pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
+pin "@hotwired/turbo", to: "@hotwired--turbo.js" # @8.0.10
+pin "@rails/activestorage", to: "@rails--activestorage.js" # @7.2.100
+pin "@rails/actioncable", to: "@rails--actioncable.js" # @7.2.100
+pin "tailwindcss-stimulus-components" # @6.0.2
 
-pin "stimulus-components-rails-nested-form", preload: true
-pin "tailwindcss-stimulus-components", preload: true
+pin "controllers/slug_controller", preload: false
 
-pin "controllers/menu_controller", preload: false
-pin "controllers/editable_controller", preload: false
-pin "controllers/text_controller", preload: false
-pin "controllers/text_field_update_controller", preload: false
-
-pin "panda_cms_base", preload: true
+pin "panda_cms", preload: true

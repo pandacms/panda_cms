@@ -95,12 +95,8 @@ RSpec.configure do |config|
     FileUtils.cp(PandaCms::Engine.root.join("app/assets/builds/panda_cms.css"), Rails.root.join("public/stylesheets/panda_cms.css"))
 
     # Move all the JS files into public for testing
-    app_js_path = Rails.root.join("app/javascript")
+    app_js_path = PandaCms::Engine.root.join("app/javascript/panda_cms")
     FileUtils.cp_r "#{app_js_path}/.", Rails.root.join("public")
-
-    # Move all the JS files into public
-    admin_js_path = PandaCms::Engine.root.join("app/javascript")
-    FileUtils.cp_r "#{admin_js_path}/.", Rails.root.join("public")
   end
 
   config.after(:suite) do
