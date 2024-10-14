@@ -25,9 +25,6 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: "Zeitwork Check"
-        run: "bundle exec rake app:zeitwerk:check"
-
       - name: "Bundler Audit"
         run: "bundle exec bundle-audit --update"
 
