@@ -43,13 +43,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency "omniauth-rails_csrf_protection", "~> 1.0"
   spec.add_dependency "paper_trail", "~> 15.2"
   spec.add_dependency "pg", "~> 1.5"
-  spec.add_dependency "rails", "~> 7.2.1"
+  spec.add_dependency "rails", ">= 7.1"
   spec.add_dependency "redcarpet", "~> 3.6"
   spec.add_dependency "silencer", "~> 2.0"
   spec.add_dependency "stimulus-rails", "~> 1.3"
   spec.add_dependency "stackprof", "~> 0.2"
-  spec.add_dependency "sentry-ruby", "~> 5" # TODO: Make this optional
-  spec.add_dependency "sentry-rails", "~> 5" # TODO: Make this optional
   spec.add_dependency "tailwindcss-rails", "~> 2.7"
   spec.add_dependency "view_component", "~> 3.14"
   spec.add_dependency "whois-parser", "~> 2.0"
@@ -62,8 +60,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler-audit", "~> 0.9"
   spec.add_development_dependency "capybara", "~> 3.40"
   spec.add_development_dependency "danger", "~> 9.5"
-  # Remove when danger >= 9.5.0 is released
-  spec.add_development_dependency "pstore"
   spec.add_development_dependency "danger-reek", "~> 0.3"
   spec.add_development_dependency "danger-rubocop", "~> 0.13"
   spec.add_development_dependency "danger-simplecov_json", "~> 0.3"

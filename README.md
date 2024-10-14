@@ -24,7 +24,9 @@ To create a new Rails app, run the command below, replacing `demo` with the name
 rails new demo $(curl -fsSL https://raw.githubusercontent.com/pandacms/generator/main/.railsrc) -m https://raw.githubusercontent.com/pandacms/generator/main/template.rb
 ```
 
-`cd` into your directory (e.g. `demo`) and run `bin/dev`. You'll see a basic website has automatically been created for you at http://localhost:3000/
+`cd` into your directory (e.g. `demo`), and you'll see `rails db:migrate` and `rails db:seed` have already been run for you.
+
+Then run `bin/dev`. You'll see a basic website has automatically been created for you at http://localhost:3000/
 
 The easiest way for you to get started is to visit http://localhost:3000/admin and login with your GitHub credentials. As the first user, you'll automatically have an administrator account created.
 

@@ -32,6 +32,7 @@ module PandaCms
     initializer "panda_cms.assets" do |app|
       if Rails.application.config.respond_to?(:assets)
         app.config.assets.paths << PandaCms::Engine.root.join("app/javascript/panda_cms")
+        app.config.assets.paths << PandaCms::Engine.root.join("vendor/javascript")
         app.config.assets.precompile += %w[panda_cms/**/*.js]
       end
     end
@@ -39,6 +40,7 @@ module PandaCms
     initializer "panda_cms.importmap", before: "importmap" do |app|
       app.config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
       app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("app/javascript")
+      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("vendor/javascript")
       app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("public/panda-cms-assets")
     end
 
@@ -55,11 +57,11 @@ module PandaCms
 
     # Add the migrations to the main app
     initializer "panda_cms.migrations" do |app|
-      unless app.root.to_s.match root.to_s
-        config.paths["db/migrate"].expanded.each do |expanded_path|
-          app.config.paths["db/migrate"] << expanded_path
-        end
+      # unless app.root.to_s.match root.to_s
+      config.paths["db/migrate"].expanded.each do |expanded_path|
+        app.config.paths["db/migrate"] << expanded_path
       end
+      # end
     end
 
     # Set up ViewComponent and Lookbook
@@ -71,8 +73,6 @@ module PandaCms
     config.view_component.preview_paths ||= []
     config.view_component.preview_paths << PandaCms::Engine.root.join("lib/component_previews").to_s
     config.view_component.generate.preview_path = "lib/component_previews"
-
-    # PandaCms.config.error_reporting.sentry.enabled = true
 
     # Set up authentication
     initializer "panda_cms.omniauth", before: "omniauth" do |app|

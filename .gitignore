@@ -8,6 +8,7 @@
 !/spec/dummy/public/*.html
 /spec/dummy/storage/
 /spec/dummy/tmp/
+/spec/dummy/coverage/
 /spec/examples.txt
 /tmp/
 /test/
