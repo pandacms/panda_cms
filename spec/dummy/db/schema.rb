@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_20_081917) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_23_234535) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,27 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_20_081917) do
   create_enum "panda_cms_menu_kind", ["static", "auto"]
   create_enum "panda_cms_page_status", ["active", "draft", "hidden", "archived"]
   create_enum "panda_cms_post_status", ["active", "draft", "hidden", "archived"]
+
+  create_table "action_text_rich_text_versions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "item_type", null: false
+    t.string "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.jsonb "object"
+    t.jsonb "object_changes"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_action_text_rich_text_versions_on_item_type_and_item_id"
+  end
+
+  create_table "action_text_rich_texts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.uuid "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -122,6 +143,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_20_081917) do
     t.datetime "updated_at", null: false
     t.enum "kind", default: "static", null: false, enum_type: "panda_cms_menu_kind"
     t.uuid "start_page_id"
+    t.integer "depth"
     t.index ["name"], name: "index_panda_cms_menus_on_name", unique: true
     t.index ["start_page_id"], name: "index_panda_cms_menus_on_start_page_id"
   end
@@ -144,11 +166,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_20_081917) do
     t.datetime "updated_at", null: false
     t.uuid "panda_cms_template_id", null: false
     t.uuid "parent_id"
+    t.enum "status", default: "active", null: false, enum_type: "panda_cms_page_status"
     t.integer "lft"
     t.integer "rgt"
     t.integer "depth"
     t.integer "children_count", default: 0, null: false
-    t.enum "status", default: "active", null: false, enum_type: "panda_cms_page_status"
     t.index ["lft"], name: "index_panda_cms_pages_on_lft"
     t.index ["panda_cms_template_id"], name: "index_panda_cms_pages_on_panda_cms_template_id"
     t.index ["parent_id"], name: "index_panda_cms_pages_on_parent_id"
