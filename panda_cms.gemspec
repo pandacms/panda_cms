@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "omniauth-rails_csrf_protection", "~> 1.0"
   spec.add_dependency "paper_trail", "~> 15.2"
   spec.add_dependency "pg", "~> 1.5"
-  spec.add_dependency "rails", "~> 7.2.1"
+  spec.add_dependency "rails", ">= 7.1"
   spec.add_dependency "redcarpet", "~> 3.6"
   spec.add_dependency "silencer", "~> 2.0"
   spec.add_dependency "stimulus-rails", "~> 1.3"

@@ -50,4 +50,14 @@ module PandaCms
   def self.root_path
     PandaCms.config.admin_path
   end
+
+  #
+  # Returns the title for the website
+  #
+  # @return [Symbol] The title for the website
+  # @visibility public
+  # @example "Demo Site"
+  def self.title
+    PandaCms.config.title
+  end
 end
