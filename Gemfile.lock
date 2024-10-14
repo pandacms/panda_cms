@@ -24,7 +24,7 @@ PATH
       omniauth-rails_csrf_protection (~> 1.0)
       paper_trail (~> 15.2)
       pg (~> 1.5)
-      rails (~> 7.2.1)
+      rails (>= 7.1)
       redcarpet (~> 3.6)
       silencer (~> 2.0)
       stackprof (~> 0.2)
