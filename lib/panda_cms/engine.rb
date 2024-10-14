@@ -157,6 +157,7 @@ module PandaCms
 
       available_providers.each do |provider, options|
         if PandaCms.config.authentication.dig(provider, :enabled)
+          auth_path = auth_path.starts_with?("/") ? auth_path : "/#{auth_path}"
           options[:defaults][:path_prefix] = auth_path
           options[:defaults][:redirect_uri] = "#{PandaCms.config.url}#{auth_path}/#{provider}#{callback_path}"
 

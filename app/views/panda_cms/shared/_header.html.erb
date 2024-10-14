@@ -7,8 +7,7 @@
     <script src="https://kit.fontawesome.com/7835d81e75.js" crossorigin="anonymous"></script>
     <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag "panda_cms", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags "panda_cms_base" %>
-    <%#= javascript_import_module_tag "panda_cms/embed/editable" if controller_name == "pages" && action_name == "edit" %>
+    <%= javascript_importmap_tags "panda_cms" %>
     <%= render "panda_cms/shared/favicons" %>
     <%= yield :head %>
   </head>

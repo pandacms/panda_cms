@@ -40,4 +40,14 @@ module PandaCms
   def self.route_namespace
     PandaCms.config.admin_path.delete_prefix("/").to_sym
   end
+
+  #
+  # Returns the root path for the admin routes
+  #
+  # @return [Symbol] The root path for the admin routes
+  # @visibility public
+  # @example "/admin"
+  def self.root_path
+    PandaCms.config.admin_path
+  end
 end

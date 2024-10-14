@@ -19,7 +19,7 @@ module PandaCms
         when :warning
           "text-warning"
         when :info, :notice
-          "text-highlight"
+          "text-active"
         else
           "text-mid"
         end
