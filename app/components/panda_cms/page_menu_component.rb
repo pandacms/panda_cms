@@ -28,7 +28,7 @@ module PandaCms
     end
 
     def render?
-      @menu_item.present?
+      @page.path != "/" && @page.page_menu
     end
   end
 end
