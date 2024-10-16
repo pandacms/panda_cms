@@ -3,10 +3,8 @@ PATH
   specs:
     panda_cms (0.5.10)
       activestorage-office-previewer (~> 0.1)
-      amazing_print (~> 1.6)
       awesome_nested_set (~> 3.7)
       aws-sdk-s3 (~> 1)
-      danger (~> 9.5)
       dry-configurable (~> 1.2)
       faraday (~> 2)
       faraday-multipart (~> 1.0)
@@ -114,7 +112,6 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    amazing_print (1.6.0)
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
