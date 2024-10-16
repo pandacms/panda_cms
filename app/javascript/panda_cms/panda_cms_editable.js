@@ -36,13 +36,13 @@ class PandaCmsEditableController {
   }
 
   setFrameVisible() {
-    console.log("[Panda CMS] Setting iFrame to visible...");
+    console.debug("[Panda CMS] Setting iFrame to visible...");
     this.frame.style.display = "";
   }
 
   stylePlainTextEditor(element, status) {
-    console.log(
-      `[Panda CMS] Styling plain text editor ${element.id} as ${status}...`
+    console.debug(
+      `[Panda CMS] Styling editor ${element.id} as ${status}...`
     );
 
     if (status == "initial") {
@@ -56,34 +56,38 @@ class PandaCmsEditableController {
     } else if (status == "error") {
       element.style.backgroundColor = "#dc354550";
     }
+
+    if (element.getAttribute("data-editable-kind") == "html") {
+      element.style.whiteSpace = "pre-wrap";
+      element.style.fontFamily = "monospace";
+    }
   }
 
   embedPlainTextEditors() {
-    var elements = this.body.querySelectorAll(
-      '[data-editable-kind="plain_text"]'
-    );
-
+    var elements = this.body.querySelectorAll('[data-editable-kind="plain_text"], [data-editable-kind="markdown"], [data-editable-kind="html"]');
     if (elements.length == 0) {
       return;
     }
 
     elements.forEach((element) => {
       this.stylePlainTextEditor(element, "initial");
+      var currentElement = element;
 
-      if (!this.autosave) {
-        return false;
+      if (this.autosave) {
+        // On blur, save this element
+        currentElement.addEventListener("blur", () => {
+          this.bindPlainTextSaveHandler(currentElement);
+        });
+
+        console.debug("[Panda CMS] Attached auto-save event handler to ${currentElement.id}");
       }
 
-      // This binds auto-save...
-      element.addEventListener("blur", (event) => {
-        var target = event.target;
-        this.bindPlainTextSaveHandler(target);
+      // On save click, save this element
+      document.getElementById('saveEditableButton').addEventListener('click', () => {
+        this.bindPlainTextSaveHandler(currentElement);
       });
-    });
 
-    this.body.querySelector('#saveEditableButton').addEventListener('click', (event) => {
-      var target = event.target;
-      this.bindPlainTextSaveHandler(target);
+      console.debug("[Panda CMS] Attached button event handler to ${currentElement.id}");
     });
 
     console.debug(
@@ -91,18 +95,21 @@ class PandaCmsEditableController {
     );
 
     // Let the parent know that the external resources have been loaded
-    this.frameDocument.dispatchEvent(
-      new Event("pandaCmsPlainTextEditorLoaded")
-    );
+    this.frameDocument.dispatchEvent(new Event("pandaCmsPlainTextEditorLoaded"));
   }
 
   bindPlainTextSaveHandler(target) {
-    var pageId = target.getAttribute("data-editable-page-id");
     var blockContentId = target.getAttribute(
       "data-editable-block-content-id"
     );
 
-    fetch(`/${this.adminPath}/pages/${pageId}/block_contents/${blockContentId}`, {
+    if (target.getAttribute("data-editable-kind") == "html") { // Or markdown?
+      var content = target.innerText;
+    } else {
+      var content = target.innerHTML;
+    }
+
+    fetch(`/${this.adminPath}/pages/${this.pageId}/block_contents/${blockContentId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -110,7 +117,7 @@ class PandaCmsEditableController {
           .querySelector('meta[name="csrf-token"]')
           .getAttribute("content"),
       },
-      body: JSON.stringify({ content: target.innerHTML }),
+      body: JSON.stringify({ content: content }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -144,7 +151,7 @@ class PandaCmsEditableController {
     );
 
     var style = this.frameDocument.createElement("style");
-    // TODO: Base these on "default" set styles
+    // TODO: Base these on "default" set styles (e.g. initial, success, etc.)
     style.innerHTML = ``;
     this.head.append(style);
 
