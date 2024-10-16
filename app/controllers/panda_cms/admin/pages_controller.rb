@@ -26,6 +26,7 @@ module PandaCms
       # @type GET
       def edit
         add_breadcrumb page.title, edit_admin_page_path(page)
+
         render :edit, locals: {page: page, template: page.template}
       end
 

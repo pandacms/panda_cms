@@ -16,12 +16,12 @@ module PandaCms
       plain_text: "plain_text",
       rich_text: "rich_text",
       iframe: "iframe",
-      list: "list"
+      list: "list",
+      code: "code"
       # image: "image",
       # video: "video",
       # audio: "audio",
       # file: "file",
-      # code: "code",
       # iframe: "iframe",
       # quote: "quote",
       # list: "list"
