@@ -21,32 +21,13 @@ module PandaCms
     end
 
     def call
-      # TODO: For the non-editable version, grab this from a cache or similar?
-      block = PandaCms::Block.find_by(kind: KIND, key: @key, panda_cms_template_id: Current.page.panda_cms_template_id)
-
-      if block.nil?
-        raise PandaCms::MissingBlockError("Block with key #{@key} not found") unless Rails.env.production?
-        return false
-      end
-
-      block_content = block.block_contents.find_by(panda_cms_page_id: Current.page.id)
-      plain_text = block_content&.content.to_s
-
-      if @editable
-        @options[:contenteditable] = "plaintext-only"
-        @options[:data] = {
-          "editable-kind": "plain_text",
-          "editable-page-id": Current.page.id,
-          "editable-block-content-id": block_content&.id
-        }
-
-        @options[:id] = "editor-#{block_content&.id}"
-        content = plain_text
+      content_tag(:span, @content, @options, false) # Don't escape the content
+    rescue
+      if !Rails.env.production? || is_defined?(Sentry)
+        raise PandaCms::MissingBlockError("Block with key #{@key} not found")
       else
-        content = prepare_content_for_display(plain_text)
+        false
       end
-
-      content_tag(:span, content, @options, false) # Don't escape the content
     end
 
     #
@@ -62,6 +43,28 @@ module PandaCms
     # TODO: Check user permissions
     def before_render
       @editable &&= params[:embed_id].present? && params[:embed_id] == Current.page.id
+
+      block = PandaCms::Block.find_by(kind: KIND, key: @key, panda_cms_template_id: Current.page.panda_cms_template_id)
+
+      if block.nil?
+        return false
+      end
+
+      block_content = block.block_contents.find_by(panda_cms_page_id: Current.page.id)
+      plain_text = block_content&.content.to_s
+      if @editable
+        @options[:contenteditable] = "plaintext-only"
+        @options[:data] = {
+          "editable-kind": "plain_text",
+          "editable-page-id": Current.page.id,
+          "editable-block-content-id": block_content&.id
+        }
+
+        @options[:id] = "editor-#{block_content&.id}"
+        @content = plain_text
+      else
+        @content = prepare_content_for_display(plain_text)
+      end
     end
   end
 end
