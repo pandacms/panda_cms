@@ -32,6 +32,9 @@ module PandaCms
           block_content_id: block_content&.id
         }
       end
+    rescue => e
+      Sentry.capture_exception(e) if if_defined?(Sentry)
+      false
     end
   end
 end
