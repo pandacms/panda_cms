@@ -5,7 +5,7 @@ module PandaCms
     #
     # @param string [String] The provided string to turn into a slug
     # @return string Generated slug
-    # @see text_field_update_controller.js should also implement this logic
+    # @see slug_controller.js should also implement this logic
     def self.generate(string)
       # Trim whitespace and downcase the string
       string = string.to_s.strip.downcase

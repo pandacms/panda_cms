@@ -1,8 +1,8 @@
 <%= panda_cms_form_with model: post, url: url do |f| %>
-  <div data-controller="text-field-update">
-    <input type="hidden" value="<%= PandaCms::Current.root %>" data-text-field-update-target="existing_root">
-    <%= f.text_field :title, { required: true, data: { "text-field-update-target": "input_text", action: "focusout->text-field-update#generatePath" } } %>
-    <%= f.text_field :slug, { required: true, data: { prefix: PandaCms::Current.root + "/#{PandaCms.posts[:prefix]}", "text-field-update-target": "output_text" } } %>
+  <div data-controller="slug">
+    <input type="hidden" value="<%= PandaCms::Current.root %>" data-slug-target="existing_root">
+    <%= f.text_field :title, { required: true, data: { "slug-target": "input_text", action: "focusout->slug#generatePath" } } %>
+    <%= f.text_field :slug, { required: true, data: { prefix: PandaCms::Current.root + "/#{PandaCms.config.posts[:prefix]}", "slug-target": "output_text" } } %>
     <%= f.select :user_id, PandaCms::User.for_select_list %>
     <%= f.datetime_field :published_at, { required: true } %>
     <%= f.select :status, PandaCms::Post.statuses.keys.map { |status| [status.humanize, status] } %>

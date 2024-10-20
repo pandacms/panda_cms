@@ -1,14 +1,13 @@
 <%= render PandaCms::Admin::ContainerComponent.new do |component| %>
   <% component.with_heading(text: "Add Page", level: 1) do |heading| %>
   <% end %>
-
   <%= panda_cms_form_with model: page, url: admin_pages_path, method: :post do |f| %>
-  <% options = nested_set_options(PandaCms::Page, page) { |i| "#{"-" * i.level} #{i.title} (#{i.path})" } %>
-    <div data-controller="text-field-update">
-      <input type="hidden" value="<%= PandaCms::Current.root %>" data-text-field-update-target="existing_root">
-      <%= f.select :parent_id, options, {}, { "data-text-field-update-target": "input_select", "data-action": "change->text-field-update#setPrePath" } %>
-      <%= f.text_field :title, { data: { "text-field-update-target": "input_text", action: "focusout->text-field-update#generatePath" } } %>
-      <%= f.text_field :path, { meta: t(".path.meta"), data: { prefix: PandaCms::Current.root, "text-field-update-target": "output_text" } } %>
+    <% options = nested_set_options(PandaCms::Page, page) { |i| "#{"-" * i.level} #{i.title} (#{i.path})" } %>
+    <div data-controller="slug">
+      <input type="hidden" value="<%= PandaCms::Current.root %>" data-slug-target="existing_root">
+      <%= f.select :parent_id, options, {}, { "data-slug-target": "input_select", "data-action": "change->slug#setPrePath" } %>
+      <%= f.text_field :title, { data: { "slug-target": "input_text", action: "focusout->slug#generatePath" } } %>
+      <%= f.text_field :path, { meta: t(".path.meta"), data: { prefix: PandaCms::Current.root, "slug-target": "output_text" } } %>
       <%= f.collection_select :panda_cms_template_id, PandaCms::Template.available, :id, :name %>
       <%= f.button %>
     </div>

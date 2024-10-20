@@ -32,7 +32,7 @@ module PandaCms
       PandaCms::Current.page = nil
       PandaCms::Current.user ||= User.find_by(id: session[:user_id]) if session[:user_id]
 
-      PandaCms.url ||= PandaCms::Current.root
+      PandaCms.config.url ||= PandaCms::Current.root
     end
 
     def authenticate_user!
