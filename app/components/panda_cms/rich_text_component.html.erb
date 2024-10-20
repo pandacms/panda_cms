@@ -1,11 +1,13 @@
-<%= content_tag(:div, @content, @options) %>
-
-<script type="text/javascript">
+<% if @editable %>
+  <%= content_tag(:div, @content, @options) %>
+  <script type="text/javascript">
+    // TODO: Should this be defined multiple times? :/
     document.addEventListener("pandaCmsRichTextEditorLoaded", function() {
       console.debug("[Panda CMS] Called event listener: pandaCmsRichTextEditorLoaded for <%= @options[:id] %>");
 
       // Allowing per-element toolbar configuration, if needed
-      let quillOptions = {
+      let quillVar = "<%= @options[:id] %>";
+      let <%= @options[:id] %>_options = {
         modules: {
           toolbar: [
             [{ header: [1, 2, 3, false] }],
@@ -28,11 +30,13 @@
         theme: "snow",
       };
 
-      let quillVar = "<%= @options[:id] %>";
       console.debug(`[Panda CMS] Enabling Quill editor: ${quillVar}`);
-      console.debug(`[Panda CMS] Quill options for ${quillVar}: `, quillOptions);
+      console.debug(`[Panda CMS] Quill options for ${quillVar}: `, <%= @options[:id] %>_options);
 
       Quill.register("modules/imageCompressor", imageCompressor);
-      quillVar = new Quill("#" + quillVar, quillOptions);
+      quillVar = new Quill("#" + quillVar, <%= @options[:id] %>_options);
     });
   </script>
+<% else %>
+  <%= @content %>
+<% end %>
