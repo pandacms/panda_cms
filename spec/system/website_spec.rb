@@ -7,6 +7,8 @@ RSpec.describe "Website", js: true do
   end
 
   it "shows the homepage" do
+    pause
+
     # TODO: Look at Percy.io for visual regression testing
     expect(page).to have_content("Homepage Layout")
     # Simple JS

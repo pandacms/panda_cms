@@ -1,7 +1,7 @@
 module PandaCms
   class PostsController < ApplicationController
     def show
-      @posts_index_page = PandaCms::Page.find_by(path: "/#{PandaCms.posts[:prefix]}")
+      @posts_index_page = PandaCms::Page.find_by(path: "/#{PandaCms.config.posts[:prefix]}")
       @post = PandaCms::Post.find_by(slug: "/#{params[:slug]}")
       @title = @post.title
 

@@ -1,21 +1,10 @@
-require "groupdate"
-require "importmap-rails"
-require "paper_trail"
-require "view_component"
-require "lookbook"
-
-require "omniauth"
-require "omniauth/rails_csrf_protection"
-require "omniauth/strategies/microsoft_graph"
-require "omniauth/strategies/google_oauth2"
-require "omniauth/strategies/github"
-
-require "panda_cms/exceptions_app"
-
 module PandaCms
   class Engine < ::Rails::Engine
     isolate_namespace PandaCms
     engine_name "panda_cms"
+
+    initializer "panda_cms" do |app|
+    end
 
     config.to_prepare do
       ApplicationController.helper(::ApplicationHelper)
@@ -30,19 +19,29 @@ module PandaCms
       g.templates.unshift File.expand_path("../../templates", __FILE__)
     end
 
-    # Make files in public available to the main app (e.g. favicon.ico)
+    # Make files in public available to the main app (e.g. /panda-cms-assets/favicon.ico)
     config.app_middleware.use(
       Rack::Static,
       urls: ["/panda-cms-assets"],
       root: PandaCms::Engine.root.join("public")
     )
 
+    # Custom error handling
     config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
 
-    # Create an importmap for the engine's JS
+    initializer "panda_cms.assets" do |app|
+      if Rails.application.config.respond_to?(:assets)
+        app.config.assets.paths << PandaCms::Engine.root.join("app/javascript/panda_cms")
+        app.config.assets.paths << PandaCms::Engine.root.join("vendor/javascript")
+        app.config.assets.precompile += %w[panda_cms/**/*.js]
+      end
+    end
+
     initializer "panda_cms.importmap", before: "importmap" do |app|
-      app.config.importmap.cache_sweeper(watches: PandaCms::Engine.root.join("public/panda-cms-assets"))
       app.config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
+      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("app/javascript")
+      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("vendor/javascript")
+      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("public/panda-cms-assets")
     end
 
     config.after_initialize do |app|
@@ -58,11 +57,11 @@ module PandaCms
 
     # Add the migrations to the main app
     initializer "panda_cms.migrations" do |app|
-      unless app.root.to_s.match root.to_s
-        config.paths["db/migrate"].expanded.each do |expanded_path|
-          app.config.paths["db/migrate"] << expanded_path
-        end
+      # unless app.root.to_s.match root.to_s
+      config.paths["db/migrate"].expanded.each do |expanded_path|
+        app.config.paths["db/migrate"] << expanded_path
       end
+      # end
     end
 
     # Set up ViewComponent and Lookbook
@@ -82,7 +81,7 @@ module PandaCms
       app.config.middleware.use ActionDispatch::Session::CookieStore, app.config.session_options
 
       OmniAuth.config.logger = Rails.logger
-      auth_path = "#{PandaCms.admin_path}/auth"
+      auth_path = "#{PandaCms.route_namespace}/auth"
       callback_path = "/callback"
 
       # TODO: Move this to somewhere more sensible
@@ -157,11 +156,12 @@ module PandaCms
       }
 
       available_providers.each do |provider, options|
-        if PandaCms.authentication.dig(provider, :enabled)
+        if PandaCms.config.authentication.dig(provider, :enabled)
+          auth_path = auth_path.starts_with?("/") ? auth_path : "/#{auth_path}"
           options[:defaults][:path_prefix] = auth_path
-          options[:defaults][:redirect_uri] = "#{PandaCms.url}#{auth_path}/#{provider}#{callback_path}"
+          options[:defaults][:redirect_uri] = "#{PandaCms.config.url}#{auth_path}/#{provider}#{callback_path}"
 
-          provider_config = options[:defaults].merge(PandaCms.authentication[provider])
+          provider_config = options[:defaults].merge(PandaCms.config.authentication[provider])
 
           Rails.logger.info("Configuring OmniAuth for #{provider} with #{provider_config}")
 

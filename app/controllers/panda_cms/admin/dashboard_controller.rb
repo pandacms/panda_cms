@@ -14,7 +14,7 @@ module PandaCms
     private
 
     def set_initial_breadcrumb
-      add_breadcrumb "Dashboard", PandaCms.admin_path
+      add_breadcrumb "Dashboard", PandaCms.route_namespace
     end
 
     def domain_expiry
