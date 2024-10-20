@@ -8,3 +8,5 @@
 # This just checks that a normal JS file and controllers folder can be included
 pin_all_from "app/javascript/controllers", under: "controllers"
 pin "application"
+pin "tailwindcss-stimulus-components" # @6.0.2
+pin "@rails/activestorage", to: "@rails--activestorage.js" # @7.2.100

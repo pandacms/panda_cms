@@ -18,6 +18,9 @@ module Generators
           existing_seeds = File.read("#{::Rails.root}/db/seeds.rb")
           IO.write("#{::Rails.root}/db/seeds.rb", "PandaCms::Engine.load_seed\n\n#{existing_seeds}")
         end
+
+        `rails db:migrate`
+        `rails db:seed`
       end
     end
   end

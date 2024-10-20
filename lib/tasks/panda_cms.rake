@@ -36,17 +36,6 @@ namespace :panda_cms do
       )
     end
 
-    desc "Build dummy assets for Panda CMS"
-    # We only care about this in development
-    task :dummy do
-      run_tailwind(
-        root_path: Rails.application.root,
-        input_path: "app/assets/stylesheets/application.tailwind.css",
-        output_path: "app/assets/builds/application.css",
-        config_path: "config/tailwind.config.js"
-      )
-    end
-
     desc "Watch admin assets for Panda CMS"
     # We only care about this in development
     task :watch_admin do
@@ -54,18 +43,6 @@ namespace :panda_cms do
         root_path: PandaCms::Engine.root,
         input_path: "app/assets/stylesheets/panda_cms/application.tailwind.css",
         output_path: "app/assets/builds/panda_cms.css",
-        watch: true
-      )
-    end
-
-    desc "Watch dummy assets for Panda CMS"
-    # We only care about this in development
-    task :watch_dummy do
-      run_tailwind(
-        root_path: Rails.application.root,
-        input_path: "app/assets/stylesheets/application.tailwind.css",
-        output_path: "app/assets/builds/application.css",
-        config_path: "config/tailwind.config.js",
         watch: true
       )
     end

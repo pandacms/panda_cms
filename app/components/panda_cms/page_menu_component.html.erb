@@ -1,13 +1,15 @@
-<nav class="<%= @styles[:container] %>">
+<nav class="<%= styles[:container] %>">
   <ul role="list" class="p-0 m-0">
     <li>
-      <a href="<%= menu_item.page.path %>" class="<%= menu_item.page == PandaCms::Current.page ? @styles[:current_page_active] : @styles[:current_page_inactive] %>">
+      <a href="<%= menu_item.page.path %>" class="<%= menu_item.page == PandaCms::Current.page ? styles[:current_page_active] : styles[:current_page_inactive] %>">
         <%= menu_item.text %>
       </a>
     </li>
     <ul>
-      <% PandaCms::MenuItem.each_with_level(menu_item.descendants) do |submenu_item, level| %>
-        <li data-level="<%= level %>" data-page-id="<%= submenu_item.page.id %>" class="<% if level > 1 && !PandaCms::Current.page.id.in?(submenu_item.page.self_and_ancestors.ids + submenu_item.page.siblings.ids) %>hidden <% end %> <%= submenu_item.page == PandaCms::Current.page ? @styles[:active] : @styles[:inactive] %>">
+      <% PandaCms::MenuItem.includes(:page).each_with_level(menu_item.descendants) do |submenu_item, level| %>
+        <% next if PandaCms::Current.page == menu_item.page && level > 1 # If we're on the "top" menu item, only show its direct ancestors %>
+        <% next if submenu_item.page.depth > PandaCms::Current.page.depth && !PandaCms::Current.page.in?(submenu_item.page.ancestors) %>
+        <li data-level="<%= level %>" data-page-id="<%= submenu_item.page.id %>" class="<%= submenu_item.page == PandaCms::Current.page ? @styles[:active] : @styles[:inactive] %>">
           <a href="<%= submenu_item.page.path %>" class="<%= helpers.menu_indent(submenu_item, indent_with: @styles[:indent_with]) %>"><%= submenu_item.page.title %></a>
         </li>
       <% end %>

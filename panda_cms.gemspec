@@ -22,10 +22,9 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.0"
 
   spec.add_dependency "activestorage-office-previewer", "~> 0.1"
-  spec.add_dependency "amazing_print", "~> 1.6"
   spec.add_dependency "awesome_nested_set", "~> 3.7"
   spec.add_dependency "aws-sdk-s3", "~> 1"
-  spec.add_dependency "danger", "~> 9.5"
+  spec.add_dependency "dry-configurable", "~> 1.2"
   spec.add_dependency "faraday", "~> 2"
   spec.add_dependency "faraday-retry", "~> 2"
   spec.add_dependency "faraday-multipart", "~> 1.0"
@@ -36,13 +35,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency "local_time", "~> 3.0"
   spec.add_dependency "lookbook", "~> 2.0"
   spec.add_dependency "omniauth", "~> 2.1"
-  spec.add_dependency "omniauth-github", "~> 2.0"
-  spec.add_dependency "omniauth-google-oauth2", "~> 1.1"
-  spec.add_dependency "omniauth-microsoft_graph", "~> 2.0"
+  spec.add_dependency "omniauth-github", "~> 2.0" # TODO: Make this optional
+  spec.add_dependency "omniauth-google-oauth2", "~> 1.1" # TODO: Make this optional
+  spec.add_dependency "omniauth-microsoft_graph", "~> 2.0" # TODO: Make this optional
   spec.add_dependency "omniauth-rails_csrf_protection", "~> 1.0"
   spec.add_dependency "paper_trail", "~> 15.2"
   spec.add_dependency "pg", "~> 1.5"
-  spec.add_dependency "rails", "~> 7.2.1"
+  spec.add_dependency "rails", ">= 7.1"
   spec.add_dependency "redcarpet", "~> 3.6"
   spec.add_dependency "silencer", "~> 2.0"
   spec.add_dependency "stimulus-rails", "~> 1.3"
