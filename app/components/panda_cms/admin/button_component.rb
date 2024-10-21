@@ -34,7 +34,10 @@ module PandaCms
         classes += case @action
         when :save, :create
           "text-white bg-active"
+        when :save_inactive
+          "text-white bg-inactive"
         when :secondary
+          "text-dark border-2 border-dark bg-transparent hover:bg-light transition-all "
         when :delete, :destroy, :danger
           "text-error border border-error bg-red-100 hover:bg-red-200 hover:text-error focus-visible:outline-red-300 "
         else

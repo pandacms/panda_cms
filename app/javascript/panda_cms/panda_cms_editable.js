@@ -205,11 +205,11 @@ class PandaCmsEditableController {
       .then((response) => response.json())
       .then((data) => {
         console.debug("[Panda CMS] Save successful for block content ID:", blockContentId);
-        document.getElementById('saveEditableButton').classList.remove("bg-active");
-        document.getElementById('saveEditableButton').classList.add("bg-mid");
+        document.getElementById('saveEditableButton').classList.remove("bg-inactive");
+        document.getElementById('saveEditableButton').classList.add("bg-active");
         setTimeout(() => {
-          document.getElementById('saveEditableButton').classList.remove("bg-mid");
-          document.getElementById('saveEditableButton').classList.add("bg-active");
+          document.getElementById('saveEditableButton').classList.remove("bg-active");
+          document.getElementById('saveEditableButton').classList.add("bg-inactive");
         }, 1500);
       })
       .catch((error) => {
