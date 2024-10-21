@@ -12,7 +12,6 @@ class PandaCmsEditableController {
     this.frame = frame;
     this.frame.style.display = "none";
     this.csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    this.autosave = false; // Scares everyone, even me. ;-)
 
     var pathNameArray = window.location.pathname.split("/");
     this.adminPath = pathNameArray[1];
@@ -25,6 +24,8 @@ class PandaCmsEditableController {
     });
   }
 
+  /* iFrame & Main Methods */
+
   /**
    * Load events for the editable iFrame
    */
@@ -32,13 +33,50 @@ class PandaCmsEditableController {
     console.debug("[Panda CMS] iFrame loaded...");
 
     this.embedPlainTextEditors();
-    this.embedRichTextEditor();
+    this.embedTrix();
   }
 
   setFrameVisible() {
     console.debug("[Panda CMS] Setting iFrame to visible...");
     this.frame.style.display = "";
   }
+
+  addStylesheet(frameDocument, head, href) {
+    return new Promise(function (resolve, reject) {
+      let link = frameDocument.createElement("link");
+      link.rel = "stylesheet";
+      link.href = href;
+      link.media = "none";
+      head.append(link);
+
+      link.onload = () => {
+        if (link.media != "all") {
+          link.media = "all";
+        }
+        console.debug(`[Panda CMS] Stylesheet loaded: ${href}`);
+        resolve(link);
+      };
+      link.onerror = () =>
+        reject(new Error(`[Panda CMS] Stylesheet load error for ${href}`));
+    });
+  }
+
+  loadScript(frameDocument, head, src) {
+    return new Promise(function (resolve, reject) {
+      let script = frameDocument.createElement("script");
+      script.src = src;
+      head.append(script);
+
+      script.onload = () => {
+        console.debug(`[Panda CMS] Script loaded: ${src}`);
+        resolve(script);
+      };
+      script.onerror = () =>
+        reject(new Error(`[Panda CMS] Script load error for ${src}`));
+    });
+  }
+
+  /* Plain Text Editor (inc. Code) Methods */
 
   stylePlainTextEditor(element, status) {
     console.debug(
@@ -72,15 +110,6 @@ class PandaCmsEditableController {
     elements.forEach((element) => {
       this.stylePlainTextEditor(element, "initial");
       var currentElement = element;
-
-      if (this.autosave) {
-        // On blur, save this element
-        currentElement.addEventListener("blur", () => {
-          this.bindPlainTextSaveHandler(currentElement);
-        });
-
-        console.debug("[Panda CMS] Attached auto-save event handler to ${currentElement.id}");
-      }
 
       // On save click, save this element
       document.getElementById('saveEditableButton').addEventListener('click', () => {
@@ -136,118 +165,34 @@ class PandaCmsEditableController {
       });
   }
 
-  embedRichTextEditor() {
-    if (this.body.getElementsByClassName("content-rich-text").length == 0) {
-      this.setFrameVisible();
-      return;
-    }
+  /* Rich Text Editor Methods */
 
-    console.debug("[Panda CMS] Loading Quill rich text editor...");
+  embedTrix() {
+    this.addStylesheet(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/trix/dist/trix.css");
+    this.addStylesheet(this.frameDocument, this.head, "/panda-cms-assets/rich_text_editor.css");
+    this.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/trix/dist/trix.js");
 
-    this.addStylesheet(
-      this.frameDocument,
-      this.head,
-      "/panda-cms-assets/rich_text.css?ver=1.0.0"
-    );
+    this.body.addEventListener("trix-before-initialize", () => {
+      // Change Trix.config if you need
+      console.debug("[Panda CMS] Trix before initialize");
+    })
 
-    var style = this.frameDocument.createElement("style");
-    // TODO: Base these on "default" set styles (e.g. initial, success, etc.)
-    style.innerHTML = ``;
-    this.head.append(style);
-
-    this.loadScript(
-      this.frameDocument,
-      this.head,
-      "https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"
-    )
-      .then(() => {
-        return this.loadScript(
-          this.frameDocument,
-          this.head,
-          "https://unpkg.com/quill-image-compress@1.2.11/dist/quill.imageCompressor.min.js"
-        );
-      })
-      .then(() => {
-        return this.loadScript(
-          this.frameDocument,
-          this.head,
-          "https://unpkg.com/quill-magic-url@3.0.0/dist/index.js"
-        );
-      })
-      // .then(() => {
-      //   return this.loadScript(
-      //     this.frameDocument,
-      //     this.head,
-      //     "https://cdn.jsdelivr.net/npm/quill-markdown-shortcuts@latest/dist/markdownShortcuts.js"
-      //   );
-      // })
-      .then(() => {
-        this.styleRichTextEditor();
-
-        console.debug(
-          "[Panda CMS] Dispatching event: pandaCmsRichTextEditorLoaded"
-        );
-
-        // Let the parent know that the external resources have been loaded
-        this.frameDocument.dispatchEvent(
-          new Event("pandaCmsRichTextEditorLoaded")
-        );
-
-        // Autosave the editable elements
-        this.enableRichTextEditorAutoSave();
-
-        document.getElementById('saveEditableButton').addEventListener('click', () => {
-          // Grab each element that's editable and append a save handler to it
-          var elements = this.frameDocument.querySelectorAll(".ql-editor");
-          elements.forEach((element) => {
-            var blockContentId = element.parentElement.getAttribute("data-block-content-id");
-            this.bindSaveHandler(blockContentId, element.innerHTML);
-          });
-        });
-
-        // This prevents the flash of content before the iFrame is ready
-        this.setFrameVisible();
-      });
-  }
-
-  /**
-   * Autosave the editable elements in the iFrame
-   */
-  enableRichTextEditorAutoSave() {
-    if (!this.autosave) {
-      return false;
-    }
-
-    // Grab each element that's editable and append a save handler to it
-    var elements = this.frameDocument.querySelectorAll(".ql-editor");
-    elements.forEach((element) => {
-      element.addEventListener("blur", (event) => {
-        var target = event.target;
-        var blockContentId = target.parentElement.getAttribute(
-          "data-block-content-id"
-        );
-
-        this.bindSaveHandler(blockContentId, target.innerHTML);
+    document.getElementById('saveEditableButton').addEventListener('click', () => {
+      console.debug("[Panda CMS] Handling click event on #saveEditableButton");
+      // Grab each input element that's a rich text editor and append a save handler to the button
+      var elements = this.frameDocument.querySelectorAll("input[data-editor-type='rich-text']");
+      elements.forEach((element) => {
+        var blockContentId = element.getAttribute("data-editor-block-content-id");
+        this.bindTrixSaveHandler(blockContentId, element.value);
       });
     });
+
+    // This prevents the flash of content before the iFrame is ready
+    console.debug("[Panda CMS] Setting iFrame to visible");
+    this.setFrameVisible();
   }
 
-  /**
-   * Styles the Quill rich text editor elements in the iFrame
-   */
-  styleRichTextEditor() {
-    if (this.body.getElementsByClassName("ql-editor").length == 0) {
-      return;
-    }
-
-    var style = this.frameDocument.createElement("style");
-    style.innerHTML = ``;
-
-    this.head.append(style);
-    console.log("Appended styles to head");
-  }
-
-  bindSaveHandler(blockContentId, content) {
+  bindTrixSaveHandler(blockContentId, content) {
     console.debug(`[Panda CMS] Calling save handler for ${blockContentId}...`);
     fetch(`/${this.adminPath}/pages/${this.pageId}/block_contents/${blockContentId}`, {
       method: "PATCH",
@@ -259,52 +204,17 @@ class PandaCmsEditableController {
     })
       .then((response) => response.json())
       .then((data) => {
-        var editableBlock = this.frameDocument.querySelector(
-          `[data-block-content-id="${blockContentId}"] .ql-editor`
-        );
-        editableBlock.classList.add("success");
+        console.debug("[Panda CMS] Save successful for block content ID:", blockContentId);
+        document.getElementById('saveEditableButton').classList.remove("bg-active");
+        document.getElementById('saveEditableButton').classList.add("bg-mid");
         setTimeout(() => {
-          editableBlock.classList.remove("success");
+          document.getElementById('saveEditableButton').classList.remove("bg-mid");
+          document.getElementById('saveEditableButton').classList.add("bg-active");
         }, 1500);
       })
       .catch((error) => {
         console.log(error);
         alert("Error updating. Please contact the support team!", error);
       });
-  }
-
-  addStylesheet(frameDocument, head, href) {
-    return new Promise(function (resolve, reject) {
-      let link = frameDocument.createElement("link");
-      link.rel = "stylesheet";
-      link.href = href;
-      link.media = "none";
-      head.append(link);
-
-      link.onload = () => {
-        if (link.media != "all") {
-          link.media = "all";
-        }
-        console.debug(`[Panda CMS] Stylesheet loaded: ${href}`);
-        resolve(link);
-      };
-      link.onerror = () =>
-        reject(new Error(`[Panda CMS] Stylesheet load error for ${href}`));
-    });
-  }
-
-  loadScript(frameDocument, head, src) {
-    return new Promise(function (resolve, reject) {
-      let script = frameDocument.createElement("script");
-      script.src = src;
-      head.append(script);
-
-      script.onload = () => {
-        console.debug(`[Panda CMS] Script loaded: ${src}`);
-        resolve(script);
-      };
-      script.onerror = () =>
-        reject(new Error(`[Panda CMS] Script load error for ${src}`));
-    });
   }
 }

@@ -63,7 +63,7 @@
     {
       "label": "Build admin assets",
       "type": "shell",
-      "command": "bundle exec rake panda_cms:assets:watch_admin",
+      "command": "tailwindcss -i app/assets/stylesheets/panda_cms/application.tailwind.css -o app/assets/builds/panda_cms.css -c config/tailwind.config.js -m -w",
       "options": {
         "cwd": "${workspaceFolder}"
       },
