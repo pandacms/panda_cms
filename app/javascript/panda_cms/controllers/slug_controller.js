@@ -9,6 +9,7 @@ export default class extends Controller {
   ];
 
   connect() {
+    alert('test');
   }
 
   generatePath() {

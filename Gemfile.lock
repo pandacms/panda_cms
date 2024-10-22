@@ -97,6 +97,16 @@ GIT
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
 
+GIT
+  remote: https://github.com/viewcomponent/view_component.git
+  revision: 352195911bbae516eb9b5e2f93c8da97e9c687f1
+  branch: main
+  specs:
+    view_component (3.18.0)
+      activesupport (>= 5.2.0, < 8.1)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
+
 PATH
   remote: .
   specs:
@@ -111,7 +121,7 @@ PATH
       groupdate (~> 6.4)
       htmlentities (~> 4.3)
       image_processing (~> 1.13)
-      importmap-rails (~> 2.0)
+      importmap-rails
       local_time (~> 3.0)
       lookbook (~> 2.0)
       omniauth (~> 2.1)
@@ -121,11 +131,12 @@ PATH
       omniauth-rails_csrf_protection (~> 1.0)
       paper_trail (~> 15.2)
       pg
+      propshaft
       redcarpet
       silencer (~> 2.0)
       stimulus-rails
       tailwindcss-rails (~> 3)
-      view_component
+      turbo-rails
       whois-parser (~> 2.0)
 
 GEM
@@ -176,9 +187,6 @@ GEM
     brakeman (6.2.2)
       racc
     builder (3.3.0)
-    bullet (7.2.0)
-      activesupport (>= 3.0.0)
-      uniform_notifier (~> 1.11)
     bundler-audit (0.9.2)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
@@ -367,6 +375,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
+    method_source (1.1.0)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     minitest (5.25.1)
@@ -576,6 +585,13 @@ GEM
       hashie
       version_gem (~> 1.1, >= 1.1.1)
     sorbet-runtime (0.5.11610)
+    sprockets (4.2.1)
+      concurrent-ruby (~> 1.0)
+      rack (>= 2.2.4, < 4)
+    sprockets-rails (3.5.2)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      sprockets (>= 3.0.0)
     standard (1.41.1)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -615,12 +631,9 @@ GEM
       rainbow (>= 2.1, < 4.0)
       rugged (>= 0.27, < 1.8)
     unicode-display_width (2.6.0)
-    uniform_notifier (1.16.0)
     uri (0.13.1)
     useragent (0.16.10)
     version_gem (1.1.4)
-    view_component (2.3.0)
-      capybara (~> 3)
     webrick (1.8.2)
     websocket (1.2.11)
     websocket-driver (0.7.6)
@@ -659,7 +672,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   brakeman
-  bullet
   bundler-audit
   capybara
   danger
@@ -678,7 +690,6 @@ DEPENDENCIES
   msgpack
   ostruct
   panda_cms!
-  propshaft
   pstore
   puma
   rails!
@@ -693,9 +704,10 @@ DEPENDENCIES
   simplecov-lcov
   simplecov_json_formatter
   simplecov_lcov_formatter
+  sprockets-rails
   standard
-  turbo-rails
   undercover
+  view_component!
   yard-activerecord
 
 BUNDLED WITH

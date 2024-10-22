@@ -1,3 +1,7 @@
+require "importmap-rails"
+require "turbo-rails"
+require "stimulus-rails"
+
 module PandaCms
   class Engine < ::Rails::Engine
     isolate_namespace PandaCms
@@ -30,18 +34,13 @@ module PandaCms
     config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
 
     initializer "panda_cms.assets" do |app|
-      if Rails.application.config.respond_to?(:assets)
-        app.config.assets.paths << PandaCms::Engine.root.join("app/javascript/panda_cms")
-        app.config.assets.paths << PandaCms::Engine.root.join("vendor/javascript")
-        app.config.assets.precompile += %w[panda_cms/**/*.js]
-      end
+      app.config.assets.paths << root.join("app/javascript")
+      app.config.assets.precompile += %w[panda_cms_manifest]
     end
 
     initializer "panda_cms.importmap", before: "importmap" do |app|
-      app.config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
-      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("app/javascript")
-      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("vendor/javascript")
-      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("public/panda-cms-assets")
+      app.config.importmap.paths << root.join("config/importmap.rb")
+      app.config.importmap.cache_sweepers << root.join("app/javascript")
     end
 
     config.after_initialize do |app|

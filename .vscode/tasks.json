@@ -41,9 +41,9 @@
       "problemMatcher": []
     },
     {
-      "label": "Run YARD server",
+      "label": "Run bin/dev",
       "type": "shell",
-      "command": "bundle exec yard server --reload",
+      "command": "bundle exec rails app:panda_cms:watch_admin",
       "options": {
         "cwd": "${workspaceFolder}"
       },
@@ -61,9 +61,9 @@
       }
     },
     {
-      "label": "Build admin assets",
+      "label": "Run YARD server",
       "type": "shell",
-      "command": "tailwindcss -i app/assets/stylesheets/panda_cms/application.tailwind.css -o app/assets/builds/panda_cms.css -c config/tailwind.config.js -m -w",
+      "command": "bundle exec yard server --reload",
       "options": {
         "cwd": "${workspaceFolder}"
       },
