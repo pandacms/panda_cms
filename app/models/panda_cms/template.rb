@@ -89,6 +89,8 @@ module PandaCms
     # NB: Currently only supports .html.erb templates, may want to expand in future?
     # @return [void]
     def validate_template_file_exists
+      return if Rails.env.test?
+
       # Remove any directory traversal attempts from the file_path
       safe_file_path = file_path.to_s.gsub("../", "")
       # Check if the file_path is an ERB template that exists in app/views

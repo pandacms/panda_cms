@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+APP_PATH = File.expand_path("../config/application", __dir__)
+require_relative "../config/boot"
+
+if ENV["RAILS_ENV"] == "test"
+  require "simplecov"
+  require "simplecov-json"
+  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
+  SimpleCov.start "rails"
+end
+
+require "rails/commands"

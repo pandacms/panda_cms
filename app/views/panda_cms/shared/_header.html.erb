@@ -8,8 +8,6 @@
     <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag "panda_cms", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags "panda_cms" %>
-    <% # TODO: Later, wrap these in a page editor/RTE check? %>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.1.7/dist/trix.css">
     <script type="text/javascript" src="https://unpkg.com/trix@2.1.7/dist/trix.umd.min.js"></script>
     <%= javascript_include_tag "panda_cms_editable", "data-turbo-track": "reload", defer: true %>
     <%= render "panda_cms/shared/favicons" %>

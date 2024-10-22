@@ -1,3 +1,8 @@
+# desc "Explaining what the task does"
+# task :panda_cms do
+#   # Task goes here
+# end
+
 require "tailwindcss-rails"
 require "shellwords"
 
