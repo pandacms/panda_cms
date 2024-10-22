@@ -168,13 +168,41 @@ class PandaCmsEditableController {
   /* Rich Text Editor Methods */
 
   embedTrix() {
-    this.addStylesheet(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/trix/dist/trix.css");
+    // Our stylesheet includes dist trix.css as of v2.1.7
     this.addStylesheet(this.frameDocument, this.head, "/panda-cms-assets/rich_text_editor.css");
     this.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/trix/dist/trix.js");
 
     this.body.addEventListener("trix-before-initialize", () => {
       // Change Trix.config if you need
       console.debug("[Panda CMS] Trix before initialize");
+      // Trix.config.blockAttributes.heading = {
+      //   tagName: "h2",
+      //   terminal: true,
+      //   breakOnReturn: true,
+      //   group: false
+      // }
+
+      // Trix.config.blockAttributes.subHeading = {
+      //   tagName: "h3",
+      //   terminal: true,
+      //   breakOnReturn: true,
+      //   group: false
+      // }
+
+      // To make Trix styles appear we should define them in nb surely?
+      // Defining e.g. .panda-cms-content h2 in panda won't show it in panda, but
+      // as this is a page in nb
+      // We can define these styles through admin or a custom stylesheet eventually?
+
+      console.log(Trix.config.blockAttributes);
+    })
+
+    this.body.addEventListener("trix-initialize", (event) => {
+      const { toolbarElement } = event.target
+      const h1Button = toolbarElement.querySelector("[data-trix-attribute=heading1]")
+      h1Button.insertAdjacentHTML("afterend", `
+        <button type="button" class="trix-button" data-trix-attribute="heading2" title="Heading 2" tabindex="-1" data-trix-active="">H2</button>
+      `)
     })
 
     document.getElementById('saveEditableButton').addEventListener('click', () => {

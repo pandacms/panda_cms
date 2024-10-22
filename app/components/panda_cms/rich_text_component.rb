@@ -25,7 +25,7 @@ module PandaCms
       @editable &&= params[:embed_id].present? && params[:embed_id] == Current.page.id && Current.user.admin?
       block = PandaCms::Block.find_by(kind: "rich_text", key: @key, panda_cms_template_id: Current.page.panda_cms_template_id)
       block_content = block.block_contents.find_by(panda_cms_page_id: Current.page.id)
-      @content = block_content.content.html_safe
+      @content = block_content.content
 
       @options[:id] = "editor_rich_text_#{block_content.id.tr("-", "_")}"
 
@@ -34,6 +34,8 @@ module PandaCms
           block_content_id: block_content&.id,
           mode: "rich-text"
         }
+      else
+        @content = @content.html_safe
       end
     rescue => e
       if Rails.env.production?
