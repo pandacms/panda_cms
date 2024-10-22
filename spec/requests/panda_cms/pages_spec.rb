@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Pages" do
   context "when the page does not exist" do
-    it "renders a 404 and error page" do
+    it "renders a 404 status" do
       get "/i_do_not_exist"
       expect(response).to have_http_status(:not_found)
     end

@@ -19,9 +19,10 @@
   <iframe id="editablePageFrame" src="<%= page.path %>?embed_id=<%= page.id %>" class="p-0 m-0 w-full h-full border border-slate-200"></iframe>
 <% end %>
 <% content_for :head do %>
-  <script>
+  <%#= javascript_include_tag "panda_cms_editable", "data-turbo-track": "reload", defer: true %>
+  <!-- <script>
     document.addEventListener("DOMContentLoaded", function() {
       const editable = new PandaCmsEditableController("<%= page.id %>", document.getElementById("editablePageFrame"));
     });
-  </script>
+  </script> -->
 <% end %>

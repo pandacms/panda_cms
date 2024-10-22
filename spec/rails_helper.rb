@@ -3,6 +3,10 @@ require "simplecov-json"
 SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
 SimpleCov.start
 
+require "propshaft"
+require "stimulus-rails"
+require "turbo-rails"
+
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../dummy/config/environment", __FILE__)
 # Prevent database truncation if the environment is production
@@ -31,11 +35,7 @@ RSpec.configure do |config|
   config.include PandaCms::SessionHelpers, type: :system
 end
 
-# ENGINE_ROOT = File.join(File.dirname(__FILE__), "../")
-
-# Where to store system tests artifacts (e.g. screenshots, downloaded files, etc.).
-# It could be useful to be able to configure this path from the outside (e.g., on CI).
-# Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS") { "./tmp/capybara" }
+Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS") { "./tmp/capybara" }
 
 Capybara.singleton_class.prepend(Module.new do
   attr_accessor :last_used_session
@@ -60,8 +60,6 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-# EXISTING_PUBLIC_FILES = Dir.glob(Rails.root.join("public/**/*"))
-
 RSpec.configure do |config|
   # Use rack_test unless we explicitly set system tests as js: true
   config.before(:each, type: :system) do
@@ -85,24 +83,6 @@ RSpec.configure do |config|
       driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
     end
   end
-
-  # config.before(:suite) do
-  # # Remove the temporary screenshots, etc.
-  # FileUtils.rm_rf(Capybara.save_path)
-
-  # # Copy CSS and JS to the right locations for importmaps to work
-  # FileUtils.mkdir_p(Rails.root.join("public/stylesheets"))
-  # FileUtils.cp(PandaCms::Engine.root.join("app/assets/builds/panda_cms.css"), Rails.root.join("public/stylesheets/panda_cms.css"))
-
-  # # Move all the JS files into public for testing
-  # app_js_path = PandaCms::Engine.root.join("app/javascript/panda_cms")
-  # FileUtils.cp_r "#{app_js_path}/.", Rails.root.join("public")
-  # end
-
-  # config.after(:suite) do
-  # Delete all CSS/JS files that were created during the test run
-  # (Dir.glob(Rails.root.join("public/**/*")) - EXISTING_PUBLIC_FILES).map { |f| FileUtils.rm_r(f, force: true) }
-  # end
 
   # URL helpers in tests would be nice to use
   config.include Rails.application.routes.url_helpers

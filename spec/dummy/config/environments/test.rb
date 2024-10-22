@@ -18,10 +18,6 @@ Rails.application.configure do
 
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # Local host for Capybara
-  Capybara.app_host = "http://lvh.me"
-  Capybara.always_include_port = true
-
   # While tests run files are not watched, reloading is not necessary.
   config.enable_reloading = false
 
@@ -42,8 +38,8 @@ Rails.application.configure do
   config.action_controller.perform_caching = false
   config.cache_store = :null_store
 
-  # Render exception templates for rescuable exceptions and raise for other exceptions.
-  config.action_dispatch.show_exceptions = :rescuable
+  # Raise for all exceptions, to fail fast in tests
+  config.action_dispatch.show_exceptions = false
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
@@ -58,8 +54,8 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
-  # Print deprecation notices to the stderr.
-  config.active_support.deprecation = :stderr
+  # Don't print deprecation notices to the stderr.
+  config.active_support.deprecation = false
 
   # Raise exceptions for disallowed deprecations.
   config.active_support.disallowed_deprecation = :raise
@@ -75,4 +71,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
+  config.importmap.cache_sweepers << PandaCms::Engine.root.join("app/javascript")
+  config.importmap.cache_sweepers << Rails.application.root.join("vendor/javascript")
 end
