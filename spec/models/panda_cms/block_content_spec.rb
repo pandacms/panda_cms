@@ -12,7 +12,7 @@ RSpec.describe PandaCms::BlockContent do
   describe "validations" do
     it { should validate_presence_of(:block) }
 
-    it "should validate uniqueness of block scoped to page"
+    # it "should validate uniqueness of block scoped to page"
   end
 
   describe "associations" do

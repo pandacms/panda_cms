@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe PandaCms::Page do
-  let(:homepage) { build_stubbed(:homepage) }
-  let(:page) { build_stubbed(:page) }
+  let(:homepage) { create(:homepage) }
+  let(:page) { build(:page) }
 
   describe "associations" do
     it { should belong_to(:template) }
@@ -12,8 +12,15 @@ RSpec.describe PandaCms::Page do
   end
 
   describe "page factory" do
+    # Everywhere else in the file, page is in memory; here, it checks the factory is valid
+    let(:page) { create(:page) }
+
     it "creates a valid factory" do
       expect(page).to be_valid
+    end
+
+    it "creates a valid homepage" do
+      expect(homepage).to be_valid
     end
   end
 

@@ -8,7 +8,7 @@ gemspec
 # dependency down to a specific version, move it to your gemspec.
 gem "rails", github: "rails/rails", branch: "main"
 gem "view_component", github: "viewcomponent/view_component", branch: "main"
-# gem "bullet", github: "flyerhzm/bullet", branch: "main"
+gem "awesome_nested_set", github: "tnir/awesome_nested_set", branch: "rails80"
 
 gem "ostruct"
 gem "pstore"

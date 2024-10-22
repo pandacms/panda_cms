@@ -31,11 +31,11 @@ RSpec.configure do |config|
   config.include PandaCms::SessionHelpers, type: :system
 end
 
-ENGINE_ROOT = File.join(File.dirname(__FILE__), "../")
+# ENGINE_ROOT = File.join(File.dirname(__FILE__), "../")
 
 # Where to store system tests artifacts (e.g. screenshots, downloaded files, etc.).
 # It could be useful to be able to configure this path from the outside (e.g., on CI).
-Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS") { "./tmp/capybara" }
+# Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS") { "./tmp/capybara" }
 
 Capybara.singleton_class.prepend(Module.new do
   attr_accessor :last_used_session
@@ -60,7 +60,7 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
-EXISTING_PUBLIC_FILES = Dir.glob(Rails.root.join("public/**/*"))
+# EXISTING_PUBLIC_FILES = Dir.glob(Rails.root.join("public/**/*"))
 
 RSpec.configure do |config|
   # Use rack_test unless we explicitly set system tests as js: true
@@ -86,23 +86,23 @@ RSpec.configure do |config|
     end
   end
 
-  config.before(:suite) do
-    # # Remove the temporary screenshots, etc.
-    # FileUtils.rm_rf(Capybara.save_path)
+  # config.before(:suite) do
+  # # Remove the temporary screenshots, etc.
+  # FileUtils.rm_rf(Capybara.save_path)
 
-    # # Copy CSS and JS to the right locations for importmaps to work
-    # FileUtils.mkdir_p(Rails.root.join("public/stylesheets"))
-    # FileUtils.cp(PandaCms::Engine.root.join("app/assets/builds/panda_cms.css"), Rails.root.join("public/stylesheets/panda_cms.css"))
+  # # Copy CSS and JS to the right locations for importmaps to work
+  # FileUtils.mkdir_p(Rails.root.join("public/stylesheets"))
+  # FileUtils.cp(PandaCms::Engine.root.join("app/assets/builds/panda_cms.css"), Rails.root.join("public/stylesheets/panda_cms.css"))
 
-    # # Move all the JS files into public for testing
-    # app_js_path = PandaCms::Engine.root.join("app/javascript/panda_cms")
-    # FileUtils.cp_r "#{app_js_path}/.", Rails.root.join("public")
-  end
+  # # Move all the JS files into public for testing
+  # app_js_path = PandaCms::Engine.root.join("app/javascript/panda_cms")
+  # FileUtils.cp_r "#{app_js_path}/.", Rails.root.join("public")
+  # end
 
-  config.after(:suite) do
-    # Delete all CSS/JS files that were created during the test run
-    # (Dir.glob(Rails.root.join("public/**/*")) - EXISTING_PUBLIC_FILES).map { |f| FileUtils.rm_r(f, force: true) }
-  end
+  # config.after(:suite) do
+  # Delete all CSS/JS files that were created during the test run
+  # (Dir.glob(Rails.root.join("public/**/*")) - EXISTING_PUBLIC_FILES).map { |f| FileUtils.rm_r(f, force: true) }
+  # end
 
   # URL helpers in tests would be nice to use
   config.include Rails.application.routes.url_helpers
@@ -157,14 +157,14 @@ RSpec.configure do |config|
   config.include ViewComponent::TestHelpers, type: :view_component
   config.include Capybara::RSpecMatchers, type: :view_component
 
-  if defined?(Bullet) && Bullet.enable?
-    config.before(:each) do
-      Bullet.start_request
-    end
+  # if defined?(Bullet) && Bullet.enable?
+  #   config.before(:each) do
+  #     Bullet.start_request
+  #   end
 
-    config.after(:each) do
-      Bullet.perform_out_of_channel_notifications if Bullet.notification?
-      Bullet.end_request
-    end
-  end
+  #   config.after(:each) do
+  #     Bullet.perform_out_of_channel_notifications if Bullet.notification?
+  #     Bullet.end_request
+  #   end
+  # end
 end

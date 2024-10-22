@@ -48,14 +48,14 @@ RSpec.describe "Pages" do
   end
 
   context "when the page is already defined in the routes file" do
-    it "does not allow the page URL to be used"
+    # it "does not allow the page URL to be used"
   end
 
   context "when the path is one of the Rails reserved paths" do
-    it "does not allow the page to be used"
+    # it "does not allow the page to be used"
   end
 
   context "when the path is a file on the filesystem" do
-    it "does not allow the page to be used"
+    # it "does not allow the page to be used"
   end
 end

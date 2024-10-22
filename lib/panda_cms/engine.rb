@@ -33,10 +33,10 @@ module PandaCms
     # Custom error handling
     config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
 
-    initializer "panda_cms.assets" do |app|
-      app.config.assets.paths << root.join("app/javascript")
-      app.config.assets.precompile += %w[panda_cms_manifest]
-    end
+    # config.after_initialize do |app| # initializer "panda_cms.assets", before: "importmap" do |app|
+    # app.config.assets.paths << root.join("app/javascript")
+    # app.config.assets.precompile += %w[panda_cms_manifest]
+    # end
 
     initializer "panda_cms.importmap", before: "importmap" do |app|
       app.config.importmap.paths << root.join("config/importmap.rb")
@@ -56,11 +56,11 @@ module PandaCms
 
     # Add the migrations to the main app
     initializer "panda_cms.migrations" do |app|
-      # unless app.root.to_s.match root.to_s
-      config.paths["db/migrate"].expanded.each do |expanded_path|
-        app.config.paths["db/migrate"] << expanded_path
+      unless app.root.to_s.match root.to_s
+        config.paths["db/migrate"].expanded.each do |expanded_path|
+          app.config.paths["db/migrate"] << expanded_path
+        end
       end
-      # end
     end
 
     # Set up ViewComponent and Lookbook

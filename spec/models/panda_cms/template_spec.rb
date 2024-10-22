@@ -12,7 +12,7 @@ RSpec.describe PandaCms::Template do
   end
 
   it "is not valid without a name" do
-    PandaCms::Template.new(name: "", file_path: "layouts/page")
+    template = PandaCms::Template.new(name: "", file_path: "layouts/page")
     expect(template).to_not be_valid
   end
 

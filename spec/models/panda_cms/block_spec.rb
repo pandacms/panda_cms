@@ -31,6 +31,7 @@ RSpec.describe PandaCms::Block do
           plain_text: "plain_text",
           rich_text: "rich_text",
           iframe: "iframe",
+          code: "code",
           list: "list"
         })
         .backed_by_column_of_type(:enum)

@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.0"
 
   spec.add_dependency "activestorage-office-previewer" # , "~> 0.1"
-  spec.add_dependency "awesome_nested_set" # , "~> 3.7"
+  spec.add_dependency "awesome_nested_set", "~> 3.7"
   spec.add_dependency "aws-sdk-s3" # , "~> 1"
   spec.add_dependency "dry-configurable" # , "~> 1.2"
   spec.add_dependency "faraday", "~> 2"
@@ -67,7 +67,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "faker" # , "~> 3.4"
   spec.add_development_dependency "fasterer" # , "~> 0.11"
   spec.add_development_dependency "factory_bot_rails" # , "~> 6.4"
-  spec.add_development_dependency "fuubar" # , "~> 2.5"
   spec.add_development_dependency "htmlbeautifier" # , "~> 1.4"
   spec.add_development_dependency "lefthook" # , "~> 1.7"
   spec.add_development_dependency "listen" # , "~> 3.9"
