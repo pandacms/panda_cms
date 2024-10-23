@@ -58,6 +58,7 @@ Gem::Specification.new do |spec|
   # spec.add_development_dependency "bullet" # , "~> 7.2"
   spec.add_development_dependency "bundler-audit" # , "~> 0.9"
   spec.add_development_dependency "capybara" # , "~> 3.40"
+  spec.add_development_dependency "cuprite"
   spec.add_development_dependency "danger" # , "~> 9.5"
   spec.add_development_dependency "danger-reek" # , "~> 0.3"
   spec.add_development_dependency "danger-rubocop" # , "~> 0.13"

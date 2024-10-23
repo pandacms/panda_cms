@@ -35,8 +35,8 @@ module PandaCms
 
     # Add importmap paths from the engine
     initializer "panda_cms.importmap", before: "importmap" do |app|
-      app.config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
-      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("app/javascript")
+      app.config.importmap.paths << root.join("config/importmap.rb")
+      app.config.importmap.cache_sweepers << root.join("app/javascript")
     end
 
     config.after_initialize do |app|

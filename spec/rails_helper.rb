@@ -6,7 +6,6 @@ SimpleCov.start
 require "propshaft"
 require "stimulus-rails"
 require "turbo-rails"
-
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../dummy/config/environment", __FILE__)
 # Prevent database truncation if the environment is production
@@ -18,6 +17,7 @@ require "factory_bot_rails"
 require "shoulda/matchers"
 require "capybara"
 require "capybara/rspec"
+require "capybara/cuprite"
 require "view_component/test_helpers"
 require "faker"
 
@@ -77,11 +77,16 @@ RSpec.configure do |config|
   # driven_by :webkit
 
   config.before(:each, type: :system, js: true) do
-    if ENV["SHOW_BROWSER"]
-      driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
-    else
-      driven_by :selenium, using: :headless_chrome, screen_size: [1400, 1400]
-    end
+    # driven_by :selenium, using: :chrome, screen_size: [1400, 800]
+
+    driven_by(:cuprite, screen_size: [1440, 800], options: {
+      js_errors: true,
+      headless: ENV["SHOW_BROWSER"].nil?,
+      slowmo: ENV["SLOWMO"]&.to_f,
+      process_timeout: 15,
+      timeout: 10,
+      browser_options: ENV["DOCKER"] ? {"no-sandbox" => nil} : {}
+    })
   end
 
   # URL helpers in tests would be nice to use
