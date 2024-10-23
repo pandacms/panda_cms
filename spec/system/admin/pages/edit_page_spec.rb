@@ -1,6 +1,6 @@
-require "rails_helper"
+require "system_helper"
 
-RSpec.describe "Edit a page", js: true do
+RSpec.describe "Edit a page", type: :system do
   scenario "when the user is not logged in it returns a 404 error" do
     homepage = create(:homepage, title: "Home Page")
     visit "/admin/pages/#{homepage.id}/edit"

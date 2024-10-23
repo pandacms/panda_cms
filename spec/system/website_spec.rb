@@ -1,6 +1,6 @@
-require "rails_helper"
+require "system_helper"
 
-RSpec.describe "Website", js: true do
+RSpec.describe "Website" do
   before(:each) do
     create_homepage
     visit "/"

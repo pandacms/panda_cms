@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: fe0fb9fdf04f638996e785d3e291f5fe8bc138a0
+  revision: b943622bdc746370ac860bfd3240cc0b8ca59d90
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -287,11 +287,6 @@ GEM
       rubocop (>= 1)
       smart_properties
     erubi (1.13.0)
-    factory_bot (6.5.0)
-      activesupport (>= 5.0.0)
-    factory_bot_rails (6.4.3)
-      factory_bot (~> 6.4)
-      railties (>= 5.0.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
     faraday (2.12.0)
@@ -357,7 +352,7 @@ GEM
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     language_server-protocol (3.17.0.3)
-    lefthook (1.8.0)
+    lefthook (1.8.1)
     lint_roller (1.1.0)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -563,18 +558,11 @@ GEM
     ruby_parser (3.21.1)
       racc (~> 1.5)
       sexp_processor (~> 4.16)
-    rubyzip (2.3.2)
     rugged (1.7.2)
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
     securerandom (0.3.1)
-    selenium-webdriver (4.25.0)
-      base64 (~> 0.2)
-      logger (~> 1.4)
-      rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
-      websocket (~> 1.0)
     sexp_processor (4.17.2)
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
@@ -595,7 +583,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    sorbet-runtime (0.5.11610)
+    sorbet-runtime (0.5.11611)
     standard (1.41.1)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -639,7 +627,6 @@ GEM
     useragent (0.16.10)
     version_gem (1.1.4)
     webrick (1.8.2)
-    websocket (1.2.11)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -686,7 +673,6 @@ DEPENDENCIES
   danger-simplecov_json
   danger-todoist
   erb_lint
-  factory_bot_rails
   faker
   fasterer
   htmlbeautifier
@@ -702,7 +688,6 @@ DEPENDENCIES
   rspec-github
   rspec-rails
   ruby-lsp
-  selenium-webdriver
   shoulda-matchers
   simplecov
   simplecov-json

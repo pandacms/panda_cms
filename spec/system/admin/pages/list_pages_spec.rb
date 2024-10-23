@@ -1,6 +1,6 @@
-require "rails_helper"
+require "system_helper"
 
-RSpec.describe "List pages", type: :system, js: true do
+RSpec.describe "List pages", type: :system do
   before(:each) do
     create_and_login_user_with(:github, admin: true)
     visit "/admin/pages"

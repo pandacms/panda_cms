@@ -6,52 +6,27 @@ SimpleCov.start
 require "propshaft"
 require "stimulus-rails"
 require "turbo-rails"
+
 ENV["RAILS_ENV"] ||= "test"
+
 require File.expand_path("../dummy/config/environment", __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require "rspec/rails"
 
 # Add additional requires below this line. Rails is not loaded until this point!
-require "factory_bot_rails"
 require "shoulda/matchers"
 require "capybara"
 require "capybara/rspec"
-require "capybara/cuprite"
 require "view_component/test_helpers"
 require "faker"
-
-FactoryBot.definition_file_paths << File.join(File.dirname(__FILE__), "factories")
-FactoryBot.factories.clear
-FactoryBot.find_definitions
+require "puma"
 
 # The following line is provided for convenience purposes. It has the downside
 # of increasing the boot-up time by auto-requiring all files in the support
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 Rails.root.join("../support/").glob("**/*.rb").sort.each { |f| require f }
-
-RSpec.configure do |config|
-  config.include PandaCms::SessionHelpers, type: :system
-end
-
-Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS") { "./tmp/capybara" }
-
-Capybara.singleton_class.prepend(Module.new do
-  attr_accessor :last_used_session
-
-  def using_session(name, &block)
-    self.last_used_session = name
-    super
-  ensure
-    self.last_used_session = nil
-  end
-end)
-
-# Set OmniAuth test mode and providers
-OmniAuth.config.test_mode = true
-OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(Faker::Omniauth.google)
-OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new(Faker::Omniauth.github)
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -61,34 +36,6 @@ Shoulda::Matchers.configure do |config|
 end
 
 RSpec.configure do |config|
-  # Use rack_test unless we explicitly set system tests as js: true
-  config.before(:each, type: :system) do
-    # Non-JS tests by rack_test as it's nice and fast
-    driven_by :rack_test
-  end
-
-  # TODO: What about parallelisation?
-
-  # This might be faster? See https://chriskottom.com/articles/full-stack-testing-with-rails-system-tests/
-  # capybara-webkit
-  # Capybara::Webkit.configure do |config|
-  #   config.raise_javascript_errors = false
-  # end
-  # driven_by :webkit
-
-  config.before(:each, type: :system, js: true) do
-    # driven_by :selenium, using: :chrome, screen_size: [1400, 800]
-
-    driven_by(:cuprite, screen_size: [1440, 800], options: {
-      js_errors: false, # True to raise on JS errors being thrown
-      headless: ENV["SHOW_BROWSER"].nil?,
-      slowmo: ENV["SLOWMO"]&.to_f,
-      process_timeout: 15,
-      timeout: 10,
-      browser_options: ENV["DOCKER"] ? {"no-sandbox" => nil} : {}
-    })
-  end
-
   # URL helpers in tests would be nice to use
   config.include Rails.application.routes.url_helpers
 
@@ -106,9 +53,6 @@ RSpec.configure do |config|
   # Filter lines from Rails and gems in backtraces.
   config.filter_rails_from_backtrace!
   # add, if needed: config.filter_gems_from_backtrace("gem name")
-
-  # Include FactoryBot methods such as build and create
-  config.include FactoryBot::Syntax::Methods
 
   # Allow using focus keywords "f... before a specific test"
   config.filter_run_when_matching :focus

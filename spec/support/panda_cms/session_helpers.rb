@@ -37,34 +37,48 @@ module PandaCms
     #   login_as(user, provider: :github)
     #
     # This method sets up the OmniAuth mock authentication for the specified provider,
-    # visits the "/admin" page, and sets the session cookie for the user. It also adds
-    # the session cookie to the browser's cookie jar for Selenium, and clicks the sign-in
-    # button for the specified provider.
-    def login_as(user, provider: :github)
-      Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[provider]
-      visit "/admin"
-
-      cookies = ActionDispatch::TestRequest.create.cookie_jar
-      cookies.signed[:session_id] = {value: user.id, httpOnly: true, sameSite: :Lax}
-
+    # visits the "/admin" page, and sets the session cookie for the user.
+    def login_as(user:, omniauth_mock_user:, provider: :github)
       # For Selenium:
+      # cookies = ActionDispatch::TestRequest.create.cookie_jar
+      # cookies.signed[:user_id] = {value: user.id, httpOnly: true, sameSite: :Lax}
       # page.driver.browser.manage.add_cookie(
-      #   name: "session_id",
-      #   value: cookies[:session_id],
+      #   name: "user_id",
+      #   value: cookies[:user_id],
       #   sameSite: :Lax,
       #   httpOnly: true
       # )
 
-      # For Capybara:
-      # browser = Capybara.current_session.driver.browser
-      # browser.manage.add_cookie :name => 'ab', :value => 'true', :expires => Time.now + 3600
-      # page.driver.browser.manage.add_cookie(name: "session_id", value: cookie_jar[:session_id], sameSite: :Lax, httpOnly: true)
       # visit "/admin"
 
-      # For Cuprite:
-      page.driver.set_cookie("session_id", cookies[:session_id], {expires: Time.now + 3600, httpOnly: true, sameSite: :Lax})
+      # if page.driver.is_a?(Capybara::RackTest::Driver)
+      #   browser = Capybara.current_session.driver.browser
+      #   browser.manage.add_cookie(name: "user_id", value: user.id, sameSite: :Lax, httpOnly: true)
+      # elsif page.driver.is_a?(Capybara::Cuprite::Driver)
+      #   # if !page.driver.browser.cookies.set(
+      #   #   name: "user_id",
+      #   #   value: user.id,
+      #   #   domain: Capybara.current_session.server.host,
+      #   #   samesite: "lax",
+      #   #   httponly: true,
+      #   #   secure: false,
+      #   #   expires: 1.year.from_now
+      #   # )
+      #   #   raise "Error setting cookie user_id; test aborting"
+      #   # end
+      #   page.driver.add_headers({
+      #     "omniauth.auth" => omniauth_mock_user.to_json
+      #   })
+      # else
+      #   raise "Unsupported driver: #{page.driver.class}"
+      # end
 
-      find("#button-sign-in-#{provider}").click
+      # PandaCms::Current.user = user
+
+      # Rails.logger.error "User ID #{user.id} set as current user"
+
+      # visit "/admin"
+      # find("#button-sign-in-#{provider}").click
     end
   end
 end
