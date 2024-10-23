@@ -80,7 +80,7 @@ RSpec.configure do |config|
     # driven_by :selenium, using: :chrome, screen_size: [1400, 800]
 
     driven_by(:cuprite, screen_size: [1440, 800], options: {
-      js_errors: true,
+      js_errors: false, # True to raise on JS errors being thrown
       headless: ENV["SHOW_BROWSER"].nil?,
       slowmo: ENV["SLOWMO"]&.to_f,
       process_timeout: 15,

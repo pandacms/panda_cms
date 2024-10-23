@@ -48,18 +48,21 @@ module PandaCms
       cookies.signed[:session_id] = {value: user.id, httpOnly: true, sameSite: :Lax}
 
       # For Selenium:
-      page.driver.browser.manage.add_cookie(
-        name: "session_id",
-        value: cookies[:session_id],
-        sameSite: :Lax,
-        httpOnly: true
-      )
+      # page.driver.browser.manage.add_cookie(
+      #   name: "session_id",
+      #   value: cookies[:session_id],
+      #   sameSite: :Lax,
+      #   httpOnly: true
+      # )
 
       # For Capybara:
       # browser = Capybara.current_session.driver.browser
       # browser.manage.add_cookie :name => 'ab', :value => 'true', :expires => Time.now + 3600
       # page.driver.browser.manage.add_cookie(name: "session_id", value: cookie_jar[:session_id], sameSite: :Lax, httpOnly: true)
       # visit "/admin"
+
+      # For Cuprite:
+      page.driver.set_cookie("session_id", cookies[:session_id], {expires: Time.now + 3600, httpOnly: true, sameSite: :Lax})
 
       find("#button-sign-in-#{provider}").click
     end
