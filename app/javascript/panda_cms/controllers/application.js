@@ -1,9 +1,9 @@
-import { Application } from "@hotwired/stimulus"
+import { Application as PandaCmsApplication } from "@hotwired/stimulus"
 
-const application = Application.start()
+const pandaCmsApplication = PandaCmsApplication.start()
 
 // Configure Stimulus development experience
-application.debug = false
-window.Stimulus = application
+pandaCmsApplication.debug = false
+window.pandaCmsStimulus = pandaCmsApplication
 
-export { application }
+export { pandaCmsApplication }

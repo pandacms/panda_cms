@@ -33,6 +33,11 @@ module PandaCms
     # Custom error handling
     config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
 
+    initializer "panda_cms.assets" do |app|
+      app.config.assets.paths << root.join("app/javascript")
+      app.config.assets.precompile += %w[panda_cms_manifest]
+    end
+
     # Add importmap paths from the engine
     initializer "panda_cms.importmap", before: "importmap" do |app|
       app.config.importmap.paths << root.join("config/importmap.rb")
