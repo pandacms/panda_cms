@@ -59,7 +59,6 @@ end
 task default: [:spec, :panda_cms]
 
 def run_tailwind(root_path:, input_path: nil, output_path: nil, config_path: nil, watch: false, minify: true)
-  Rails.logger = Logger.new($stdout)
   config_path ||= root_path.join("config/tailwind.config.js")
 
   command = [
@@ -73,6 +72,5 @@ def run_tailwind(root_path:, input_path: nil, output_path: nil, config_path: nil
   command << "-m" if minify
 
   command = command.join(" ")
-  puts command
   system command
 end

@@ -1,35 +1,59 @@
 require "system_helper"
 
-RSpec.describe "Edit a page", type: :system do
-  scenario "when the user is not logged in it returns a 404 error" do
-    homepage = create(:homepage, title: "Home Page")
-    visit "/admin/pages/#{homepage.id}/edit"
-    expect(page).to have_content("The page you were looking for doesn't exist.")
+RSpec.describe "When editing a page", type: :system do
+  context "when not logged in" do
+    let(:homepage) { PandaCms::Page.find_or_create_by(title: "Homepage", path: "/") }
+
+    it "returns a 404 error" do
+      visit "/admin/pages/#{homepage.id}/edit"
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
   end
 
-  scenario "when the user is logged in as a user (not admin) it returns a 404 error", js: true do
-    homepage = create(:homepage, title: "Home Page")
-    create_and_login_user_with(:github)
-    visit "/admin/pages/#{homepage.id}/edit"
-    expect(page).to have_content("The page you were looking for doesn't exist.")
+  context "when not logged in as an administrator" do
+    let(:homepage) { PandaCms::Page.find_or_create_by(title: "Homepage", path: "/") }
+
+    it "returns a 404 error" do
+      login_as_user
+      visit "/admin/pages/#{homepage.id}/edit"
+      expect(page).to have_content("The page you were looking for doesn't exist.")
+    end
   end
-  # todo: permissions here?
 
-  scenario "when the user is logged in as an admin" do
-    homepage = create(:homepage, title: "Home Page 3")
-    create_and_login_user_with(:github, admin: true)
-    visit "/admin/pages/#{homepage.id}/edit"
+  context "when logged in as an administrator" do
+    let(:homepage) { PandaCms::Page.find_or_create_by(title: "Homepage", path: "/") }
 
-    within("#panda-cms-primary-content") do
-      expect(page).to have_content("Home Page 3")
+    before(:each) do
+      login_as_admin
+      visit "/admin/pages/#{homepage.id}/edit"
     end
 
-    expect(page).to have_content("Page Details")
-    find("a#slideover-toggle").click
+    it "shows the page details slideover" do
+      within("#panda-cms-primary-content") do
+        expect(page).to have_content("Homepage")
+      end
 
-    within("#slideover") do
-      expect(page).to have_field("Title", with: "Home Page 3")
-      expect(page).to have_field("Template", with: "Homepage Template")
+      expect(page).to have_content("Page Details")
+      find("a#slideover-toggle").click
+
+      within("#slideover") do
+        expect(page).to have_field("Title", with: "Homepage")
+        expect(page).to have_field("Template", with: "Homepage Template")
+      end
     end
+
+    it "updates the page details"
+
+    it "shows the correct link to the page"
+
+    it "allows clicking the link to the page"
+
+    it "shows the content of the page being edited"
+
+    it "allows editing plain text content of the page"
+
+    it "allows editing rich text content of the page"
+
+    it "allows editing code content of the page"
   end
 end

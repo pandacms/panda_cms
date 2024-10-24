@@ -55,7 +55,6 @@ module PandaCms
         end
 
         if !user.admin?
-          raise user.inspect
           # User can't be found with this email address or can't login
           Rails.logger.error "User ID #{user.id} attempted admin login, is not admin." if user && !user.admin
           redirect_to admin_login_path, flash: {error: t("panda_cms.admin.sessions.create.error")}

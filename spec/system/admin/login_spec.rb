@@ -1,30 +1,69 @@
 require "system_helper"
 
-RSpec.feature "User login", type: :system do
-  context "when logging in as an admin" do
-    it "logs in with Google credentials" do
-      google_user_data = Faker::Omniauth.google
-      omniauth_mock_user = OmniAuth::AuthHash.new(google_user_data)
+RSpec.describe "Admin authentication", type: :system do
+  describe "where provider is" do
+    context "Google" do
+      it "logs in admin successfully" do
+        PandaCms.config.authentication[:google][:enabled] = true
+        login_with_google(admin_user)
+        expect(page).to have_content("You are logged in!")
+        expect(page).to have_content("Dashboard")
+      end
+    end
 
-      OmniAuth.config.mock_auth[:google] = omniauth_mock_user
+    context "GitHub" do
+      it "logs in admin successfully" do
+        PandaCms.config.authentication[:github][:enabled] = true
+        login_with_github(admin_user)
+        expect(page).to have_content("You are logged in!")
+        expect(page).to have_content("Dashboard")
+      end
+    end
 
-      google_admin_user = PandaCms::User.create!(
-        firstname: google_user_data[:info][:first_name],
-        lastname: google_user_data[:info][:last_name],
-        email: google_user_data[:info][:email],
-        image_url: "/panda-cms-assets/panda-nav.png",
-        admin: true
-      )
+    context "Microsoft" do
+      it "logs in admin successfully" do
+        skip "Microsoft login not working properly in tests"
+        PandaCms.config.authentication[:microsoft][:enabled] = true
+        login_with_microsoft(admin_user)
+        expect(page).to have_content("You are logged in!")
+        expect(page).to have_content("Dashboard")
+      end
+    end
+  end
 
-      Rails.application.env_config["omniauth.auth"] = omniauth_mock_user
+  describe "when signing in" do
+    it "prevents non-admin access" do
+      login_with_google(regular_user)
+      expect(page).to have_current_path("/admin")
+      expect(page).to_not have_content("Dashboard")
+      expect(page).to have_content("There was an error logging you in")
+    end
+  end
 
+  describe "with sessions" do
+    it "maintains admin session across pages" do
+      login_with_google(admin_user)
+      visit "/admin/pages"
+      expect(page).not_to have_current_path("/admin/login")
+      expect(page).to have_content(admin_user.name)
+      expect(page).to have_content(/pages|content/i)
+    end
+
+    it "handles logout properly" do
+      login_with_google(admin_user)
+      click_on id: "logout-link"
+      expect(page).to have_current_path("/admin")
+      expect(page).to have_content("Sign in to your account")
+    end
+  end
+
+  describe "on error" do
+    it "handles invalid credentials" do
+      OmniAuth.config.mock_auth[:google] = :invalid_credentials
       visit "/admin"
       find("#button-sign-in-google").click
-
-      expect(page).to have_content("You are logged in!")
-      expect(page).to have_content("Dashboard")
-
-      visit "/admin/pages"
+      expect(page).to have_current_path("/admin")
+      expect(page).to have_content("There was an error logging you in")
     end
   end
 end

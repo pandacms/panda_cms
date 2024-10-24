@@ -75,10 +75,4 @@ Rails.application.configure do
   config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
   config.importmap.cache_sweepers << PandaCms::Engine.root.join("app/javascript")
   config.importmap.cache_sweepers << Rails.application.root.join("vendor/javascript")
-
-  # Enable stdout logger
-  config.logger = Logger.new(STDOUT)
-
-  # Set log level
-  config.log_level = :error
 end

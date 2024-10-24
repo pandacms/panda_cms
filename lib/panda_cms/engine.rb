@@ -163,8 +163,6 @@ module PandaCms
 
           provider_config = options[:defaults].merge(PandaCms.config.authentication[provider])
 
-          Rails.logger.info("Configuring OmniAuth for #{provider} with #{provider_config}")
-
           app.config.middleware.use OmniAuth::Builder do
             provider options[:strategy], provider_config
           end
