@@ -13,9 +13,9 @@
 
     --color-highlight: 208 64 20; /* #D04014 */
 
-    --color-active: 188 230 163; /* #BCE6A3 */
+    --color-active: 0 135 85; /* #008755 */
     --color-warning: 250 207 142; /* #FACF8E */
-    --color-inactive: 211 229 249; /* #D3E5F9 */
+    --color-inactive: 216 247 245; /* #d6e4f7 */
     --color-error: 245 129 129; /* #F58181 */
   }
 
@@ -29,6 +29,7 @@
 
     --color-active: 166 211 129; /* #A6D381 */
     --color-warning: 244 190 102; /* #F4BE66 */
+    --color-inactive: 216 247 245; /* #d6e4f7 */
     --color-error: 208 64 20; /* #D04014 */
   }
 
@@ -39,36 +40,12 @@
   }
 }
 
-.ql-editor {
-  border: none !important;
-  padding: 0 !important;
-  margin: 0;
-
-  margin-top: -1rem;
-
-  &:active, &:focus {
-    border: none;
-    outline: none;
-  }
-
-  h1, h2, h3, p {
-    margin-bottom: 20px !important;
-    font-size: 130% !important;
-  }
-
-  li {
-    font-size: 130% !important;
-  }
-}
-
 @import "actiontext.css";
 
 /*
  * Provides a drop-in pointer for the default Trix stylesheet that will format the toolbar and
  * the trix-editor content (whether displayed or under editing). Feel free to incorporate this
  * inclusion directly in any other asset bundle and remove this file.
- *
- *= require trix
 */
 
 /*

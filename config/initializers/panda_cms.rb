@@ -10,7 +10,7 @@ PandaCms.configure do |config|
   # Authentication providers
   config.authentication = {
     microsoft: {
-      enabled: false,
+      enabled: true,
       # Setup at the following URL:
       # https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
       client_id: Rails.application.credentials.dig(:microsoft, :client_id),
@@ -32,7 +32,7 @@ PandaCms.configure do |config|
       redirect_uri: Rails.application.credentials.dig(:microsoft, :redirect_uri)
     },
     google: {
-      enabled: false,
+      enabled: true,
       create_account_on_first_login: false,
       create_admin_account_on_first_login: false,
       # client_id: Rails.application.credentials.dig(:google, :client_id),

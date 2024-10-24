@@ -8,9 +8,6 @@ export default class extends Controller {
     "output_text",
   ];
 
-  connect() {
-  }
-
   generatePath() {
     this.output_textTarget.value = "/" + this.createSlug(this.input_textTarget.value);
   }

@@ -1,14 +1,12 @@
-require "rails_helper"
+require "system_helper"
 
-RSpec.describe "Website", js: true do
+RSpec.describe "Website" do
   before(:each) do
     create_homepage
     visit "/"
   end
 
   it "shows the homepage" do
-    pause
-
     # TODO: Look at Percy.io for visual regression testing
     expect(page).to have_content("Homepage Layout")
     # Simple JS

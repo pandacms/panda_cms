@@ -21,12 +21,18 @@ module PandaCms
     has_one :page_menu, foreign_key: :start_page_id, class_name: "PandaCms::Menu"
 
     validates :title, presence: true
+
     validates :path,
       presence: true,
       uniqueness: true,
       format: {with: /\A\/.*\z/, message: "must start with a forward slash"}
-    validates :parent, presence: true, unless: -> { path == "/" }
-    validates :panda_cms_template_id, presence: true
+
+    validates :parent,
+      presence: true,
+      unless: -> { path == "/" }
+
+    validates :panda_cms_template_id,
+      presence: true
 
     scope :ordered, -> { order(:lft) }
 

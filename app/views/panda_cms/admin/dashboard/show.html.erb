@@ -1,4 +1,7 @@
 <%= render PandaCms::Admin::ContainerComponent.new do |container| %>
+  <a data-controller="alert" data-action="alert#alert" class="..." href="#">
+    Get started
+  </a>
   <% container.with_heading(text: "Dashboard", level: 1) do |heading| %>
     <% heading.with_button(action: :add, text: "Add Page", link: new_admin_page_path) %>
   <% end %>

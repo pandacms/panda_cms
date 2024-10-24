@@ -2,7 +2,7 @@ module PandaCms
   class DemoSiteGenerator
     attr_accessor :menus, :pages, :templates
 
-    def initialize
+    def initializer
       @menus = {}
       @pages = {}
       @templates = {}

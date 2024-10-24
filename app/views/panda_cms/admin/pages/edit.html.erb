@@ -8,17 +8,21 @@
       <%= f.submit "Save" %>
     <% end %>
   <% end %>
-  <div class="grid grid-cols-2">
-    <a class="block mb-2 -mt-4 text-sm text-black/60" target="_blank" href="<%= @page.path %>"><%= @page.path %> <i class="ml-2 fa-solid fa-arrow-up-right-from-square"></i></a>
-    <a class="block mb-2 -mt-12 py-4 px-6 bg-mid text-white font-bold text-lg ml-auto" href="#" id="saveEditableButton">Save Changes</a>
+  <div class="grid grid-cols-2 mb-4 -mt-5">
+    <div>
+      <a class="inline-block mb-2 text-sm text-black/60" target="_blank" href="<%= @page.path %>"><%= @page.path %> <i class="ml-2 fa-solid fa-arrow-up-right-from-square"></i></a>
+    </div>
+    <div class="relative -mt-5">
+      <span class="absolute right-0"><%= render PandaCms::Admin::ButtonComponent.new(text: "Save Changes", action: :save_inactive, icon: "check", link: "#", size: :regular, id: "saveEditableButton") %></span>
+    </div>
   </div>
   <iframe id="editablePageFrame" src="<%= page.path %>?embed_id=<%= page.id %>" class="p-0 m-0 w-full h-full border border-slate-200"></iframe>
-  <% content_for :head do %>
-    <%= javascript_include_tag "panda_cms_editable", "data-turbo-track": "reload", defer: true %>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const editable = new PandaCmsEditableController("<%= page.id %>", document.getElementById("editablePageFrame"));
-      });
-    </script>
-  <% end %>
+<% end %>
+<% content_for :head do %>
+  <%#= javascript_include_tag "panda_cms_editable", "data-turbo-track": "reload", defer: true %>
+  <!-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const editable = new PandaCmsEditableController("<%= page.id %>", document.getElementById("editablePageFrame"));
+    });
+  </script> -->
 <% end %>
