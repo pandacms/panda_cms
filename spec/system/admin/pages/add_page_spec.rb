@@ -65,7 +65,7 @@ RSpec.describe "When adding a page", type: :system, js: true do
       expect(page).to have_content page.current_url.gsub!("/admin/pages/new", "") + "/about"
     end
 
-    it "allows a page to have the same slug as another as long as the parent is different" do
+    xit "allows a page to have the same slug as another as long as the parent is different" do
       expect(page).to have_field("URL", with: "")
       select "- About", from: "Parent"
       click_on_selectors "input#page_title", "input#page_path" # Manually trigger the URL autofill

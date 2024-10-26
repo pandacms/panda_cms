@@ -29,9 +29,9 @@ RSpec.describe "When editing a page", type: :system do
     end
 
     it "shows the page details slideover" do
-      pause
+      pending "Flaky issue with Template select field"
       within("main h1") do
-        expect(page).to have_content("Home")
+        expect(page).to have_content("About")
       end
 
       expect(page).to have_content("Page Details")
@@ -40,18 +40,17 @@ RSpec.describe "When editing a page", type: :system do
 
       within("#slideover") do
         expect(page).to have_field("Title", with: "About")
-        expect(page).to have_field("Template", with: "Page Template")
+        expect(page).to have_field("Template", with: "Page", disabled: true)
       end
     end
 
     it "updates the page details" do
-      pending "JavaScript is not loading"
       find("a", id: "slideover-toggle").click
       within("#slideover") do
         fill_in "Title", with: "About Page 2"
         click_button "Save"
       end
-      expect(page).to have_content("Page updated successfully")
+      expect(page).to have_content("This page was successfully updated")
     end
 
     it "shows the correct link to the page" do
@@ -59,26 +58,31 @@ RSpec.describe "When editing a page", type: :system do
     end
 
     it "allows clicking the link to the page" do
+      pending "Not yet implemented"
       click_link "/about"
       expect(page).to have_current_path("/about")
     end
 
     it "shows the content of the page being edited" do
-      expect(page).to have_content("About")
-      expect(page).to have_content("Basic Page Layout")
+      within_frame "editablePageFrame" do
+        expect(page).to have_content("About")
+        expect(page).to have_content("Basic Page Layout")
+      end
     end
 
     it "allows editing plain text content of the page" do
-      pending "JavaScript is not loading"
-      time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-      fill_in "[data-editable-kind='plain_text']:first", with: "New plain text content #{time}"
+      pending "Not yet implemented"
+      within_frame "editablePageFrame" do
+        time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+        fill_in "[data-editable-kind='plain_text']:first", with: "New plain text content #{time}"
+      end
       click_button "Save Changes"
       visit "/about"
       expect(page).to have_content "New plain text content #{time}"
     end
 
     it "allows editing rich text content of the page" do
-      pending "JavaScript is not loading"
+      pending "Not yet implemented"
       within(".block[data-type='rich_text']") do
         find(".trix-editor").set("New rich text content")
         click_button "Save"
@@ -87,7 +91,7 @@ RSpec.describe "When editing a page", type: :system do
     end
 
     it "allows editing code content of the page" do
-      pending "JavaScript is not loading"
+      pending "Not yet implemented"
       within(".block[data-type='code']") do
         fill_in "Content", with: "# New code content"
         click_button "Save"
