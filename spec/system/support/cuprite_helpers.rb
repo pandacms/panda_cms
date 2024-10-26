@@ -2,15 +2,17 @@
 require "capybara/cuprite"
 
 @cuprite_options = {
-  window_size: [1200, 800],
+  window_size: [1440, 800],
   # See additional options for Dockerized environment in the respective section of this article
   browser_options: {},
   # Increase Chrome startup wait time (required for stable CI builds)
   process_timeout: 10,
   # Enable debugging capabilities
   inspector: true,
+  # Slow down, if we need to
+  slowmo: ENV["SLOWMO"]&.to_f,
   # Re-raise JS errors in Ruby
-  js_errors: true,
+  js_errors: !ENV["JS_ERRORS"].in?(%w[n 0 no false]),
   # Allow running Chrome in a headful mode by setting HEADLESS env
   # var to a falsey value
   headless: !ENV["HEADLESS"].in?(%w[n 0 no false])
@@ -42,6 +44,14 @@ module CupriteHelpers
   # Usage: debug(binding)
   def debug(*)
     page.driver.debug(*)
+  end
+
+  # Allows sending a list of CSS selectors to be clicked on in the correct order (no delay)
+  # Useful where you need to trigger e.g. a blur event on an input field
+  def click_on_selectors(*css_selectors)
+    css_selectors.each do |selector|
+      page.driver.browser.at_css(selector).click
+    end
   end
 end
 

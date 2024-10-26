@@ -34,8 +34,10 @@ module PandaCms
     config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
 
     initializer "panda_cms.assets" do |app|
-      app.config.assets.paths << root.join("app/javascript")
-      app.config.assets.precompile += %w[panda_cms_manifest]
+      if Rails.configuration.respond_to?(:assets)
+        app.config.assets.paths << root.join("app/javascript")
+        app.config.assets.precompile += %w[panda_cms_manifest]
+      end
     end
 
     # Add importmap paths from the engine
@@ -81,11 +83,11 @@ module PandaCms
       app.config.middleware.use ActionDispatch::Session::CookieStore, app.config.session_options
 
       OmniAuth.config.logger = Rails.logger
-      auth_path = "#{PandaCms.route_namespace}/auth"
-      callback_path = "/callback"
 
       # TODO: Move this to somewhere more sensible
       # Define the mapping of our provider "names" to the OmniAuth strategies and configuration
+      auth_path = "#{PandaCms.route_namespace}/auth"
+      callback_path = "/callback"
       available_providers = {
         microsoft: {
           strategy: :microsoft_graph,
@@ -159,7 +161,12 @@ module PandaCms
         if PandaCms.config.authentication.dig(provider, :enabled)
           auth_path = auth_path.starts_with?("/") ? auth_path : "/#{auth_path}"
           options[:defaults][:path_prefix] = auth_path
-          options[:defaults][:redirect_uri] = "#{PandaCms.config.url}#{auth_path}/#{provider}#{callback_path}"
+
+          options[:defaults][:redirect_uri] = if Rails.env.test?
+            "#{Capybara.app_host}#{auth_path}/#{provider}#{callback_path}"
+          else
+            "#{PandaCms.config.url}#{auth_path}/#{provider}#{callback_path}"
+          end
 
           provider_config = options[:defaults].merge(PandaCms.config.authentication[provider])
 

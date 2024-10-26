@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 
-export default class extends Controller {
+export class SlugController extends Controller {
   static targets = [
     "existing_root",
     "input_select",
@@ -8,13 +8,19 @@ export default class extends Controller {
     "output_text",
   ];
 
+  connect() {
+    console.debug("[Panda CMS] Slug handler connected...");
+  }
+
   generatePath() {
     this.output_textTarget.value = "/" + this.createSlug(this.input_textTarget.value);
+    console.log("Have set the path to: " + this.output_textTarget.value);
   }
 
   setPrePath() {
     this.parent_slugs = this.input_selectTarget.options[this.input_selectTarget.selectedIndex].text.match(/.*\((.*)\)$/)[1];
     this.output_textTarget.previousSibling.innerHTML = (this.existing_rootTarget.value + this.parent_slugs).replace(/\/$/, "");
+    console.log("Have set the pre-path to: " + this.output_textTarget.previousSibling.innerHTML);
   }
 
   // TODO: Invoke a library or helper which can be shared with the backend

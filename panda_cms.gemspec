@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "importmap-rails" # , "~> 2.0"
   spec.add_dependency "local_time", "~> 3.0"
   spec.add_dependency "lookbook", "~> 2.0"
+  spec.add_dependency "oaken"
   spec.add_dependency "omniauth", "~> 2.1"
   spec.add_dependency "omniauth-github", "~> 2.0" # TODO: Make this optional
   spec.add_dependency "omniauth-google-oauth2", "~> 1.1" # TODO: Make this optional

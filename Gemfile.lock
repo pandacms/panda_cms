@@ -132,6 +132,7 @@ PATH
       importmap-rails
       local_time (~> 3.0)
       lookbook (~> 2.0)
+      oaken
       omniauth (~> 2.1)
       omniauth-github (~> 2.0)
       omniauth-google-oauth2 (~> 1.1)
@@ -414,6 +415,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
+    oaken (0.7.0)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
       jwt (>= 1.0, < 3.0)
