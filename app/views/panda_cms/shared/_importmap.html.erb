@@ -1,5 +1,5 @@
 <%#= javascript_importmap_tags "application_panda_cms" %>
-<script type="text/javascript" data-turbo-track="reload">
+<script type="importmap" data-turbo-track="reload">
   <%=
     # This ended up being the best solution to not drag in the importmap from the host app when we're editing the site
     JSON.pretty_generate({
@@ -17,6 +17,6 @@
     }).html_safe
   %>
 </script>
-<script type="text/javascript">
+<script type="module">
   import "application_panda_cms"
 </script>
