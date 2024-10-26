@@ -65,7 +65,7 @@ module PandaCms
         @page ||= if params[:id]
           PandaCms::Page.find(params[:id])
         else
-          PandaCms::Page.new(template: PandaCms::Template.most_used)
+          PandaCms::Page.new(template: PandaCms::Template.default)
         end
       end
 

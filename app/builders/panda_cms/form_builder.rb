@@ -12,7 +12,7 @@ module PandaCms
           label(attribute) + meta_text(options) +
             content_tag(:div, class: "flex flex-grow") do
               content_tag(:span, class: "inline-flex items-center px-3 text-base border border-r-none rounded-s-md whitespace-nowrap break-keep") { options.dig(:data, :prefix) } +
-                super(attribute, options.reverse_merge(class: input_styles_prefix + " rounded-l-none border-l-none"))
+                super(attribute, options.reverse_merge(class: input_styles_prefix + " input-prefix rounded-l-none border-l-none"))
             end
         end
       else

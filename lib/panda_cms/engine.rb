@@ -1,3 +1,7 @@
+require "importmap-rails"
+require "turbo-rails"
+require "stimulus-rails"
+
 module PandaCms
   class Engine < ::Rails::Engine
     isolate_namespace PandaCms
@@ -30,18 +34,16 @@ module PandaCms
     config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
 
     initializer "panda_cms.assets" do |app|
-      if Rails.application.config.respond_to?(:assets)
-        app.config.assets.paths << PandaCms::Engine.root.join("app/javascript/panda_cms")
-        app.config.assets.paths << PandaCms::Engine.root.join("vendor/javascript")
-        app.config.assets.precompile += %w[panda_cms/**/*.js]
+      if Rails.configuration.respond_to?(:assets)
+        app.config.assets.paths << root.join("app/javascript")
+        app.config.assets.precompile += %w[panda_cms_manifest]
       end
     end
 
+    # Add importmap paths from the engine
     initializer "panda_cms.importmap", before: "importmap" do |app|
-      app.config.importmap.paths << PandaCms::Engine.root.join("config/importmap.rb")
-      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("app/javascript")
-      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("vendor/javascript")
-      app.config.importmap.cache_sweepers << PandaCms::Engine.root.join("public/panda-cms-assets")
+      app.config.importmap.paths << root.join("config/importmap.rb")
+      app.config.importmap.cache_sweepers << root.join("app/javascript")
     end
 
     config.after_initialize do |app|
@@ -57,11 +59,11 @@ module PandaCms
 
     # Add the migrations to the main app
     initializer "panda_cms.migrations" do |app|
-      # unless app.root.to_s.match root.to_s
-      config.paths["db/migrate"].expanded.each do |expanded_path|
-        app.config.paths["db/migrate"] << expanded_path
+      unless app.root.to_s.match root.to_s
+        config.paths["db/migrate"].expanded.each do |expanded_path|
+          app.config.paths["db/migrate"] << expanded_path
+        end
       end
-      # end
     end
 
     # Set up ViewComponent and Lookbook
@@ -81,11 +83,11 @@ module PandaCms
       app.config.middleware.use ActionDispatch::Session::CookieStore, app.config.session_options
 
       OmniAuth.config.logger = Rails.logger
-      auth_path = "#{PandaCms.route_namespace}/auth"
-      callback_path = "/callback"
 
       # TODO: Move this to somewhere more sensible
       # Define the mapping of our provider "names" to the OmniAuth strategies and configuration
+      auth_path = "#{PandaCms.route_namespace}/auth"
+      callback_path = "/callback"
       available_providers = {
         microsoft: {
           strategy: :microsoft_graph,
@@ -159,11 +161,14 @@ module PandaCms
         if PandaCms.config.authentication.dig(provider, :enabled)
           auth_path = auth_path.starts_with?("/") ? auth_path : "/#{auth_path}"
           options[:defaults][:path_prefix] = auth_path
-          options[:defaults][:redirect_uri] = "#{PandaCms.config.url}#{auth_path}/#{provider}#{callback_path}"
+
+          options[:defaults][:redirect_uri] = if Rails.env.test?
+            "#{Capybara.app_host}#{auth_path}/#{provider}#{callback_path}"
+          else
+            "#{PandaCms.config.url}#{auth_path}/#{provider}#{callback_path}"
+          end
 
           provider_config = options[:defaults].merge(PandaCms.config.authentication[provider])
-
-          Rails.logger.info("Configuring OmniAuth for #{provider} with #{provider_config}")
 
           app.config.middleware.use OmniAuth::Builder do
             provider options[:strategy], provider_config
