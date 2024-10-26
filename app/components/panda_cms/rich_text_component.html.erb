@@ -1,42 +1,6 @@
 <% if @editable %>
-  <%= content_tag(:div, @content, @options) %>
-  <script type="text/javascript">
-    // TODO: Should this be defined multiple times? :/
-    document.addEventListener("pandaCmsRichTextEditorLoaded", function() {
-      console.debug("[Panda CMS] Called event listener: pandaCmsRichTextEditorLoaded for <%= @options[:id] %>");
-
-      // Allowing per-element toolbar configuration, if needed
-      let quillVar = "<%= @options[:id] %>";
-      let <%= @options[:id] %>_options = {
-        modules: {
-          toolbar: [
-            [{ header: [1, 2, 3, false] }],
-            ["bold", "italic", "underline"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            [{ script: "sub" }, { script: "super" }],
-            [{ color: [] }, { background: [] }],
-            [{ align: [] }],
-            ["link", "image", "video", "code-block", "clean"],
-          ],
-          magicUrl: true,
-          imageCompressor: {
-            quality: 0.9,
-            maxWidth: 2000,
-            maxHeight: 2000,
-            imageType: "image/png",
-            keepImageTypes: ["image/jpeg", "image/jpg", "image/png"],
-          },
-        },
-        theme: "snow",
-      };
-
-      console.debug(`[Panda CMS] Enabling Quill editor: ${quillVar}`);
-      console.debug(`[Panda CMS] Quill options for ${quillVar}: `, <%= @options[:id] %>_options);
-
-      Quill.register("modules/imageCompressor", imageCompressor);
-      quillVar = new Quill("#" + quillVar, <%= @options[:id] %>_options);
-    });
-  </script>
+  <input id="trix_<%= @options[:id] %>" value="<%= @content %>" type="hidden" name="trix_<%= @options[:id] %>" data-editor-block-content-id="<%= @options[:data][:block_content_id] %>" data-editor-type="<%= @options[:data][:mode] %>">
+  <trix-editor input="trix_<%= @options[:id] %>" class="panda-cms-content"></trix-editor>
 <% else %>
-  <%= @content %>
+  <div class="panda-cms-content"><%= @content %></div>
 <% end %>

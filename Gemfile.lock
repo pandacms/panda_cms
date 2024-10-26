@@ -1,101 +1,69 @@
-PATH
-  remote: .
+GIT
+  remote: https://github.com/rails/rails.git
+  revision: b943622bdc746370ac860bfd3240cc0b8ca59d90
+  branch: main
   specs:
-    panda_cms (0.5.10)
-      activestorage-office-previewer (~> 0.1)
-      awesome_nested_set (~> 3.7)
-      aws-sdk-s3 (~> 1)
-      dry-configurable (~> 1.2)
-      faraday (~> 2)
-      faraday-multipart (~> 1.0)
-      faraday-retry (~> 2)
-      groupdate (~> 6.4)
-      htmlentities (~> 4.3)
-      image_processing (~> 1.13)
-      importmap-rails (~> 2.0)
-      local_time (~> 3.0)
-      lookbook (~> 2.0)
-      omniauth (~> 2.1)
-      omniauth-github (~> 2.0)
-      omniauth-google-oauth2 (~> 1.1)
-      omniauth-microsoft_graph (~> 2.0)
-      omniauth-rails_csrf_protection (~> 1.0)
-      paper_trail (~> 15.2)
-      pg (~> 1.5)
-      rails (>= 7.1)
-      redcarpet (~> 3.6)
-      silencer (~> 2.0)
-      stimulus-rails (~> 1.3)
-      tailwindcss-rails (~> 3)
-      view_component (~> 3.14)
-      whois-parser (~> 2.0)
-
-GEM
-  remote: https://rubygems.org/
-  specs:
-    actioncable (7.2.1.1)
-      actionpack (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
+    actioncable (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       nio4r (~> 2.0)
       websocket-driver (>= 0.6.1)
       zeitwerk (~> 2.6)
-    actionmailbox (7.2.1.1)
-      actionpack (= 7.2.1.1)
-      activejob (= 7.2.1.1)
-      activerecord (= 7.2.1.1)
-      activestorage (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
+    actionmailbox (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activejob (= 8.1.0.alpha)
+      activerecord (= 8.1.0.alpha)
+      activestorage (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       mail (>= 2.8.0)
-    actionmailer (7.2.1.1)
-      actionpack (= 7.2.1.1)
-      actionview (= 7.2.1.1)
-      activejob (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
+    actionmailer (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      actionview (= 8.1.0.alpha)
+      activejob (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       mail (>= 2.8.0)
       rails-dom-testing (~> 2.2)
-    actionpack (7.2.1.1)
-      actionview (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
+    actionpack (8.1.0.alpha)
+      actionview (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       nokogiri (>= 1.8.5)
-      racc
-      rack (>= 2.2.4, < 3.2)
+      rack (>= 2.2.4)
       rack-session (>= 1.0.1)
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
       useragent (~> 0.16)
-    actiontext (7.2.1.1)
-      actionpack (= 7.2.1.1)
-      activerecord (= 7.2.1.1)
-      activestorage (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
+    actiontext (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activerecord (= 8.1.0.alpha)
+      activestorage (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       globalid (>= 0.6.0)
       nokogiri (>= 1.8.5)
-    actionview (7.2.1.1)
-      activesupport (= 7.2.1.1)
+    actionview (8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       builder (~> 3.1)
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activejob (7.2.1.1)
-      activesupport (= 7.2.1.1)
+    activejob (8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       globalid (>= 0.3.6)
-    activemodel (7.2.1.1)
-      activesupport (= 7.2.1.1)
-    activerecord (7.2.1.1)
-      activemodel (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
+    activemodel (8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+    activerecord (8.1.0.alpha)
+      activemodel (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       timeout (>= 0.4.0)
-    activestorage (7.2.1.1)
-      actionpack (= 7.2.1.1)
-      activejob (= 7.2.1.1)
-      activerecord (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
+    activestorage (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activejob (= 8.1.0.alpha)
+      activerecord (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
       marcel (~> 1.0)
-    activestorage-office-previewer (0.1.2)
-      activestorage (>= 6.0.0)
-    activesupport (7.2.1.1)
+    activesupport (8.1.0.alpha)
       base64
+      benchmark (>= 0.3)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.3.1)
       connection_pool (>= 2.2.5)
@@ -105,17 +73,95 @@ GEM
       minitest (>= 5.1)
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
+      uri (>= 0.13.1)
+    rails (8.1.0.alpha)
+      actioncable (= 8.1.0.alpha)
+      actionmailbox (= 8.1.0.alpha)
+      actionmailer (= 8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      actiontext (= 8.1.0.alpha)
+      actionview (= 8.1.0.alpha)
+      activejob (= 8.1.0.alpha)
+      activemodel (= 8.1.0.alpha)
+      activerecord (= 8.1.0.alpha)
+      activestorage (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      bundler (>= 1.15.0)
+      railties (= 8.1.0.alpha)
+    railties (8.1.0.alpha)
+      actionpack (= 8.1.0.alpha)
+      activesupport (= 8.1.0.alpha)
+      irb (~> 1.13)
+      rackup (>= 1.0.0)
+      rake (>= 12.2)
+      thor (~> 1.0, >= 1.2.2)
+      zeitwerk (~> 2.6)
+
+GIT
+  remote: https://github.com/tnir/awesome_nested_set.git
+  revision: 4b55ccc7bb54a87f736b1800afe8bfa9a60271a7
+  branch: rails80
+  specs:
+    awesome_nested_set (3.7.0)
+      activerecord (>= 4.0.0, < 8.1)
+
+GIT
+  remote: https://github.com/viewcomponent/view_component.git
+  revision: 070f0dd244fdb57eb99e4437984a4b9c0867caa8
+  branch: main
+  specs:
+    view_component (3.19.0)
+      activesupport (>= 5.2.0, < 8.1)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
+
+PATH
+  remote: .
+  specs:
+    panda_cms (0.5.10)
+      activestorage-office-previewer
+      awesome_nested_set (~> 3.7)
+      aws-sdk-s3
+      dry-configurable
+      faraday (~> 2)
+      faraday-multipart (~> 1.0)
+      faraday-retry (~> 2)
+      groupdate (~> 6.4)
+      htmlentities (~> 4.3)
+      image_processing (~> 1.13)
+      importmap-rails
+      local_time (~> 3.0)
+      lookbook (~> 2.0)
+      oaken
+      omniauth (~> 2.1)
+      omniauth-github (~> 2.0)
+      omniauth-google-oauth2 (~> 1.1)
+      omniauth-microsoft_graph (~> 2.0)
+      omniauth-rails_csrf_protection (~> 1.0)
+      paper_trail (~> 15.2)
+      pg
+      propshaft
+      redcarpet
+      silencer (~> 2.0)
+      stimulus-rails
+      tailwindcss-rails (~> 3)
+      turbo-rails
+      whois-parser (~> 2.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activestorage-office-previewer (0.1.2)
+      activestorage (>= 6.0.0)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    annotate (3.2.0)
-      activerecord (>= 3.2, < 8.0)
-      rake (>= 10.4, < 14.0)
+    annotate (2.6.5)
+      activerecord (>= 2.3.0)
+      rake (>= 0.8.7)
     ast (2.4.2)
-    awesome_nested_set (3.7.0)
-      activerecord (>= 4.0.0, < 8.0)
     aws-eventstream (1.3.0)
-    aws-partitions (1.992.0)
-    aws-sdk-core (3.210.0)
+    aws-partitions (1.993.0)
+    aws-sdk-core (3.211.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -127,9 +173,10 @@ GEM
       aws-sdk-core (~> 3, >= 3.210.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
-    aws-sigv4 (1.10.0)
+    aws-sigv4 (1.10.1)
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.2.0)
+    benchmark (0.3.0)
     better_errors (2.10.1)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
@@ -147,9 +194,6 @@ GEM
     brakeman (6.2.2)
       racc
     builder (3.3.0)
-    bullet (7.2.0)
-      activesupport (>= 3.0.0)
-      uniform_notifier (~> 1.11)
     bundler-audit (0.9.2)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
@@ -175,6 +219,9 @@ GEM
     crass (1.0.6)
     css_parser (1.19.1)
       addressable
+    cuprite (0.15.1)
+      capybara (~> 3.0)
+      ferrum (~> 0.15.0)
     danger (9.5.1)
       base64 (~> 0.2)
       claide (~> 1.0)
@@ -262,6 +309,11 @@ GEM
       faraday (~> 2.0)
     fasterer (0.11.0)
       ruby_parser (>= 3.19.1)
+    ferrum (0.15)
+      addressable (~> 2.5)
+      concurrent-ruby (~> 1.1)
+      webrick (~> 1.7)
+      websocket-driver (~> 0.7)
     ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-aarch64-linux-musl)
     ffi (1.17.0-arm-linux-gnu)
@@ -272,9 +324,6 @@ GEM
     ffi (1.17.0-x86_64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
     ffi (1.17.0-x86_64-linux-musl)
-    fuubar (2.5.1)
-      rspec-core (~> 3.0)
-      ruby-progressbar (~> 1.4)
     git (1.19.1)
       addressable (~> 2.8)
       rchardet (~> 1.8)
@@ -309,7 +358,7 @@ GEM
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     language_server-protocol (3.17.0.3)
-    lefthook (1.7.22)
+    lefthook (1.8.1)
     lint_roller (1.1.0)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -371,6 +420,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.16.7-x86_64-linux)
       racc (~> 1.4)
+    oaken (0.7.0)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)
       jwt (>= 1.0, < 3.0)
@@ -437,20 +487,6 @@ GEM
     rackup (2.1.0)
       rack (>= 3)
       webrick (~> 1.8)
-    rails (7.2.1.1)
-      actioncable (= 7.2.1.1)
-      actionmailbox (= 7.2.1.1)
-      actionmailer (= 7.2.1.1)
-      actionpack (= 7.2.1.1)
-      actiontext (= 7.2.1.1)
-      actionview (= 7.2.1.1)
-      activejob (= 7.2.1.1)
-      activemodel (= 7.2.1.1)
-      activerecord (= 7.2.1.1)
-      activestorage (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
-      bundler (>= 1.15.0)
-      railties (= 7.2.1.1)
     rails-dom-testing (2.2.0)
       activesupport (>= 5.0.0)
       minitest
@@ -460,14 +496,6 @@ GEM
       nokogiri (~> 1.14)
     rails-route-checker (0.6.0)
       rails
-    railties (7.2.1.1)
-      actionpack (= 7.2.1.1)
-      activesupport (= 7.2.1.1)
-      irb (~> 1.13)
-      rackup (>= 1.0.0)
-      rake (>= 12.2)
-      thor (~> 1.0, >= 1.2.2)
-      zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
     rb-fsevent (0.11.2)
@@ -537,18 +565,11 @@ GEM
     ruby_parser (3.21.1)
       racc (~> 1.5)
       sexp_processor (~> 4.16)
-    rubyzip (2.3.2)
     rugged (1.7.2)
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
     securerandom (0.3.1)
-    selenium-webdriver (4.25.0)
-      base64 (~> 0.2)
-      logger (~> 1.4)
-      rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
-      websocket (~> 1.0)
     sexp_processor (4.17.2)
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
@@ -569,7 +590,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    sorbet-runtime (0.5.11609)
+    sorbet-runtime (0.5.11611)
     standard (1.41.1)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -609,16 +630,10 @@ GEM
       rainbow (>= 2.1, < 4.0)
       rugged (>= 0.27, < 1.8)
     unicode-display_width (2.6.0)
-    uniform_notifier (1.16.0)
     uri (0.13.1)
     useragent (0.16.10)
     version_gem (1.1.4)
-    view_component (3.18.0)
-      activesupport (>= 5.2.0, < 8.0)
-      concurrent-ruby (~> 1.0)
-      method_source (~> 1.0)
     webrick (1.8.2)
-    websocket (1.2.11)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -651,47 +666,46 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  annotate (~> 3.2)
-  better_errors (~> 2.10)
-  binding_of_caller (~> 1.0)
-  brakeman (~> 6.2)
-  bullet (~> 7.2)
-  bundler-audit (~> 0.9)
-  capybara (~> 3.40)
-  danger (~> 9.5)
-  danger-reek (~> 0.3)
-  danger-rubocop (~> 0.13)
-  danger-simplecov_json (~> 0.3)
-  danger-todoist (~> 2.0)
-  erb_lint (~> 0.6)
-  factory_bot_rails (~> 6.4)
-  faker (~> 3.4)
-  fasterer (~> 0.11)
-  fuubar (~> 2.5)
-  htmlbeautifier (~> 1.4)
-  lefthook (~> 1.7)
-  listen (~> 3.9)
-  msgpack (~> 1.7)
+  annotate
+  awesome_nested_set!
+  better_errors
+  binding_of_caller
+  brakeman
+  bundler-audit
+  capybara
+  cuprite
+  danger
+  danger-reek
+  danger-rubocop
+  danger-simplecov_json
+  danger-todoist
+  erb_lint
+  factory_bot_rails
+  faker
+  fasterer
+  htmlbeautifier
+  lefthook
+  listen
+  msgpack
   ostruct
   panda_cms!
-  propshaft (~> 1.0)
   pstore
-  puma (~> 6.4)
-  rails-route-checker (~> 0.6)
-  rspec-github (~> 2.4)
-  rspec-rails (~> 7.0)
-  ruby-lsp (~> 0.18)
-  selenium-webdriver (~> 4.24)
-  shoulda-matchers (~> 6.4)
-  simplecov (~> 0.22)
-  simplecov-json (~> 0.2)
-  simplecov-lcov (~> 0.8)
-  simplecov_json_formatter (~> 0.1)
-  simplecov_lcov_formatter (~> 0.9)
-  standard (~> 1.40)
-  turbo-rails (~> 2.0)
-  undercover (~> 0.5)
-  yard-activerecord (~> 0.0.16)
+  puma
+  rails!
+  rails-route-checker
+  rspec-github
+  rspec-rails
+  ruby-lsp
+  shoulda-matchers
+  simplecov
+  simplecov-json
+  simplecov-lcov
+  simplecov_json_formatter
+  simplecov_lcov_formatter
+  standard
+  undercover
+  view_component!
+  yard-activerecord
 
 BUNDLED WITH
    2.5.19

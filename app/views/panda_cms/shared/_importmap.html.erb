@@ -1,0 +1,22 @@
+<%#= javascript_importmap_tags "application_panda_cms" %>
+<script type="importmap" data-turbo-track="reload">
+  <%=
+    # This ended up being the best solution to not drag in the importmap from the host app when we're editing the site
+    JSON.pretty_generate({
+      imports: {
+        "application_panda_cms": asset_path("panda_cms/application_panda_cms.js"),
+        "@hotwired/turbo": asset_path("panda_cms/@hotwired--turbo.js"),
+        "@hotwired/stimulus": asset_path("panda_cms/@hotwired--stimulus.js"),
+        "@hotwired/stimulus-loading": asset_path("stimulus-loading.js"),
+        "tailwindcss-stimulus-components": asset_path("panda_cms/tailwindcss-stimulus-components.js"),
+        "controllers/dashboard_controller": asset_path("panda_cms/controllers/dashboard_controller.js"),
+        "controllers/slug_controller": asset_path("panda_cms/controllers/slug_controller.js"),
+        # Add other controllers here
+        "controllers": asset_path("panda_cms/controllers/index.js")
+      }
+    }).html_safe
+  %>
+</script>
+<script type="module">
+  import "application_panda_cms"
+</script>

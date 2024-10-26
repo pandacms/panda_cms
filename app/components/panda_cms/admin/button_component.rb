@@ -5,13 +5,14 @@ module PandaCms
     class ButtonComponent < ViewComponent::Base
       attr_accessor :text, :action, :link, :icon, :size, :data
 
-      def initialize(text: "Button", action: nil, data: {}, link: "#", icon: nil, size: :regular)
+      def initialize(text: "Button", action: nil, data: {}, link: "#", icon: nil, size: :regular, id: nil)
         @text = text
         @action = action
         @data = data
         @link = link
         @icon = icon
         @size = size
+        @id = id
       end
 
       def call
@@ -33,15 +34,17 @@ module PandaCms
         classes += case @action
         when :save, :create
           "text-white bg-active"
+        when :save_inactive
+          "text-white bg-inactive"
         when :secondary
-          "text-highlight border border-highlight bg-white hover:bg-sky-100 focus-visible:outline-highlight "
+          "text-dark border-2 border-dark bg-transparent hover:bg-light transition-all "
         when :delete, :destroy, :danger
           "text-error border border-error bg-red-100 hover:bg-red-200 hover:text-error focus-visible:outline-red-300 "
         else
           "text-dark border-2 border-dark bg-transparent hover:bg-light transition-all "
         end
 
-        content_tag :a, href: @link, class: classes, data: @data do
+        content_tag :a, href: @link, class: classes, data: @data, id: @id do
           @text
         end
       end

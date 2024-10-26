@@ -35,7 +35,7 @@ jobs:
         run: "bundle exec standardrb"
 
       - name: "ERB Check"
-        run: "bundle exec erblint app/views --lint-all"
+        run: "bundle exec erb_lint app/views --lint-all"
 
   specs:
     name: "App Specs"

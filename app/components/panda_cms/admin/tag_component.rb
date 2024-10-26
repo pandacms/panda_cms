@@ -15,7 +15,7 @@ module PandaCms
 
         classes += case @status
         when :active
-          "text-black ring-black/30 bg-active border-0 "
+          "text-white ring-black/30 bg-active border-0 "
         when :draft
           "text-black ring-black/30 bg-warning "
         when :inactive, :hidden

@@ -1,0 +1,11 @@
+---
+exclude:
+  - "vendor/bundle/**/*"
+EnableDefaultLinters: true
+linters:
+  AllowedScriptType:
+    enabled: true
+    allowed_types:
+      - "text/javascript"
+      - "module"
+      - "importmap"

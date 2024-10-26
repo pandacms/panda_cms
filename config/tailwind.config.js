@@ -23,6 +23,7 @@ module.exports = {
       dark: "rgb(var(--color-dark) / <alpha-value>)",
       highlight: "rgb(var(--color-highlight) / <alpha-value>)",
       active: "rgb(var(--color-active) / <alpha-value>)",
+      inactive: "rgb(var(--color-active) / <alpha-value>)",
       warning: "rgb(var(--color-warning) / <alpha-value>)",
       error: "rgb(var(--color-error) / <alpha-value>)",
     },
