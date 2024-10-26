@@ -47,8 +47,8 @@ RSpec.describe PandaCms::Template, type: :model do
   end
 
   describe "scopes" do
-    let!(:template1) { create(:template, file_path: "layouts/page") }
-    let!(:template2) { create(:template, file_path: "layouts/homepage") }
+    let!(:template1) { PandaCms::Template.find_by(file_path: "layouts/page") }
+    let!(:template2) { PandaCms::Template.find_by(file_path: "layouts/homepage") }
     let!(:template3) { create(:template, max_uses: 3, pages_count: 3, file_path: "layouts/different_page") }
 
     describe ".available" do

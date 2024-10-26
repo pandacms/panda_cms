@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :menu_item, class: "PandaCms::MenuItem" do
     text { "Menu Item" }
     association :menu, factory: :menu
-    
+
     trait :with_page do
       association :page, factory: :page
     end
