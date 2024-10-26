@@ -24,9 +24,7 @@ module PandaCms
     validate :validate_template_file_exists
 
     # Scopes
-    scope :ordered, -> { order(:sort_order) }
     scope :available, -> { where("max_uses IS NULL OR (pages_count < max_uses)") }
-    scope :most_used, -> { order(pages_count: :desc).first }
 
     # Generate missing blocks for all templates
     # @return [void]

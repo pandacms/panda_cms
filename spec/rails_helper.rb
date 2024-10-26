@@ -21,6 +21,7 @@ require "capybara/rspec"
 require "view_component/test_helpers"
 require "faker"
 require "puma"
+require "factory_bot_rails"
 
 # The following line is provided for convenience purposes. It has the downside
 # of increasing the boot-up time by auto-requiring all files in the support
@@ -85,6 +86,7 @@ RSpec.configure do |config|
 
   config.include ViewComponent::TestHelpers, type: :view_component
   config.include Capybara::RSpecMatchers, type: :view_component
+  config.include FactoryBot::Syntax::Methods
 
   # if defined?(Bullet) && Bullet.enable?
   #   config.before(:each) do

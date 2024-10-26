@@ -66,6 +66,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "danger-simplecov_json" # , "~> 0.3"
   spec.add_development_dependency "danger-todoist" # , "~> 2.0"
   spec.add_development_dependency "erb_lint" # , "~> 0.6"
+  spec.add_development_dependency "factory_bot_rails"
   spec.add_development_dependency "faker" # , "~> 3.4"
   spec.add_development_dependency "fasterer" # , "~> 0.11"
   spec.add_development_dependency "htmlbeautifier" # , "~> 1.4"
