@@ -27,11 +27,11 @@ module PandaCms
       block_content = block.block_contents.find_by(panda_cms_page_id: Current.page.id)
       @content = block_content.content
 
-      @options[:id] = "editor_rich_text_#{block_content.id.tr("-", "_")}"
+      @options[:id] = block_content.id
 
       if @editable
         @options[:data] = {
-          block_content_id: block_content&.id,
+          page_id: Current.page.id,
           mode: "rich_text"
         }
       else

@@ -2,12 +2,13 @@ export class PlainTextEditor {
   /**
    * Constructs a new PlainTextEditor instance.
    *
-   * @param {HTMLElement} element - The DOM element to be managed by the PlainTextEditor.
-   * @param {Object} options - An options object containing configuration settings for the PlainTextEditor.
-   * @constructor
+   * @param {HTMLElement} element - The HTML element representing the plain text editor.
+   * @param {HTMLIFrameElement} frame - The HTML iframe element containing the plain text editor.
+   * @param {Object} options - An object containing configuration options for the plain text editor.
    */
-  constructor(element, options) {
+  constructor(element, frame, options) {
     this.element = element
+    this.frame = frame
     this.options = options
     this.setupStyles()
     this.bindEvents()

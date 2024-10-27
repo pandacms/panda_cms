@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import { RichTextEditor } from "panda_cms_editor/rich_text_editor";
 import { PlainTextEditor } from "panda_cms_editor/plain_text_editor";
+import { ResourceLoader } from "panda_cms_editor/resource_loader";
 
 export class EditorController extends Controller {
   /**
@@ -50,7 +51,7 @@ export class EditorController extends Controller {
   initializeEditors() {
     console.debug("[Panda CMS] Starting editor initialization")
     this.initializePlainTextEditors()
-    this.initializeRichTextEditor()
+    this.initializeRichTextEditors()
   }
 
   /**
@@ -65,8 +66,7 @@ export class EditorController extends Controller {
 
     plainTextElements.forEach(element => {
       console.debug(`[Panda CMS] Initializing plain text editor for element:`, element)
-      console.log(this.adminPathValue);
-      const editor = new PlainTextEditor(element, {
+      const editor = new PlainTextEditor(element, this.frameDocument, {
         autosave: this.autosaveValue,
         adminPath: this.adminPathValue,
         csrfToken: this.csrfToken
@@ -84,26 +84,49 @@ export class EditorController extends Controller {
    * and initializing a RichTextEditor instance for each of them. It also sets the editorsInitialized.rich flag to true
    * and calls the checkAllEditorsInitialized method to notify that the rich text editors have been initialized.
    */
-  initializeRichTextEditor() {
+  initializeRichTextEditors() {
     const richTextElements = this.body.querySelectorAll('[data-editable-kind="rich_text"]')
     console.debug(`[Panda CMS] Found ${richTextElements.length} rich text elements`)
 
-    richTextElements.forEach(element => {
-      console.debug("[Panda CMS] Initializing rich text editor")
-      const editor = new RichTextEditor(this.frame, {
-        adminPath: this.adminPathValue,
-        csrfToken: this.csrfToken,
-        autosave: this.autosaveValue,
-        onLoad: () => {
-          this.editorsInitialized.rich = true
-          this.checkAllEditorsInitialized()
-        }
-      })
-      this.editors.push(editor)
-    })
+    if (richTextElements.length > 0) {
+      Promise.all([
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"), // Base EditorJS
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/header@latest"), // Header Tool
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/list@latest"), // List Tool
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"), // Quote Tool
+        ResourceLoader.embedCSS(this.frameDocument, this.head, ".ce-toolbar__content { margin: 0 !important; margin-left: 40px; max-width: 100% !important; width: 100% !important; } .ce-block__content { margin: 0 !important; margin-left: 10px !important; }")
+      ]).then(() => {
+        richTextElements.forEach(element => {
+          console.debug(`[Panda CMS] Initializing rich text editor for element:`, element)
+          const editor = new RichTextEditor(element, this.frameDocument, {
+            adminPath: this.adminPathValue,
+            csrfToken: this.csrfToken,
+            autosave: this.autosaveValue
+          })
 
-    this.editorsInitialized.rich = true
-    this.checkAllEditorsInitialized()
+          const editorConfiguration = {
+            holder: element.id,
+            tools: {
+              // header: Header
+              // list: List
+            }
+          }
+
+          ResourceLoader.embedScript(
+            `EditorJS configuration for ${element.id}`,
+            this.frameDocument,
+            this.head,
+            `new EditorJS(${JSON.stringify(editorConfiguration)})`
+          )
+
+          console.debug(`[Panda CMS] Initialized rich text editor for element:`, element)
+          this.editors.push(editor)
+        })
+      }).then(() => {
+        this.editorsInitialized.rich = true
+        this.checkAllEditorsInitialized()
+      })
+    }
   }
 
   /**
