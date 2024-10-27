@@ -32,7 +32,7 @@ module PandaCms
       if @editable
         @options[:data] = {
           block_content_id: block_content&.id,
-          mode: "rich-text"
+          mode: "rich_text"
         }
       else
         @content = @content.html_safe

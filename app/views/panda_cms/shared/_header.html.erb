@@ -8,7 +8,6 @@
     <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag "panda_cms", "data-turbo-track": "reload", media: "all" %>
     <%= render "panda_cms/shared/importmap" %>
-    <%#= turbo_refreshes_with method: :morph, scroll: :preserve %>
     <%= render "panda_cms/shared/favicons" %>
     <%= yield :head %>
   </head>

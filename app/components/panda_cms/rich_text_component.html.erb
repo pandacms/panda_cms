@@ -1,5 +1,5 @@
 <% if @editable %>
-  <input id="trix_<%= @options[:id] %>" value="<%= @content %>" type="hidden" name="trix_<%= @options[:id] %>" data-editor-block-content-id="<%= @options[:data][:block_content_id] %>" data-editor-type="<%= @options[:data][:mode] %>">
+  <input id="trix_<%= @options[:id] %>" value="<%= @content %>" type="hidden" name="trix_<%= @options[:id] %>" data-editor-block-content-id="<%= @options[:data][:block_content_id] %>" data-editable-kind="<%= @options[:data][:mode] %>">
   <trix-editor input="trix_<%= @options[:id] %>" class="panda-cms-content"></trix-editor>
 <% else %>
   <div class="panda-cms-content"><%= @content %></div>
