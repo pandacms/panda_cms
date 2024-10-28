@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus"
-import { RichTextEditor } from "panda_cms_editor/rich_text_editor";
 import { PlainTextEditor } from "panda_cms_editor/plain_text_editor";
 import { ResourceLoader } from "panda_cms_editor/resource_loader";
 
@@ -94,33 +93,88 @@ export class EditorController extends Controller {
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/header@latest"), // Header Tool
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/list@latest"), // List Tool
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"), // Quote Tool
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/nested-list@latest"), // Nested List Tool
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"), // Simple Image Tool
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/table@latest"), // Table Tool
         ResourceLoader.embedCSS(this.frameDocument, this.head, ".ce-toolbar__content { margin: 0 !important; margin-left: 40px; max-width: 100% !important; width: 100% !important; } .ce-block__content { margin: 0 !important; margin-left: 10px !important; }")
       ]).then(() => {
         richTextElements.forEach(element => {
           console.debug(`[Panda CMS] Initializing rich text editor for element:`, element)
-          const editor = new RichTextEditor(element, this.frameDocument, {
-            adminPath: this.adminPathValue,
-            csrfToken: this.csrfToken,
-            autosave: this.autosaveValue
-          })
 
-          const editorConfiguration = {
-            holder: element.id,
+          // TODO: Need a way to override this per-site ... or rather, block/editor?
+          const elementAsId = element.id.replace(/-/g, "_")
+          const adminPathValue = this.adminPathValue
+          const pageId = element.getAttribute("data-editable-page-id")
+          const blockContentId = element.getAttribute("data-editable-block-content-id")
+          const csrfToken = document.querySelector('meta[name="csrf-token"]').content
+          const previousData = element.getAttribute("data-editable-previous-data")
+          const editorConfig = `{
+            holder: '${element.id}',
+            data: ${previousData},
             tools: {
-              // header: Header
-              // list: List
+              header: {
+                class: Header,
+                config: {
+                  placeholder: 'Enter a header',
+                  levels: [2, 3],
+                  defaultLevel: 2
+                }
+              },
+              list: {
+                class: NestedList,
+                inlineToolbar: true,
+                config: {
+                  defaultStyle: 'unordered'
+                },
+              },
+              table: {
+                class: Table,
+                inlineToolbar: true,
+                config: {
+                  rows: 2,
+                  cols: 3
+                }
+              },
+              image: SimpleImage,
+              quote: Quote
             }
-          }
+          }`
+
+          console.log(editorConfig);
 
           ResourceLoader.embedScript(
             `EditorJS configuration for ${element.id}`,
             this.frameDocument,
             this.head,
-            `new EditorJS(${JSON.stringify(editorConfiguration)})`
-          )
+            `
+              const ${elementAsId} = new EditorJS(${editorConfig})
+              parent.document.getElementById('saveEditableButton').addEventListener('click', (element) => {
+                ${elementAsId}.save().then((outputData) => {
+                  outputData.source = "editorJS"
+                  console.log('Saving successful, here is outputData:')
+                  dataToSend = JSON.stringify({ content: outputData })
+                  console.log(dataToSend)
+                  fetch("${adminPathValue}/pages/${pageId}/block_contents/${blockContentId}", {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                      "X-CSRF-Token": "${this.csrfToken}"
+                    },
+                    body: dataToSend
+                  })
+                  .then(response => console.log(response))
+                  .then(() => alert("Saved"))
+                  .catch((error) => alert("Saving failed (1): " + error))
+                }).catch((error) => {
+                  console.log('Saving failed: ', error)
+                  alert('Saving failed (2): ' + error)
+                })
+              })
 
-          console.debug(`[Panda CMS] Initialized rich text editor for element:`, element)
-          this.editors.push(editor)
+              console.debug("[Panda CMS] Initialized rich text editor for element: ${elementAsId}")
+            `
+          )
+          this.editors.push(elementAsId)
         })
       }).then(() => {
         this.editorsInitialized.rich = true
