@@ -50,7 +50,7 @@ module PandaCms
         tag_pattern = /<\/?([a-z]+)[^>]*>/i
         position = 0
 
-        while match = html[position..].match(tag_pattern)
+        while (match = html[position..].match(tag_pattern))
           tag_name = match[1].downcase
           is_closing = match[0].start_with?("</")
 
