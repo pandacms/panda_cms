@@ -50,7 +50,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "stimulus-rails" # , "~> 1.3"
   spec.add_dependency "tailwindcss-rails", "~> 3"
   spec.add_dependency "turbo-rails" # , "~> 2.0"
-  # spec.add_dependency "view_component", "~> 3.14"
+  spec.add_dependency "view_component", "~> 3"
   spec.add_dependency "whois-parser", "~> 2.0"
 
   spec.add_development_dependency "annotate"
