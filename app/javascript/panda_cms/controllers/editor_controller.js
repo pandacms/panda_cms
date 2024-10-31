@@ -102,7 +102,7 @@ export class EditorController extends Controller {
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"), // Simple Image Tool
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/table@latest"), // Table Tool
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"), // Link Tool
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/editorjs-alert@latest"), // Alert Tool
+        // ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/editorjs-alert@latest"), // Alert Tool
         ResourceLoader.embedCSS(this.frameDocument, this.head, ".ce-toolbar__content { margin: 0 !important; margin-left: 40px; max-width: 100% !important; width: 100% !important; } .ce-block__content { max-width: 100%; margin: 0 !important; margin-left: 10px !important; }")
       ]).then(() => {
         richTextElements.forEach(element => {
@@ -134,7 +134,22 @@ export class EditorController extends Controller {
                   defaultStyle: 'unordered'
                 },
               },
-              alert: Alert,
+              alert: {
+                class: Alert,
+                inlineToolbar: true,
+                config: {
+                  defaultType: 'primary',
+                  messagePlaceholder: 'Enter something',
+                  types: {
+                    primary: 'Primary',
+                    secondary: 'Secondary',
+                    success: 'Success',
+                    danger: 'Danger',
+                    warning: 'Warning',
+                    info: 'Info'
+                  }
+                }
+              },
               quote: Quote,
               table: {
                 class: Table,
