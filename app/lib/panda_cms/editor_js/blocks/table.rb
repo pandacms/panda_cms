@@ -8,7 +8,7 @@ module PandaCms
 
           html_safe(<<~HTML)
             <div class="overflow-x-auto">
-              <table class="prose min-w-full">
+              <table class="min-w-full">
                 #{render_rows(content, with_headings)}
               </table>
             </div>

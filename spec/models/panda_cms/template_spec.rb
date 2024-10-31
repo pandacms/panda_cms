@@ -81,7 +81,6 @@ RSpec.describe PandaCms::Template, type: :model do
     end
 
     it "creates block_contents for existing pages" do
-      pending "WIP"
       page = create(:page, template: template)
       described_class.generate_missing_blocks
       expect(page.block_contents.count).to eq(2)

@@ -101,7 +101,9 @@ export class EditorController extends Controller {
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/nested-list@latest"), // Nested List Tool
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"), // Simple Image Tool
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/table@latest"), // Table Tool
-        ResourceLoader.embedCSS(this.frameDocument, this.head, ".ce-toolbar__content { margin: 0 !important; margin-left: 40px; max-width: 100% !important; width: 100% !important; } .ce-block__content { margin: 0 !important; margin-left: 10px !important; }")
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"), // Link Tool
+        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/editorjs-alert@latest"), // Alert Tool
+        ResourceLoader.embedCSS(this.frameDocument, this.head, ".ce-toolbar__content { margin: 0 !important; margin-left: 40px; max-width: 100% !important; width: 100% !important; } .ce-block__content { max-width: 100%; margin: 0 !important; margin-left: 10px !important; }")
       ]).then(() => {
         richTextElements.forEach(element => {
           console.debug(`[Panda CMS] Initializing rich text editor for element:`, element)
@@ -132,6 +134,8 @@ export class EditorController extends Controller {
                   defaultStyle: 'unordered'
                 },
               },
+              alert: Alert,
+              quote: Quote,
               table: {
                 class: Table,
                 inlineToolbar: true,
@@ -141,7 +145,19 @@ export class EditorController extends Controller {
                 }
               },
               image: SimpleImage,
-              quote: Quote
+              embed: {
+                class: Embed,
+                config: {
+                  services: {
+                    youtube: true,
+                    instagram: true,
+                    miro: true,
+                    vimeo: true,
+                    pinterest: true,
+                    github: true
+                  }
+                }
+              },
             }
           }`
 

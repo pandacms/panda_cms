@@ -28,7 +28,7 @@ RSpec.describe PandaCms::EditorJs::Blocks::Table do
     rendered = described_class.new(table_with_headers).render
     expect(normalize_html(rendered)).to eq(normalize_html(
       '<div class="overflow-x-auto">' \
-        '<table class="prose min-w-full">' \
+        '<table class="min-w-full">' \
           "<tr><th>Name</th><th>Age</th><th>City</th></tr>" \
           "<tr><td>John</td><td>25</td><td>New York</td></tr>" \
           "<tr><td>Jane</td><td>30</td><td>London</td></tr>" \
@@ -41,7 +41,7 @@ RSpec.describe PandaCms::EditorJs::Blocks::Table do
     rendered = described_class.new(table_without_headers).render
     expect(normalize_html(rendered)).to eq(normalize_html(
       '<div class="overflow-x-auto">' \
-        '<table class="prose min-w-full">' \
+        '<table class="min-w-full">' \
           "<tr><td>John</td><td>25</td><td>New York</td></tr>" \
           "<tr><td>Jane</td><td>30</td><td>London</td></tr>" \
         "</table>" \

@@ -39,6 +39,8 @@ module PandaCms
           page_id: Current.page.id,
           mode: "rich_text"
         }
+
+        @content = block_content.content
       elsif @content.is_a?(Hash)
         renderer = PandaCms::EditorJs::Renderer.new(@content)
         @content = renderer.render
