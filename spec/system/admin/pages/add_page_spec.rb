@@ -41,6 +41,7 @@ RSpec.describe "When adding a page", type: :system, js: true do
       expect(page).to have_field("URL", with: "/new-test-page")
       select "Page", from: "Template"
       click_button "Create Page"
+      # pause
 
       within_frame "editablePageFrame" do
         expect(page).to have_link("New Test Page", href: "/new-test-page")

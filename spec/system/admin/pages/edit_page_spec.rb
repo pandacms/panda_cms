@@ -39,6 +39,7 @@ RSpec.describe "When editing a page", type: :system do
       find("a", id: "slideover-toggle").click
 
       within("#slideover") do
+        pause
         expect(page).to have_field("Title", with: "About")
         expect(page).to have_field("Template", with: "Page", disabled: true)
       end

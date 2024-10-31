@@ -31,7 +31,7 @@ module PandaCms
         block_content = PandaCms::BlockContent.create(block: block, panda_cms_page_id: Current.page.id, content: "")
       end
 
-      @content = block_content.content
+      @content = block_content.cached_content || block_content.content
       @options[:id] = block_content.id
 
       if @editable

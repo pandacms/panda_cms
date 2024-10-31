@@ -26,7 +26,12 @@ export class EditorController extends Controller {
     console.debug("[Panda CMS] Editor controller connected")
     this.frame = this.element
     this.frame.style.display = "none"
-    this.csrfToken = document.querySelector('meta[name="csrf-token"]').content
+    if (document.querySelector('meta[name="csrf-token"]')) {
+      this.csrfToken = document.querySelector('meta[name="csrf-token"]').content
+    } else {
+      this.csrfToken = ""
+    }
+
     this.editors = []
     this.editorsInitialized = {
       plain: false,
@@ -106,7 +111,7 @@ export class EditorController extends Controller {
           const adminPathValue = this.adminPathValue
           const pageId = element.getAttribute("data-editable-page-id")
           const blockContentId = element.getAttribute("data-editable-block-content-id")
-          const csrfToken = document.querySelector('meta[name="csrf-token"]').content
+          const csrfToken = this.csrfToken
           const previousData = element.getAttribute("data-editable-previous-data")
           const editorConfig = `{
             holder: '${element.id}',
