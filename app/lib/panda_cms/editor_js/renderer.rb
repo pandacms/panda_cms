@@ -104,13 +104,6 @@ module PandaCms
         PandaCms::EditorJs::Blocks::Base.new(block["data"], options)
       end
 
-      def default_renderer_for(block)
-        renderer_class = "PandaCms::EditorJs::Blocks::#{block["type"].classify}".constantize
-        renderer_class.new(block["data"], options)
-      rescue NameError
-        PandaCms::EditorJs::Blocks::Base.new(block["data"], options)
-      end
-
       private
 
       def has_invalid_html?(data)
