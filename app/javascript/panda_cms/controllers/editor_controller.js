@@ -161,7 +161,7 @@ export class EditorController extends Controller {
             }
           }`
 
-          console.log(editorConfig);
+          // console.log(editorConfig);
 
           ResourceLoader.embedScript(
             `EditorJS configuration for ${element.id}`,
