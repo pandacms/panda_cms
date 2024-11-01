@@ -1,4 +1,13 @@
 GIT
+  remote: https://github.com/augustosamame/bullet.git
+  revision: fafdd7f6e4441dd729b9cf9ad8dd108f62751340
+  branch: testing/rails8beta
+  specs:
+    bullet (7.2.0)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
+
+GIT
   remote: https://github.com/collectiveidea/awesome_nested_set.git
   revision: 8ad6f3c1ab4fcafaabd019bb50823ee733038337
   branch: master
@@ -633,6 +642,7 @@ GEM
       rainbow (>= 2.1, < 4.0)
       rugged (>= 0.27, < 1.8)
     unicode-display_width (2.6.0)
+    uniform_notifier (1.16.0)
     uri (0.13.1)
     useragent (0.16.10)
     version_gem (1.1.4)
@@ -678,6 +688,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   brakeman
+  bullet!
   bundler-audit
   capybara
   cuprite

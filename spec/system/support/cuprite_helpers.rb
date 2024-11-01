@@ -32,11 +32,11 @@ Capybara.register_driver(:better_cuprite) do |app|
     **@cuprite_options
   )
   process = driver.browser.process
-  puts ""
-  puts "Browser: #{process.browser_version}"
-  puts "Protocol: #{process.protocol_version}"
-  puts "V8: #{process.v8_version}"
-  puts "Webkit: #{process.webkit_version}"
+
+  Rails.logger.info "Browser: #{process.browser_version}"
+  Rails.logger.info "Protocol: #{process.protocol_version}"
+  Rails.logger.info "V8: #{process.v8_version}"
+  Rails.logger.info "Webkit: #{process.webkit_version}"
   driver
 end
 
