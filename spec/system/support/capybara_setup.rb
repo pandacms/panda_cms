@@ -32,6 +32,3 @@ Capybara.server_port = 3001
 
 PandaCms.config.url = Capybara.app_host
 Rails.application.routes.default_url_options[:host] = Capybara.app_host
-
-# Capybara.server_host = "0.0.0.0" # bind to all interfaces
-# Capybara.server = :puma, {Silent: true, Threads: "1:1"}

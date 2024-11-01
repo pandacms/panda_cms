@@ -1,7 +1,34 @@
 # First, load Cuprite Capybara integration
 require "capybara/cuprite"
 
-CUPRITE_LOGGER = StringIO.new
+# Options are:
+# 1. StringIO.new logs _everything_. It's quite a lot.
+# 2. CupriteLogger logs only Runtime.exceptionThrown and Log.entryAdded events.
+
+# Source: https://github.com/rubycdp/cuprite/issues/113#issuecomment-753598305
+class CupriteLogger
+  attr_reader :logs
+
+  def initialize
+    @logs = []
+  end
+
+  # Filter out the noise - I believe Runtime.exceptionThrown and Log.entryAdded are the interesting log methods but there might be others you need
+  def puts(log_str)
+    _log_symbol, _log_time, log_body_str = log_str.strip.split(" ", 3)
+    log_body = JSON.parse(log_body_str)
+    if %w[Runtime.exceptionThrown Log.entryAdded].include?(log_body["method"])
+      selenium_compatible_log_message = "#{log_body["params"]["entry"]["url"]} - #{log_body["params"]["entry"]["text"]}"
+      @logs << {message: selenium_compatible_log_message, level: log_body["params"]["entry"]["level"]}
+    end
+  end
+
+  def truncate
+    @logs = []
+  end
+end
+
+CUPRITE_LOGGER = CupriteLogger.new
 
 @cuprite_options = {
   window_size: [1440, 800],
