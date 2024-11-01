@@ -94,7 +94,7 @@ jobs:
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           bundle exec rake db:schema:load
-          bundle exec rspec -f j -o tmp/rspec_results.json -f p
+          xvfb-run -a bundle exec rspec -f j -o tmp/rspec_results.json -f p
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
