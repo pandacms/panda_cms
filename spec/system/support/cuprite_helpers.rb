@@ -1,6 +1,8 @@
 # First, load Cuprite Capybara integration
 require "capybara/cuprite"
 
+CUPRITE_LOGGER = Logger.new($stdout)
+
 @cuprite_options = {
   window_size: [1440, 800],
   # See additional options for Dockerized environment in the respective section of this article
@@ -15,7 +17,9 @@ require "capybara/cuprite"
   js_errors: !ENV["JS_ERRORS"].in?(%w[n 0 no false]),
   # Allow running Chrome in a headful mode by setting HEADLESS env
   # var to a falsey value
-  headless: !ENV["HEADLESS"].in?(%w[n 0 no false])
+  headless: !ENV["HEADLESS"].in?(%w[n 0 no false]),
+  # Log cuprite logs to stdout
+  logger: CUPRITE_LOGGER
 }
 
 # Then, we need to register our driver to be able to use it later
@@ -23,10 +27,17 @@ require "capybara/cuprite"
 # NOTE: The name :cuprite is already registered by Rails.
 # See https://github.com/rubycdp/cuprite/issues/180
 Capybara.register_driver(:better_cuprite) do |app|
-  Capybara::Cuprite::Driver.new(
+  driver = Capybara::Cuprite::Driver.new(
     app,
     **@cuprite_options
   )
+  process = driver.browser.process
+  puts ""
+  puts "Browser: #{process.browser_version}"
+  puts "Protocol: #{process.protocol_version}"
+  puts "V8: #{process.v8_version}"
+  puts "Webkit: #{process.webkit_version}"
+  driver
 end
 
 # Configure Capybara to use :better_cuprite driver by default

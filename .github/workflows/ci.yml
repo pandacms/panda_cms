@@ -75,7 +75,7 @@ jobs:
       - name: "Install xvfb"
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb
+          sudo apt-get install -y xvfb libvips
           export DISPLAY=':99.0'
           Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 
@@ -92,6 +92,7 @@ jobs:
           PG_USER: "postgres"
           CAPYBARA_ARTIFACTS: "../tmp/capybara"
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          CUPRITE_DEBUG: "true"
         run: |
           bundle exec rake db:schema:load
           xvfb-run -a bundle exec rspec -f j -o tmp/rspec_results.json -f p
