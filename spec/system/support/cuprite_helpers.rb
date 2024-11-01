@@ -1,7 +1,7 @@
 # First, load Cuprite Capybara integration
 require "capybara/cuprite"
 
-CUPRITE_LOGGER = Logger.new($stdout)
+CUPRITE_LOGGER = StringIO.new
 
 @cuprite_options = {
   window_size: [1440, 800],
@@ -34,10 +34,11 @@ Capybara.register_driver(:better_cuprite) do |app|
     **@cuprite_options
   )
 
-  Rails.logger.info "Browser: #{driver.browser.process.browser_version}"
-  Rails.logger.info "Protocol: #{driver.browser.process.protocol_version}"
-  Rails.logger.info "V8: #{driver.browser.process.v8_version}"
-  Rails.logger.info "Webkit: #{driver.browser.process.webkit_version}"
+  process = driver.browser.process
+  puts "Browser: #{process.browser_version}"
+  puts "Protocol: #{process.protocol_version}"
+  puts "V8: #{process.v8_version}"
+  puts "Webkit: #{process.webkit_version}"
 
   driver
 end
@@ -70,4 +71,21 @@ end
 
 RSpec.configure do |config|
   config.include CupriteHelpers, type: :system
+
+  config.around do |example|
+    if ENV["CI"]
+      CUPRITE_LOGGER.truncate(0)
+      CUPRITE_LOGGER.rewind
+    end
+
+    example.run
+
+    if ENV["CI"] && example.exception && example.metadata[:js]
+      if example.exception.message.frozen?
+        raise CUPRITE_LOGGER.string
+      else
+        example.exception.message << "\n\nDebug info:\n" + CUPRITE_LOGGER.string
+      end
+    end
+  end
 end
