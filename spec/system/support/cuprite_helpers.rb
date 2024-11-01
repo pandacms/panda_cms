@@ -31,6 +31,7 @@ Capybara.register_driver(:better_cuprite) do |app|
     app,
     **@cuprite_options
   )
+
   process = driver.browser.process
 
   Rails.logger.info "Browser: #{process.browser_version}"
