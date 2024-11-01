@@ -1,13 +1,4 @@
 GIT
-  remote: https://github.com/augustosamame/bullet.git
-  revision: fafdd7f6e4441dd729b9cf9ad8dd108f62751340
-  branch: testing/rails8beta
-  specs:
-    bullet (7.2.0)
-      activesupport (>= 3.0.0)
-      uniform_notifier (~> 1.11)
-
-GIT
   remote: https://github.com/collectiveidea/awesome_nested_set.git
   revision: 8ad6f3c1ab4fcafaabd019bb50823ee733038337
   branch: master
@@ -17,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/rails.git
-  revision: bfd5b59a82c4fae7cc8d564e5c5f276f65e8cb92
+  revision: a7c8a20825be5ac8d96566ec5dbe9daa85568bc8
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -161,7 +152,7 @@ GEM
       rake (>= 0.8.7)
     ast (2.4.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.1000.0)
+    aws-partitions (1.1001.0)
     aws-sdk-core (3.211.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -249,7 +240,7 @@ GEM
       danger-plugin-api (~> 1.0)
     danger-todoist (2.0.1)
       danger-plugin-api (~> 1.0)
-    date (3.3.4)
+    date (3.4.0)
     debug_inspector (1.2.0)
     diff-lcs (1.5.1)
     docile (1.4.1)
@@ -562,7 +553,7 @@ GEM
     rubocop-performance (1.22.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    ruby-lsp (0.21.1)
+    ruby-lsp (0.21.2)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
       rbs (>= 3, < 4)
@@ -602,7 +593,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    sorbet-runtime (0.5.11630)
+    sorbet-runtime (0.5.11631)
     standard (1.41.1)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -642,7 +633,6 @@ GEM
       rainbow (>= 2.1, < 4.0)
       rugged (>= 0.27, < 1.8)
     unicode-display_width (2.6.0)
-    uniform_notifier (1.16.0)
     uri (0.13.1)
     useragent (0.16.10)
     version_gem (1.1.4)
@@ -650,7 +640,7 @@ GEM
       activesupport (>= 5.2.0, < 8.1)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
-    webrick (1.8.2)
+    webrick (1.9.0)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -688,7 +678,6 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   brakeman
-  bullet!
   bundler-audit
   capybara
   cuprite
