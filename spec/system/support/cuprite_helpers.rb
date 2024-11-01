@@ -19,7 +19,9 @@ CUPRITE_LOGGER = Logger.new($stdout)
   # var to a falsey value
   headless: !ENV["HEADLESS"].in?(%w[n 0 no false]),
   # Log cuprite logs to stdout
-  logger: CUPRITE_LOGGER
+  logger: CUPRITE_LOGGER,
+  # Make Docker happy
+  "no-sandbox": nil
 }
 
 # Then, we need to register our driver to be able to use it later
@@ -32,12 +34,11 @@ Capybara.register_driver(:better_cuprite) do |app|
     **@cuprite_options
   )
 
-  process = driver.browser.process
+  Rails.logger.info "Browser: #{driver.browser.process.browser_version}"
+  Rails.logger.info "Protocol: #{driver.browser.process.protocol_version}"
+  Rails.logger.info "V8: #{driver.browser.process.v8_version}"
+  Rails.logger.info "Webkit: #{driver.browser.process.webkit_version}"
 
-  Rails.logger.info "Browser: #{process.browser_version}"
-  Rails.logger.info "Protocol: #{process.protocol_version}"
-  Rails.logger.info "V8: #{process.v8_version}"
-  Rails.logger.info "Webkit: #{process.webkit_version}"
   driver
 end
 
