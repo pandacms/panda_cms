@@ -23,9 +23,18 @@ class CupriteLogger
     case log_body["method"]
     when "Runtime.consoleAPICalled"
       log_body["params"]["args"].each do |arg|
-        Kernel.puts arg["value"]
+        case arg["type"]
+        when "string"
+          Kernel.puts arg["value"]
+        when "object"
+          Kernel.puts arg["preview"]["properties"].map { |x| [x["name"], x["value"]] }.to_h
+        end
       end
-    when "Runtime.exceptionThrown", "Log.entryAdded"
+
+    when "Runtime.exceptionThrown"
+      # noop, this is already logged because we have "js_errors: true" in cuprite.
+
+    when "Log.entryAdded"
       Kernel.puts "#{log_body["params"]["entry"]["url"]} - #{log_body["params"]["entry"]["text"]}"
     end
   end
