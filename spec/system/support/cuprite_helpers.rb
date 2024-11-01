@@ -13,17 +13,24 @@ class CupriteLogger
     @logs = []
   end
 
-  # Filter out the noise - I believe Runtime.exceptionThrown and Log.entryAdded are the interesting log methods but there might be others you need
   def puts(log_str)
     _log_symbol, _log_time, log_body_str = log_str.strip.split(" ", 3)
+
+    return if log_body_str.nil?
+
     log_body = JSON.parse(log_body_str)
-    if %w[Runtime.exceptionThrown Log.entryAdded].include?(log_body["method"])
-      selenium_compatible_log_message = "#{log_body["params"]["entry"]["url"]} - #{log_body["params"]["entry"]["text"]}"
-      @logs << {message: selenium_compatible_log_message, level: log_body["params"]["entry"]["level"]}
+
+    case log_body["method"]
+    when "Runtime.consoleAPICalled"
+      log_body["params"]["args"].each do |arg|
+        Kernel.puts arg["value"]
+      end
+    when "Runtime.exceptionThrown", "Log.entryAdded"
+      Kernel.puts "#{log_body["params"]["entry"]["url"]} - #{log_body["params"]["entry"]["text"]}"
     end
   end
 
-  def truncate
+  def truncate(size)
     @logs = []
   end
 end
