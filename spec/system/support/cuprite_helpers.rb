@@ -30,7 +30,7 @@ class CupriteLogger
     end
   end
 
-  def truncate(size)
+  def truncate
     @logs = []
   end
 end
@@ -108,8 +108,7 @@ RSpec.configure do |config|
 
   config.around do |example|
     if ENV["CI"]
-      CUPRITE_LOGGER.truncate(0)
-      CUPRITE_LOGGER.rewind
+      CUPRITE_LOGGER.truncate
     end
 
     example.run
