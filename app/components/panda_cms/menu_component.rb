@@ -12,12 +12,13 @@ module PandaCms
     #  The "default" key is applied to all menu items. "inactive" and "active" are set based on the
     #  current path.
     # @return [void]
-    def initialize(name:, current_path: "", styles: {})
+    def initialize(name:, current_path: "", styles: {}, render_page_menu: false, page_menu_styles: {})
       @menu = PandaCms::Menu.find_by(name: name)
       @menu_items = @menu.menu_items
       @menu_items = @menu_items.where("depth <= ?", @menu.depth) if @menu.depth
       @menu_items = @menu_items.order(:lft)
       @current_path = current_path.to_s
+      @render_page_menu = render_page_menu
 
       @menu_items = @menu_items.order(:lft).map do |menu_item|
         if is_active?(menu_item)
@@ -27,6 +28,12 @@ module PandaCms
         end
 
         menu_item
+      end
+
+      # TODO: Surely don't need this but Current.page isn't working in the component
+      if @render_page_menu
+        @current_page = PandaCms::Page.find_by(path: @current_path)
+        @page_menu_styles = page_menu_styles
       end
     end
 
