@@ -32,8 +32,10 @@ CUPRITE_LOGGER = CupriteLogger.new
 
 @cuprite_options = {
   window_size: [1440, 800],
-  # See additional options for Dockerized environment in the respective section of this article
-  browser_options: {},
+  # Have to set this to make CI happy
+  browser_options: {
+    "no-sandbox": nil
+  },
   # Increase Chrome startup wait time (required for stable CI builds)
   process_timeout: 10,
   # Enable debugging capabilities
@@ -46,9 +48,7 @@ CUPRITE_LOGGER = CupriteLogger.new
   # var to a falsey value
   headless: !ENV["HEADLESS"].in?(%w[n 0 no false]),
   # Log cuprite logs to stdout
-  logger: CUPRITE_LOGGER,
-  # Make Docker happy
-  "no-sandbox": nil
+  logger: CUPRITE_LOGGER
 }
 
 # Then, we need to register our driver to be able to use it later
