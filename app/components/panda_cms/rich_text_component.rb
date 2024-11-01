@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "render_editorjs"
+
 module PandaCms
   # Text component
   # @param key [Symbol] The key to use for the text component
@@ -25,15 +27,23 @@ module PandaCms
       @editable &&= params[:embed_id].present? && params[:embed_id] == Current.page.id && Current.user.admin?
       block = PandaCms::Block.find_by(kind: "rich_text", key: @key, panda_cms_template_id: Current.page.panda_cms_template_id)
       block_content = block.block_contents.find_by(panda_cms_page_id: Current.page.id)
-      @content = block_content.content
+      if block_content.nil?
+        block_content = PandaCms::BlockContent.create(block: block, panda_cms_page_id: Current.page.id, content: "")
+      end
 
-      @options[:id] = "editor_rich_text_#{block_content.id.tr("-", "_")}"
+      @content = block_content.cached_content || block_content.content
+      @options[:id] = block_content.id
 
       if @editable
         @options[:data] = {
-          block_content_id: block_content&.id,
-          mode: "rich-text"
+          page_id: Current.page.id,
+          mode: "rich_text"
         }
+
+        @content = block_content.content
+      elsif @content.is_a?(Hash)
+        renderer = PandaCms::EditorJs::Renderer.new(@content)
+        @content = renderer.render
       else
         @content = @content.html_safe
       end

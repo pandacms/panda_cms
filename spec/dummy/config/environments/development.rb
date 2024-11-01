@@ -13,7 +13,9 @@ Rails.application.configure do
   end
 
   # Settings specified here will take precedence over those in config/application.rb.
-  config.assets.debug = true
+  if Rails.application.config.respond_to?(:assets)
+    config.assets.debug = true
+  end
 
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
@@ -72,7 +74,7 @@ Rails.application.configure do
   config.active_job.verbose_enqueue_logs = true
 
   # Suppress logger output for asset requests.
-  config.assets.quiet = false
+  config.assets.quiet = false if Rails.configuration.respond_to?(:assets)
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
