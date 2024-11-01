@@ -1,10 +1,12 @@
 <nav class="<%= styles[:container] %>">
   <ul role="list" class="p-0 m-0">
-    <li>
-      <a href="<%= menu_item.page.path %>" class="<%= menu_item.page == PandaCms::Current.page ? styles[:current_page_active] : styles[:current_page_inactive] %>">
-        <%= menu_item.text %>
-      </a>
-    </li>
+    <% if @show_heading %>
+      <li>
+        <a href="<%= menu_item.page.path %>" class="<%= menu_item.page == PandaCms::Current.page ? styles[:current_page_active] : styles[:current_page_inactive] %>">
+          <%= menu_item.text %>
+        </a>
+      </li>
+    <% end %>
     <ul>
       <% PandaCms::MenuItem.includes(:page).each_with_level(menu_item.descendants) do |submenu_item, level| %>
         <% next if PandaCms::Current.page == menu_item.page && level > 1 # If we're on the "top" menu item, only show its direct ancestors %>

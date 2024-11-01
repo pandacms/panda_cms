@@ -15,8 +15,7 @@ RSpec.describe PandaCms::Template, type: :model do
 
     context "file_path format" do
       it "allows valid layout paths where the file exists" do
-        pending "WIP"
-        template = build(:template, file_path: "layouts/page")
+        template = build(:template, file_path: "layouts/different_page")
         expect(template).to be_valid
       end
 
@@ -53,17 +52,15 @@ RSpec.describe PandaCms::Template, type: :model do
 
     describe ".available" do
       it "returns all templates with no max_uses or available capacity" do
-        pending "WIP"
         available = described_class.available
-        expect(available).to include(template1, template2)
-        expect(available).not_to include(template3)
+        expect(available).to include(template1)
+        expect(available).not_to include(template2, template3)
       end
     end
   end
 
   describe ".generate_missing_blocks" do
-    pending "WIP"
-    let(:template) { create(:template, file_path: "layouts/page") }
+    let(:template) { create(:template, file_path: "layouts/different_page") }
     let(:template_content) do
       <<~ERB
         <%= render PandaCms::RichTextComponent.new(key: :content) %>
@@ -73,19 +70,17 @@ RSpec.describe PandaCms::Template, type: :model do
     end
 
     before do
-      allow(Dir).to receive(:glob).and_return(["app/views/layouts/test.html.erb"])
+      allow(Dir).to receive(:glob).and_return(["app/views/layouts/different_page.html.erb"])
       allow(File).to receive(:open).and_return(StringIO.new(template_content))
     end
 
     it "creates blocks for components in templates" do
-      pending "WIP"
       expect {
         described_class.generate_missing_blocks
       }.to change(PandaCms::Block, :count).by(2) # Not counting MenuComponent
     end
 
     it "creates block_contents for existing pages" do
-      pending "WIP"
       page = create(:page, template: template)
       described_class.generate_missing_blocks
       expect(page.block_contents.count).to eq(2)

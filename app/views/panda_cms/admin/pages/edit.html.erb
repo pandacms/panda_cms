@@ -16,13 +16,14 @@
       <span class="absolute right-0"><%= render PandaCms::Admin::ButtonComponent.new(text: "Save Changes", action: :save_inactive, icon: "check", link: "#", size: :regular, id: "saveEditableButton") %></span>
     </div>
   </div>
-  <iframe id="editablePageFrame" src="<%= page.path %>?embed_id=<%= page.id %>" class="p-0 m-0 w-full h-full border border-slate-200"></iframe>
-<% end %>
-<% content_for :head do %>
-  <%#= javascript_include_tag "panda_cms_editable", "data-turbo-track": "reload", defer: true %>
-  <!-- <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const editable = new PandaCmsEditableController("<%= page.id %>", document.getElementById("editablePageFrame"));
-    });
-  </script> -->
+  <%= content_tag :iframe, nil,
+      src: "#{page.path}?embed_id=#{page.id}",
+      class: "p-0 m-0 w-full h-full border border-slate-200",
+      id: "editablePageFrame",
+      data: {
+        controller: "editor",
+        editor_page_id_value: @page.id,
+        editor_admin_path_value: "#{admin_dashboard_url}",
+        editor_autosave_value: false
+      } %>
 <% end %>

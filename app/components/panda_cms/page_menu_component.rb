@@ -6,7 +6,7 @@ module PandaCms
     attr_accessor :menu_item
     attr_accessor :styles
 
-    def initialize(page:, start_depth:, styles: {})
+    def initialize(page:, start_depth:, styles: {}, show_heading: true)
       @page = page
 
       unless @page.nil?
@@ -20,6 +20,8 @@ module PandaCms
         return if menu.nil?
 
         @menu_item = menu.menu_items.order(:lft)&.first
+
+        @show_heading = show_heading
 
         # Set some default styles for sanity
         @styles = styles
