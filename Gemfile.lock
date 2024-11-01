@@ -1,6 +1,14 @@
 GIT
+  remote: https://github.com/collectiveidea/awesome_nested_set.git
+  revision: 8ad6f3c1ab4fcafaabd019bb50823ee733038337
+  branch: master
+  specs:
+    awesome_nested_set (3.7.0)
+      activerecord (>= 4.0.0, < 8.1)
+
+GIT
   remote: https://github.com/rails/rails.git
-  revision: b943622bdc746370ac860bfd3240cc0b8ca59d90
+  revision: bfd5b59a82c4fae7cc8d564e5c5f276f65e8cb92
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -97,24 +105,6 @@ GIT
       thor (~> 1.0, >= 1.2.2)
       zeitwerk (~> 2.6)
 
-GIT
-  remote: https://github.com/tnir/awesome_nested_set.git
-  revision: 4b55ccc7bb54a87f736b1800afe8bfa9a60271a7
-  branch: rails80
-  specs:
-    awesome_nested_set (3.7.0)
-      activerecord (>= 4.0.0, < 8.1)
-
-GIT
-  remote: https://github.com/viewcomponent/view_component.git
-  revision: 070f0dd244fdb57eb99e4437984a4b9c0867caa8
-  branch: main
-  specs:
-    view_component (3.19.0)
-      activesupport (>= 5.2.0, < 8.1)
-      concurrent-ruby (~> 1.0)
-      method_source (~> 1.0)
-
 PATH
   remote: .
   specs:
@@ -142,10 +132,12 @@ PATH
       pg
       propshaft
       redcarpet
+      render_editorjs
       silencer (~> 2.0)
       stimulus-rails
       tailwindcss-rails (~> 3)
       turbo-rails
+      view_component (~> 3)
       whois-parser (~> 2.0)
 
 GEM
@@ -160,7 +152,7 @@ GEM
       rake (>= 0.8.7)
     ast (2.4.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.993.0)
+    aws-partitions (1.1000.0)
     aws-sdk-core (3.211.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -256,8 +248,9 @@ GEM
     dry-configurable (1.2.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
-    dry-core (1.0.1)
+    dry-core (1.0.2)
       concurrent-ruby (~> 1.0)
+      logger
       zeitwerk (~> 2.6)
     dry-inflector (1.1.0)
     dry-initializer (3.1.1)
@@ -290,8 +283,8 @@ GEM
     erubi (1.13.0)
     factory_bot (6.5.0)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.4.3)
-      factory_bot (~> 6.4)
+    factory_bot_rails (6.4.4)
+      factory_bot (~> 6.5)
       railties (>= 5.0.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
@@ -350,7 +343,9 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.7.2)
+    json (2.7.5)
+    json-schema (5.0.1)
+      addressable (~> 2.8)
     jwt (2.9.3)
       base64
     kramdown (2.4.0)
@@ -358,17 +353,17 @@ GEM
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     language_server-protocol (3.17.0.3)
-    lefthook (1.8.1)
+    lefthook (1.8.2)
     lint_roller (1.1.0)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     local_time (3.0.2)
     logger (1.6.1)
-    loofah (2.22.0)
+    loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    lookbook (2.3.2)
+    lookbook (2.3.4)
       activemodel
       css_parser
       htmlbeautifier (~> 1.3)
@@ -407,7 +402,7 @@ GEM
       timeout
     net-smtp (0.5.0)
       net-protocol
-    nio4r (2.7.3)
+    nio4r (2.7.4)
     nokogiri (1.16.7-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.7-arm-linux)
@@ -459,7 +454,7 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.26.3)
-    parser (3.3.5.0)
+    parser (3.3.5.1)
       ast (~> 2.4.1)
       racc
     pg (1.5.9)
@@ -515,9 +510,14 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.10)
       io-console (~> 0.5)
+    render_editorjs (0.1.5)
+      actionview (>= 4)
+      json-schema (>= 2)
+      sanitize (>= 6.0.0)
+      zeitwerk
     request_store (1.7.0)
       rack (>= 1.4)
-    rexml (3.3.8)
+    rexml (3.3.9)
     rouge (4.4.0)
     rspec-core (3.13.2)
       rspec-support (~> 3.13.0)
@@ -548,12 +548,12 @@ GEM
       rubocop-ast (>= 1.32.2, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.32.3)
+    rubocop-ast (1.33.0)
       parser (>= 3.3.1.0)
     rubocop-performance (1.22.1)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    ruby-lsp (0.20.1)
+    ruby-lsp (0.21.1)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
       rbs (>= 3, < 4)
@@ -566,6 +566,9 @@ GEM
       racc (~> 1.5)
       sexp_processor (~> 4.16)
     rugged (1.7.2)
+    sanitize (6.1.3)
+      crass (~> 1.0.2)
+      nokogiri (>= 1.12.0)
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
@@ -590,7 +593,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    sorbet-runtime (0.5.11611)
+    sorbet-runtime (0.5.11630)
     standard (1.41.1)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.0)
@@ -633,6 +636,10 @@ GEM
     uri (0.13.1)
     useragent (0.16.10)
     version_gem (1.1.4)
+    view_component (3.20.0)
+      activesupport (>= 5.2.0, < 8.1)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
     webrick (1.8.2)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -689,7 +696,6 @@ DEPENDENCIES
   msgpack
   ostruct
   panda_cms!
-  pstore
   puma
   rails!
   rails-route-checker
@@ -704,7 +710,6 @@ DEPENDENCIES
   simplecov_lcov_formatter
   standard
   undercover
-  view_component!
   yard-activerecord
 
 BUNDLED WITH

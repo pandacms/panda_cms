@@ -11,7 +11,7 @@ module PandaCms
       # @type PATCH/PUT
       # @return
       def update
-        if @block_content.update(block_content_params)
+        if @block_content.update!(content: params[:content])
           @block_content.page.touch # Update the page's updated_at
           render json: @block_content, status: :ok
         else

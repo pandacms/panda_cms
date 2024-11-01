@@ -1,6 +1,7 @@
 require "importmap-rails"
 require "turbo-rails"
 require "stimulus-rails"
+require "view_component"
 
 module PandaCms
   class Engine < ::Rails::Engine
@@ -31,7 +32,7 @@ module PandaCms
     )
 
     # Custom error handling
-    config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
+    # config.exceptions_app = PandaCms::ExceptionsApp.new(exceptions_app: routes)
 
     initializer "panda_cms.assets" do |app|
       if Rails.configuration.respond_to?(:assets)
@@ -68,13 +69,13 @@ module PandaCms
 
     # Set up ViewComponent and Lookbook
     # config.view_component.component_parent_class = "PandaCms::BaseComponent"
-    config.view_component.view_component_path = PandaCms::Engine.root.join("lib/components").to_s
-    config.eager_load_paths << PandaCms::Engine.root.join("lib/components").to_s
-    config.view_component.generate.sidecar = true
-    config.view_component.generate.preview = true
-    config.view_component.preview_paths ||= []
-    config.view_component.preview_paths << PandaCms::Engine.root.join("lib/component_previews").to_s
-    config.view_component.generate.preview_path = "lib/component_previews"
+    # config.view_component.view_component_path = PandaCms::Engine.root.join("lib/components").to_s
+    # config.eager_load_paths << PandaCms::Engine.root.join("lib/components").to_s
+    # config.view_component.generate.sidecar = true
+    # config.view_component.generate.preview = true
+    # config.view_component.preview_paths ||= []
+    # config.view_component.preview_paths << PandaCms::Engine.root.join("lib/component_previews").to_s
+    # config.view_component.generate.preview_path = "lib/component_previews"
 
     # Set up authentication
     initializer "panda_cms.omniauth", before: "omniauth" do |app|
