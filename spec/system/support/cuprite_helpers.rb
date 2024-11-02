@@ -1,56 +1,12 @@
 # First, load Cuprite Capybara integration
 require "capybara/cuprite"
 
-# Options are:
-# 1. StringIO.new logs _everything_. It's quite a lot.
-# 2. CupriteLogger logs only Runtime.exceptionThrown and Log.entryAdded events.
-
-# Source: https://github.com/rubycdp/cuprite/issues/113#issuecomment-753598305
-class CupriteLogger
-  attr_reader :logs
-
-  def initialize
-    @logs = []
-  end
-
-  def puts(log_str)
-    _log_symbol, _log_time, log_body_str = log_str.strip.split(" ", 3)
-
-    return if log_body_str.nil?
-
-    log_body = JSON.parse(log_body_str)
-
-    case log_body["method"]
-    when "Runtime.consoleAPICalled"
-      log_body["params"]["args"].each do |arg|
-        case arg["type"]
-        when "string"
-          Kernel.puts arg["value"]
-        when "object"
-          Kernel.puts arg["preview"]["properties"].map { |x| [x["name"], x["value"]] }.to_h
-        end
-      end
-
-    when "Runtime.exceptionThrown"
-      # noop, this is already logged because we have "js_errors: true" in cuprite.
-
-    when "Log.entryAdded"
-      Kernel.puts "#{log_body["params"]["entry"]["url"]} - #{log_body["params"]["entry"]["text"]}"
-    end
-  end
-
-  def truncate
-    @logs = []
-  end
-end
-
-CUPRITE_LOGGER = CupriteLogger.new
-
 @cuprite_options = {
   window_size: [1440, 800],
   # Have to set this to make CI happy
   browser_options: {
-    "no-sandbox": nil
+    "no-sandbox": nil,
+    xvfb: true
   },
   # Increase Chrome startup wait time (required for stable CI builds)
   process_timeout: 10,
@@ -62,9 +18,9 @@ CUPRITE_LOGGER = CupriteLogger.new
   # js_errors: !ENV["JS_ERRORS"].in?(%w[n 0 no false]),
   # Allow running Chrome in a headful mode by setting HEADLESS env
   # var to a falsey value
-  headless: !ENV["HEADLESS"].in?(%w[n 0 no false]),
+  headless: !ENV["HEADLESS"].in?(%w[n 0 no false])
   # Log cuprite logs to stdout
-  logger: CUPRITE_LOGGER
+  # logger: StringIO.new
 }
 
 # Then, we need to register our driver to be able to use it later
