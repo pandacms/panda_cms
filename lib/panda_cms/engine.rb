@@ -178,4 +178,6 @@ module PandaCms
       end
     end
   end
+
+  class MissingBlockError < StandardError; end
 end
