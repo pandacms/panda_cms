@@ -3,15 +3,17 @@ require "capybara/cuprite"
 
 # Options are:
 # 1. StringIO.new logs _everything_. It's quite a lot.
-# 2. CupriteLogger logs only Runtime.exceptionThrown and Log.entryAdded events.
+# 2. FerrumLogger logs only Runtime.exceptionThrown and Log.entryAdded events.
 
-# Source: https://github.com/rubycdp/cuprite/issues/113#issuecomment-753598305
-class CupriteLogger
-  attr_reader :logs
+# Source: https://github.com/rubycdp/cuprite/issues/113
 
-  def initialize
-    @logs = []
-  end
+class FerrumLogger
+  attr_accessor :page
+
+  COLORS = {
+    "error" => :red,
+    "warn" => :yellow
+  }
 
   def puts(log_str)
     _log_symbol, _log_time, log_body_str = log_str.strip.split(" ", 3)
@@ -20,31 +22,49 @@ class CupriteLogger
 
     log_body = JSON.parse(log_body_str)
 
-    case log_body["method"]
-    when "Runtime.consoleAPICalled"
-      log_body["params"]["args"].each do |arg|
-        case arg["type"]
-        when "string"
-          Kernel.puts arg["value"]
-        when "object"
-          Kernel.puts arg["preview"]["properties"].map { |x| [x["name"], x["value"]] }.to_h
-        end
+    return unless log_body["method"] === "Runtime.consoleAPICalled"
+
+    Thread.new do
+      type = log_body.dig "params", "type"
+      args = log_body.dig "params", "args"
+
+      args.each do |arg|
+        json = to_json(arg)
+
+        Rails.logger.debug TTY::Box.frame((json.is_a?(Array) || json.is_a?(Hash)) ? JSON.pretty_generate(json) : json, padding: 1, title: {top_left: "console.#{type}"}, style: {border: {fg: COLORS[type]}}, width: TTY::Screen.width)
       end
-
-    when "Runtime.exceptionThrown"
-      # noop, this is already logged because we have "js_errors: true" in cuprite.
-
-    when "Log.entryAdded"
-      Kernel.puts "#{log_body["params"]["entry"]["url"]} - #{log_body["params"]["entry"]["text"]}"
     end
   end
 
-  def truncate
-    @logs = []
+  protected
+
+  def to_json(remote_object)
+    type, object_id, value = remote_object.values_at "type", "objectId", "value"
+
+    if type === "object" && value
+      value.reduce({}) do |object, (key, value)|
+        object.merge(key => to_json(value))
+      end
+    elsif type === "array" && value
+      value.map do |array_value|
+        to_json(array_value)
+      end
+    elsif object_id
+      page.command(
+        "Runtime.callFunctionOn",
+        functionDeclaration: "function test() { return this }",
+        objectId: object_id,
+        serializationOptions: {serialization: "deep"}
+      ).dig("result", "deepSerializedValue", "value").reduce({}) do |object, (key, value)|
+        object.merge(key => to_json(value))
+      end
+    else
+      value
+    end
+  rescue Ferrum::NoExecutionContextError => e
+    e.message
   end
 end
-
-CUPRITE_LOGGER = CupriteLogger.new
 
 @cuprite_options = {
   window_size: [1440, 800],
@@ -64,7 +84,7 @@ CUPRITE_LOGGER = CupriteLogger.new
   # var to a falsey value
   headless: !ENV["HEADLESS"].in?(%w[n 0 no false]),
   # Log cuprite logs to stdout
-  logger: CUPRITE_LOGGER
+  logger: FerrumLogger.new
 }
 
 # Then, we need to register our driver to be able to use it later
@@ -114,20 +134,7 @@ end
 
 RSpec.configure do |config|
   config.include CupriteHelpers, type: :system
-
-  config.around do |example|
-    if ENV["CI"]
-      CUPRITE_LOGGER.truncate
-    end
-
-    example.run
-
-    if ENV["CI"] && example.exception && example.metadata[:js]
-      if example.exception.message.frozen?
-        raise CUPRITE_LOGGER.string
-      else
-        example.exception.message << "\n\nDebug info:\n" + CUPRITE_LOGGER.string
-      end
-    end
+  config.before(:each, type: :system) do
+    page.driver.browser.options.logger.page = page.driver.browser.page
   end
 end
