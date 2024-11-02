@@ -3,15 +3,12 @@ require "capybara/cuprite"
 
 @cuprite_options = {
   window_size: [1440, 800],
-  # Have to set this to make CI happy
-  browser_options: {
-    "no-sandbox": nil,
-    xvfb: true
-  },
+  # See additional options for Dockerized environment in the respective section of this article
+  browser_options: {},
   # Increase Chrome startup wait time (required for stable CI builds)
   process_timeout: 10,
   # Enable debugging capabilities
-  inspector: false, # Set to true to enable Chrome inspector
+  inspector: true,
   # Slow down, if we need to
   slowmo: ENV["SLOWMO"]&.to_f,
   # Re-raise JS errors in Ruby
@@ -26,7 +23,7 @@ require "capybara/cuprite"
 # NOTE: The name :cuprite is already registered by Rails.
 # See https://github.com/rubycdp/cuprite/issues/180
 Capybara.register_driver(:better_cuprite) do |app|
-  driver = Capybara::Cuprite::Driver.new(
+  Capybara::Cuprite::Driver.new(
     app,
     **@cuprite_options
   )
