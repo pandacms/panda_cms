@@ -11,16 +11,14 @@ require "capybara/cuprite"
   # Increase Chrome startup wait time (required for stable CI builds)
   process_timeout: 10,
   # Enable debugging capabilities
-  inspector: true,
+  inspector: false, # Set to true to enable Chrome inspector
   # Slow down, if we need to
   slowmo: ENV["SLOWMO"]&.to_f,
   # Re-raise JS errors in Ruby
-  # js_errors: !ENV["JS_ERRORS"].in?(%w[n 0 no false]),
+  js_errors: !ENV["JS_ERRORS"].in?(%w[n 0 no false]),
   # Allow running Chrome in a headful mode by setting HEADLESS env
   # var to a falsey value
   headless: !ENV["HEADLESS"].in?(%w[n 0 no false])
-  # Log cuprite logs to stdout
-  # logger: StringIO.new
 }
 
 # Then, we need to register our driver to be able to use it later
@@ -32,14 +30,6 @@ Capybara.register_driver(:better_cuprite) do |app|
     app,
     **@cuprite_options
   )
-
-  process = driver.browser.process
-  puts "Browser: #{process.browser_version}"
-  puts "Protocol: #{process.protocol_version}"
-  puts "V8: #{process.v8_version}"
-  puts "Webkit: #{process.webkit_version}"
-
-  driver
 end
 
 # Configure Capybara to use :better_cuprite driver by default
