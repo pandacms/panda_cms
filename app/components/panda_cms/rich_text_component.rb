@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "render_editorjs"
-
 module PandaCms
   # Text component
   # @param key [Symbol] The key to use for the text component

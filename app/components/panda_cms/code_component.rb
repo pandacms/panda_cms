@@ -22,7 +22,7 @@ module PandaCms
       block = PandaCms::Block.find_by(kind: KIND, key: @key, panda_cms_template_id: Current.page.panda_cms_template_id)
 
       if block.nil?
-        raise PandaCms::MissingBlockError("Block with key #{@key} not found") unless Rails.env.production?
+        raise PandaCms::MissingBlockError.new("Block with key #{@key} not found") unless Rails.env.production?
         return false
       end
 

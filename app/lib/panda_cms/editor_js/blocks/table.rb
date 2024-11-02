@@ -19,13 +19,15 @@ module PandaCms
 
         def render_rows(content, with_headings)
           rows = []
+          index = 0
 
-          content.each_with_index do |row, index|
+          while index < content.length
             rows << if index == 0 && with_headings
-              render_header_row(row)
+              render_header_row(content[index])
             else
-              render_data_row(row)
+              render_data_row(content[index])
             end
+            index += 1
           end
 
           rows.join("\n")

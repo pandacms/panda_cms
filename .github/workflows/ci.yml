@@ -92,7 +92,7 @@ jobs:
           PG_USER: "postgres"
           CAPYBARA_ARTIFACTS: "../tmp/capybara"
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          CUPRITE_DEBUG: "true"
+          # CUPRITE_DEBUG: "true"
         run: |
           bundle exec rake db:schema:load
           xvfb-run -a bundle exec rspec -f j -o tmp/rspec_results.json -f p

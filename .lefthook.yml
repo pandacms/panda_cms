@@ -1,30 +1,31 @@
+---
 assert_lefthook_installed: true
 colors: true
 files: git diff --name-only main
+pre-commit: ["seclint"]
 seclint:
-  name: "Security & Linters"
-  parallel: true
   commands:
-    zeitwork:
-      run: rake app:zeitwerk:check
+    brakeman:
+      run: brakeman --no-pager --no-progress --quiet
+    broken-links:
+      # Exclude links to GitHub private repositories for now
+      run: lychee . --exclude github.com --exclude http://localhost:3000 --exclude file://
     bundle-audit:
       run: bundle exec bundle-audit --update
     bundle-outdated:
-      run: bundle outdated --only-explicit
-    standardrb:
-      run: bundle exec standardrb
+      run: bundle outdated --strict
     erblint:
       run: bundle exec erb_lint app/views --lint-all
-    rustywind:
-      run: rustywind .
     fasterer:
       run: bundle exec fasterer
+    rustywind:
+      run: rustywind .
+    standardrb:
+      run: bundle exec standardrb
     yamllint:
-      run: yamllint -d relaxed .
-    broken-links:
-      # Exclude links to GitHub private repositories for now
-      run: lychee . --exclude github.com
-    brakeman:
-      run: brakeman --no-pager --no-progress
-pre-commit: ["seclint"]
+      run: yamllint -c .yamllint .
+    zeitwork:
+      run: rake app:zeitwerk:check
+  name: Security & Linters
+  parallel: true
 # stylelint
