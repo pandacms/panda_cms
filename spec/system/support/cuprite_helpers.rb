@@ -70,8 +70,4 @@ end
 
 RSpec.configure do |config|
   config.include CupriteHelpers, type: :system
-
-  config.before(:each, type: :system) do
-    page.driver.browser.options.logger.page = page.driver.browser.page
-  end
 end
