@@ -23,5 +23,7 @@ RSpec.configure do |config|
   # Means you don't have to set js: true in every system spec
   config.prepend_before(:each, type: :system) do
     driven_by Capybara.javascript_driver
+    # Load our seeds, but make sure to keep them lean!
+    Rails.application.load_seed
   end
 end

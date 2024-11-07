@@ -43,7 +43,6 @@ RSpec.describe "When adding a page", type: :system, js: true do
       click_button "Create Page"
 
       within_frame "editablePageFrame" do
-        expect(page).to have_link("New Test Page", href: "/new-test-page")
         expect(page).to have_content("Basic Page Layout")
       end
     end

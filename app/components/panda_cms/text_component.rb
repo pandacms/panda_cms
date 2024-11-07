@@ -24,7 +24,7 @@ module PandaCms
       content_tag(:span, @content, @options, false) # Don't escape the content
     rescue
       if !Rails.env.production? || is_defined?(Sentry)
-        raise PandaCms::MissingBlockError.new("Block with key #{@key} not found")
+        raise PandaCms::MissingBlockError.new("Block with key #{@key} not found for page #{Current.page.title}")
       else
         false
       end

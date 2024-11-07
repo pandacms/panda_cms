@@ -9,7 +9,7 @@ seclint:
       run: brakeman --no-pager --no-progress --quiet
     broken-links:
       # Exclude links to GitHub private repositories for now
-      run: lychee . --exclude github.com --exclude http://localhost:3000 --exclude file://
+      run: lychee . --exclude http://localhost:3000 --exclude file://
     bundle-audit:
       run: bundle exec bundle-audit --update
     bundle-outdated:
@@ -28,4 +28,3 @@ seclint:
       run: rake app:zeitwerk:check
   name: Security & Linters
   parallel: true
-# stylelint
