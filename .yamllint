@@ -4,8 +4,8 @@ yaml-files:
   - "*.yml"
   - ".yamllint"
 
-ignore:
-  - "vendor"
+ignore: |
+  vendor/**
 
 rules:
   anchors: enable
