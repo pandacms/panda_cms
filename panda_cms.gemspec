@@ -55,7 +55,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "better_errors"
   spec.add_development_dependency "binding_of_caller"
   spec.add_development_dependency "brakeman"
-  # spec.add_development_dependency "bullet" # , "~> 7.2"
+  spec.add_development_dependency "bullet" # , "~> 7.2"
   spec.add_development_dependency "bundler-audit"
   spec.add_development_dependency "capybara"
   spec.add_development_dependency "cuprite"

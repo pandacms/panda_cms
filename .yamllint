@@ -4,6 +4,9 @@ yaml-files:
   - "*.yml"
   - ".yamllint"
 
+ignore:
+  - "vendor"
+
 rules:
   anchors: enable
   braces: enable
