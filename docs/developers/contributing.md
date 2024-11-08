@@ -91,7 +91,7 @@ You can also use the `pause` command within a test to pause browser execution. R
 
 ## Using the dummy application
 
-Panda CMS includes a dummy application (which is mildly more advanced than the traditional Rails "dummy" application) we use to test the functionality of the CMS is available and working. This is using RSpec (so lives in `spec/dummy` rather than the traditional `test/dummy`).
+Panda CMS includes a dummy application we use to test the functionality of the CMS is available and working. This is using RSpec (so lives in `spec/dummy` rather than the traditional `test/dummy`).
 
 In future, we may need different versions of dummy applications to test different asset pipelines or versions of Rails.
 
