@@ -15,6 +15,8 @@ module PandaCms
       @options = options || {}
       @options[:id] ||= "code-#{key.to_s.dasherize}"
       @editable = editable
+
+      raise BlockError.new("Key 'code' is not allowed for CodeComponent") if key == :code
     end
 
     def call
@@ -22,7 +24,7 @@ module PandaCms
       block = PandaCms::Block.find_by(kind: KIND, key: @key, panda_cms_template_id: Current.page.panda_cms_template_id)
 
       if block.nil?
-        raise PandaCms::MissingBlockError("Block with key #{@key} not found") unless Rails.env.production?
+        raise PandaCms::MissingBlockError.new("Block with key #{@key} not found for page #{Current.page.title}") unless Rails.env.production?
         return false
       end
 

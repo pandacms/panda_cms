@@ -24,8 +24,6 @@ module PandaCms
         @templates[key] = PandaCms::Template.find_or_create_by!(template)
       end
 
-      PandaCms::Template.generate_missing_blocks
-
       @templates
     end
 

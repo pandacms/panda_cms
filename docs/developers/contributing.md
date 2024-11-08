@@ -63,7 +63,7 @@ Here's an example of a PR which follows these guidelines: https://github.com/pan
 We use [Lefthook](https://github.com/evilmartians/lefthook) for running pre-commit hooks. You can install this using:
 
 ```bash
-lefthook install
+lefthook install -f
 ```
 
 ## Tests
@@ -81,10 +81,10 @@ Then, for test runs, from the `panda_cms` directory, run:
 bundle exec rspec
 ```
 
-System tests are run using `rack_test`, or for JavaScript, `selenium_chrome_headless`. This will run Chrome headlessly (without the browser window visible), and save failure screenshots to `spec/dummy/tmp/capybara`. If you want to see the browser (using the `selenium_chrome` driver), prefix your commands with `SHOW_BROWSER=1`, such as:
+System tests are run using `rack_test`, or for JavaScript, `cuprite`. This will run Chrome headlessly (without the browser window visible), and save failure screenshots to `spec/dummy/tmp/capybara`. If you want to see the browser (using the `cuprite` driver), prefix your commands with `HEADLESS=0`, such as:
 
 ```bash
-SHOW_BROWSER=1 bundle exec rspec spec/system/website_spec.rb
+HEADLESS=0 bundle exec rspec spec/system/website_spec.rb
 ```
 
 You can also use the `pause` command within a test to pause browser execution. Resume by returning to your console and pressing the enter key.
@@ -94,22 +94,6 @@ You can also use the `pause` command within a test to pause browser execution. R
 Panda CMS includes a dummy application (which is mildly more advanced than the traditional Rails "dummy" application) we use to test the functionality of the CMS is available and working. This is using RSpec (so lives in `spec/dummy` rather than the traditional `test/dummy`).
 
 In future, we may need different versions of dummy applications to test different asset pipelines or versions of Rails.
-
-We don't recommend using the `dummy` app to develop in (see https://github.com/pandacms/demo_site for a real application you can use alongside the "Developing" section above). But, if needed, you can use this in development mode. To setup the `dummy` application for use in development mode, run the following from `spec/dummy`:
-
-```
-rails db:create
-rails db:schema:load
-rails db:seed
-```
-
-To run the `dummy` application in development mode, from the `spec/dummy` directory, run:
-
-```
-bin/dev
-```
-
-Set up your authentication provider and visit http://localhost:3000/admin to login.
 
 <mark>We haven't yet added instructions on how to set up your authentication provider; you may have some luck signing in with GitHub in the meantime. If you're using the default configuration, try login for the first time then set your user to be `admin = true`. We'll sort some better setup steps soon. 🙂</mark>
 

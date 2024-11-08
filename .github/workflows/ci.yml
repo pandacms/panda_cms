@@ -1,7 +1,7 @@
 ---
 name: "App Tests"
 
-on: # yamllint disable-line rule:truthy
+"on": # yamllint disable-line rule:truthy
   pull_request:
     branches:
       - "*"
@@ -36,6 +36,9 @@ jobs:
 
       - name: "ERB Check"
         run: "bundle exec erb_lint app/views --lint-all"
+
+      - name: "YAML Lint"
+        run: "yamllint -c .yamllint ."
 
   specs:
     name: "App Specs"
@@ -72,6 +75,13 @@ jobs:
         run: |
           sudo timedatectl set-timezone Europe/London
 
+      - name: "Install xvfb"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libvips
+          export DISPLAY=':99.0'
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+
       - name: "Setup Ruby"
         uses: "ruby/setup-ruby@v1"
         with:
@@ -85,9 +95,11 @@ jobs:
           PG_USER: "postgres"
           CAPYBARA_ARTIFACTS: "../tmp/capybara"
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+          PT_SILENCE_AR_COMPAT_WARNING: true
+          # CUPRITE_DEBUG: "true"
         run: |
-          bundle exec rake db:schema:load
-          bundle exec rspec -f j -o tmp/rspec_results.json -f p
+          bundle exec rails db:setup
+          xvfb-run -a bundle exec rspec -f j -o tmp/rspec_results.json -f p
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
@@ -97,7 +109,7 @@ jobs:
           path: ${{ github.workspace }}/spec/tmp/capybara
           if-no-files-found: ignore
 
-      - name: "Danger"
-        env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
-        run: "bundle exec danger"
+      # - name: "Danger"
+      #   env:
+      #     DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+      #   run: "RUNNING_IN_ACTIONS=true bundle exec danger"

@@ -10,7 +10,7 @@ Capybara.default_normalize_ws = true
 
 # Where to store system tests artifacts (e.g. screenshots, downloaded files, etc.).
 # It could be useful to be able to configure this path from the outside (e.g., on CI).
-Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS", "./tmp/capybara")
+Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS") { "./tmp/capybara" }
 
 # Disable animation so we're not waiting for it
 Capybara.disable_animation = true
@@ -32,6 +32,3 @@ Capybara.server_port = 3001
 
 PandaCms.config.url = Capybara.app_host
 Rails.application.routes.default_url_options[:host] = Capybara.app_host
-
-# Capybara.server_host = "0.0.0.0" # bind to all interfaces
-# Capybara.server = :puma, {Silent: true, Threads: "1:1"}

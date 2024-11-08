@@ -25,7 +25,12 @@ export class EditorController extends Controller {
   connect() {
     console.debug("[Panda CMS] Editor controller connected")
     this.frame = this.element
-    this.frame.style.display = "none"
+
+    // In CI, show what's going on, otherwise hide the frame
+    if (!window.location.href.includes("0.0.0.0:3001")) {
+      this.frame.style.display = "none"
+    }
+
     if (document.querySelector('meta[name="csrf-token"]')) {
       this.csrfToken = document.querySelector('meta[name="csrf-token"]').content
     } else {

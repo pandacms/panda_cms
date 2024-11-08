@@ -56,6 +56,9 @@ module PandaCms
         get "/*path", to: "panda_cms/pages#show", as: :panda_cms_page
         root to: "panda_cms/pages#root"
       end
+
+      # Ensure we don't have any missing blocks from new templates
+      PandaCms::Template.generate_missing_blocks
     end
 
     # Add the migrations to the main app
@@ -178,4 +181,8 @@ module PandaCms
       end
     end
   end
+
+  class MissingBlockError < StandardError; end
+
+  class BlockError < StandardError; end
 end

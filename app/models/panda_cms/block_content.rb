@@ -1,5 +1,3 @@
-require "redcarpet"
-
 module PandaCms
   class BlockContent < ApplicationRecord
     self.table_name = "panda_cms_block_contents"
