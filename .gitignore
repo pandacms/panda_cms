@@ -28,3 +28,5 @@
 /docs/vendor/**/*
 .DS_Store
 .env
+.vscode/settings.json
+spec/dummy/log/**/*
