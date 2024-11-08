@@ -60,6 +60,7 @@ RSpec.describe PandaCms::Template, type: :model do
   end
 
   describe ".generate_missing_blocks" do
+    # let(:homepage) { create(:page, template: template) }
     let(:template) { create(:template, file_path: "layouts/different_page") }
     let(:template_content) do
       <<~ERB
