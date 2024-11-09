@@ -15,15 +15,16 @@ module PandaCms
     def create_templates
       # Templates
       initial_templates = [
-        {name: "Homepage", file_path: "layouts/homepage", max_uses: 1},
+        {name: "Homepage", file_path: "layouts/homepage"},
         {name: "Page", file_path: "layouts/page"}
       ]
 
       initial_templates.each do |template|
         key = template[:name].downcase.to_sym
-        @templates[key] = PandaCms::Template.find_or_create_by!(template)
+        @templates[key] = PandaCms::Template.find_or_create_by(template)
       end
 
+      @templates[:homepage].update(max_uses: 1)
       @templates
     end
 
@@ -32,9 +33,9 @@ module PandaCms
     #
     # @return [Hash] A hash containing the created pages
     def create_pages
-      @pages[:home] = PandaCms::Page.find_or_create_by!({path: "/", title: "Home", template: @templates[:homepage]})
-      @pages[:about] = PandaCms::Page.find_or_create_by!({path: "/about", title: "About", template: @templates[:page], parent: @pages[:home]})
-      @pages[:terms] = PandaCms::Page.find_or_create_by!({path: "/terms-and-conditions", title: "Terms & Conditions", template: @templates[:page], parent: @pages[:home], status: "hidden"})
+      @pages[:home] = PandaCms::Page.find_or_create_by({path: "/", title: "Home", template: @templates[:homepage]})
+      @pages[:about] = PandaCms::Page.find_or_create_by({path: "/about", title: "About", template: @templates[:page], parent: @pages[:home]})
+      @pages[:terms] = PandaCms::Page.find_or_create_by({path: "/terms-and-conditions", title: "Terms & Conditions", template: @templates[:page], parent: @pages[:home], status: "hidden"})
 
       PandaCms::Page.reset_column_information
       PandaCms::Page.rebuild!
@@ -48,8 +49,8 @@ module PandaCms
     # @return [Hash] A hash containing the created menus
     def create_menus
       @menus = {}
-      @menus[:main] = PandaCms::Menu.find_or_create_by!(name: "Main Menu")
-      @menus[:footer] = PandaCms::Menu.find_or_create_by!(name: "Footer Menu")
+      @menus[:main] = PandaCms::Menu.find_or_create_by(name: "Main Menu")
+      @menus[:footer] = PandaCms::Menu.find_or_create_by(name: "Footer Menu")
 
       # Automatically create main menu from homepage
       unless @pages[:home].nil?

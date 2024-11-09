@@ -51,7 +51,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "view_component", "~> 3"
   spec.add_dependency "whois-parser", "~> 2.0"
 
-  spec.add_development_dependency "annotate"
+  spec.add_development_dependency "annotaterb"
   spec.add_development_dependency "better_errors"
   spec.add_development_dependency "binding_of_caller"
   spec.add_development_dependency "brakeman"
