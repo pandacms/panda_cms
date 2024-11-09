@@ -43,6 +43,7 @@ git add . && git commit --message "[RELEASE] v$RELEASE_VERSION"
 git push
 git checkout main
 git merge release/v$RELEASE_VERSION
+git push
 gem build panda_cms.gemspec
 gem push panda_cms-$RELEASE_VERSION.gem
 ```
