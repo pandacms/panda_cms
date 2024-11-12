@@ -10,6 +10,8 @@ module PandaCms
       render(component.new(*, **), &)
     end
 
+    # TODO: Expose this elsewhere later, or you have to include helpers
+    # in the calling application
     def title_tag
       if @breadcrumbs.present?
         "#{@breadcrumbs.last&.name} &middot; #{PandaCms.config.title}".html_safe

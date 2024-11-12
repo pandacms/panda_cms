@@ -12,7 +12,7 @@ module PandaCms
     #  The "default" key is applied to all menu items. "inactive" and "active" are set based on the
     #  current path.
     # @return [void]
-    def initialize(name:, current_path: "", styles: {}, render_page_menu: false, page_menu_styles: {})
+    def initialize(name:, current_path: "", styles: {}, overrides: {}, render_page_menu: false, page_menu_styles: {})
       @menu = PandaCms::Menu.find_by(name: name)
       @menu_items = @menu.menu_items
       @menu_items = @menu_items.where("depth <= ?", @menu.depth) if @menu.depth
