@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_10_31_205109) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_20_113859) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -87,7 +87,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_31_205109) do
     t.jsonb "content", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "cached_content"
+    t.text "cached_content"
     t.index ["panda_cms_block_id"], name: "index_panda_cms_block_contents_on_panda_cms_block_id"
     t.index ["panda_cms_page_id"], name: "index_panda_cms_block_contents_on_panda_cms_page_id"
   end
@@ -179,16 +179,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_31_205109) do
     t.index ["status"], name: "index_panda_cms_pages_on_status"
   end
 
-  create_table "panda_cms_post_tags", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "tag"
-    t.string "description"
-    t.string "slug"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["slug"], name: "index_panda_cms_post_tags_on_slug", unique: true
-    t.index ["tag"], name: "index_panda_cms_post_tags_on_tag", unique: true
-  end
-
   create_table "panda_cms_post_versions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "item_type", null: false
     t.string "item_id", null: false
@@ -203,14 +193,13 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_31_205109) do
   create_table "panda_cms_posts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "title"
     t.string "slug"
-    t.text "content"
     t.datetime "published_at"
-    t.uuid "post_tag_id", null: false
     t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.enum "status", default: "draft", null: false, enum_type: "panda_cms_post_status"
-    t.index ["post_tag_id"], name: "index_panda_cms_posts_on_post_tag_id"
+    t.jsonb "content", default: {}, null: false
+    t.text "cached_content"
     t.index ["slug"], name: "index_panda_cms_posts_on_slug", unique: true
     t.index ["status"], name: "index_panda_cms_posts_on_status"
     t.index ["user_id"], name: "index_panda_cms_posts_on_user_id"
@@ -288,7 +277,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_31_205109) do
   add_foreign_key "panda_cms_menus", "panda_cms_pages", column: "start_page_id"
   add_foreign_key "panda_cms_pages", "panda_cms_pages", column: "parent_id"
   add_foreign_key "panda_cms_pages", "panda_cms_templates"
-  add_foreign_key "panda_cms_posts", "panda_cms_post_tags", column: "post_tag_id"
   add_foreign_key "panda_cms_posts", "panda_cms_users", column: "user_id"
   add_foreign_key "panda_cms_redirects", "panda_cms_pages", column: "destination_panda_cms_page_id"
   add_foreign_key "panda_cms_redirects", "panda_cms_pages", column: "origin_panda_cms_page_id"

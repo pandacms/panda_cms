@@ -6,7 +6,7 @@
     <%= f.select :user_id, PandaCms::User.for_select_list %>
     <%= f.datetime_field :published_at, { required: true } %>
     <%= f.select :status, PandaCms::Post.statuses.keys.map { |status| [status.humanize, status] } %>
-    <%= f.rich_text_area :post_content, { meta: "Your content here will not auto-save! 😬 Use Ctrl + ⇧ + V (Win) or ⌘ + ⇧ + V (macOS) to paste without formatting." } %>
+    <%= f.rich_text_area :content, { meta: "Your content here will not auto-save! 😬 Use Ctrl + ⇧ + V (Win) or ⌘ + ⇧ + V (macOS) to paste without formatting." } %>
     <%= f.button %>
   </div>
 <% end %>

@@ -1,0 +1,16 @@
+<%= form_with(model: post) do |form| %>
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+  <div class="field" data-controller="editor" data-editor-post-id-value="<%= post.id %>">
+    <%= form.label :post_content %>
+    <%= form.hidden_field :post_content,
+          data: {
+            editor_target: "content",
+            initial_content: post.post_content.to_s
+          } %>
+    <div data-editor-target="container"></div>
+  </div>
+  <%= form.submit %>
+<% end %>

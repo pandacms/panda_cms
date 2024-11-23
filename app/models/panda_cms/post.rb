@@ -2,6 +2,8 @@ require "awesome_nested_set"
 
 module PandaCms
   class Post < ApplicationRecord
+    include EditorJsContent
+
     self.table_name = "panda_cms_posts"
 
     has_paper_trail versions: {
@@ -21,10 +23,6 @@ module PandaCms
 
     scope :ordered, -> { order(published_at: :desc) }
     scope :with_user, -> { includes(:user) }
-
-    has_rich_text :post_content
-
-    belongs_to :tag, class_name: "PandaCms::PostTag", foreign_key: :post_tag_id
 
     enum :status, {
       active: "active",

@@ -26,6 +26,13 @@ export class EditorController extends Controller {
     console.debug("[Panda CMS] Editor controller connected")
     this.frame = this.element
 
+    // Create editor controls if they don't exist
+    if (!parent.document.querySelector('.editor-controls')) {
+      const controls = parent.document.createElement('div')
+      controls.className = 'editor-controls'
+      parent.document.body.appendChild(controls)
+    }
+
     // In CI, show what's going on, otherwise hide the frame
     if (!window.location.href.includes("0.0.0.0:3001")) {
       this.frame.style.display = "none"
@@ -74,7 +81,7 @@ export class EditorController extends Controller {
     console.debug(`[Panda CMS] Found ${plainTextElements.length} plain text elements`)
 
     plainTextElements.forEach(element => {
-      console.debug(`[Panda CMS] Initializing plain text editor for element:`, element)
+
       const editor = new PlainTextEditor(element, this.frameDocument, {
         autosave: this.autosaveValue,
         adminPath: this.adminPathValue,
@@ -98,6 +105,16 @@ export class EditorController extends Controller {
     console.debug(`[Panda CMS] Found ${richTextElements.length} rich text elements`)
 
     if (richTextElements.length > 0) {
+      // Add save button if it doesn't exist
+      if (!parent.document.getElementById('saveEditableButton')) {
+        const saveButton = parent.document.createElement('a')
+        saveButton.id = 'saveEditableButton'
+        saveButton.href = '#'
+        saveButton.textContent = 'Save Changes'
+        saveButton.className = 'btn btn-primary'
+        parent.document.querySelector('.editor-controls').appendChild(saveButton)
+      }
+
       Promise.all([
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"), // Base EditorJS
         ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/header@latest"), // Header Tool
@@ -192,7 +209,7 @@ export class EditorController extends Controller {
               parent.document.getElementById('saveEditableButton').addEventListener('click', (element) => {
                 ${elementAsId}.save().then((outputData) => {
                   outputData.source = "editorJS"
-                  console.log('Saving successful, here is outputData:')
+                  // console.log('Saving successful, here is outputData:')
                   dataToSend = JSON.stringify({ content: outputData })
                   console.log(dataToSend)
                   fetch("${adminPathValue}/pages/${pageId}/block_contents/${blockContentId}", {
@@ -204,11 +221,27 @@ export class EditorController extends Controller {
                     body: dataToSend
                   })
                   .then(response => console.log(response))
-                  .then(() => alert("Saved"))
-                  .catch((error) => alert("Saving failed (1): " + error))
+                  .then((success) => {
+                    parent.document.getElementById("successMessage").classList.remove("hidden")
+                    setTimeout(() => {
+                      parent.document.getElementById("successMessage").classList.add("hidden")
+                    }, 3000)
+                  })
+                  .catch((error) => {
+                    parent.document.getElementById("errorMessage").getElementsByClassName('flash-message-text')[0].textContent = error
+                    parent.document.getElementById("errorMessage").classList.remove("hidden")
+                    setTimeout(() => {
+                      parent.document.getElementById("errorMessage").classList.add("hidden")
+                    }, 3000)
+                    console.error(error)
+                  })
                 }).catch((error) => {
-                  console.log('Saving failed: ', error)
-                  alert('Saving failed (2): ' + error)
+                    parent.document.getElementById("errorMessage").getElementsByClassName('flash-message-text')[0].textContent = error
+                    parent.document.getElementById("errorMessage").classList.remove("hidden")
+                    setTimeout(() => {
+                      parent.document.getElementById("errorMessage").classList.add("hidden")
+                    }, 3000)
+                    console.error(error)
                 })
               })
 
@@ -221,6 +254,9 @@ export class EditorController extends Controller {
         this.editorsInitialized.rich = true
         this.checkAllEditorsInitialized()
       })
+    } else {
+      this.editorsInitialized.rich = true
+      this.checkAllEditorsInitialized()
     }
   }
 

@@ -1,12 +1,9 @@
 require "system_helper"
 
 RSpec.describe "Website" do
-  before(:each) do
-    create_homepage
+  include_context "with standard pages"
+  it "shows the homepage with rich text blocks and rendered JS" do
     visit "/"
-  end
-
-  it "shows the homepage" do
     # TODO: Look at Percy.io for visual regression testing
     expect(page).to have_content("Homepage Layout")
     # Simple JS
@@ -15,30 +12,10 @@ RSpec.describe "Website" do
     expect(page).to have_content("Hello, Stimulus!")
   end
 
-  # it "temporarily tests admin JS"
-end
-
-def create_homepage
-  homepage_template = PandaCms::Template.find_or_create_by!(
-    name: "Homepage",
-    file_path: "layouts/homepage",
-    max_uses: 1
-  )
-
-  homepage = PandaCms::Page.find_or_create_by!(
-    path: "/",
-    title: "Home",
-    template: homepage_template
-  )
-
-  [
-    {kind: "rich_text", name: "Introduction Text", key: "introduction_text", template: homepage_template},
-    {kind: "rich_text", name: "Main Content", key: "main_content", template: homepage_template}
-  ].each do |block_data|
-    PandaCms::BlockContent.find_or_create_by!(
-      page: homepage,
-      block: PandaCms::Block.find_or_create_by!(block_data),
-      content: "Here is some #{block_data[:name].downcase} content."
-    )
+  it "shows the about page with plain text, code and rich text blocks" do
+    visit "/about"
+    expect(page).to have_content("Here is some plain text content.")
+    expect(page).to have_content("Here is some HTML code.")
+    expect(page).to have_content("This is the main content of the about page.")
   end
 end

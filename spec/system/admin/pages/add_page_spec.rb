@@ -21,6 +21,8 @@ RSpec.describe "When adding a page", type: :system, js: true do
   end
 
   context "when logged in as an administrator" do
+    include_context "with standard pages"
+
     before(:each) do
       login_as_admin
       visit "/admin/pages/new"

@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe PandaCms::Template, type: :model do
+  include_context "with standard pages"
+
   describe "associations" do
     it { should have_many(:pages).dependent(:restrict_with_error) }
     it { should have_many(:blocks).dependent(:restrict_with_error) }
@@ -46,21 +48,29 @@ RSpec.describe PandaCms::Template, type: :model do
   end
 
   describe "scopes" do
-    let!(:template1) { PandaCms::Template.find_by(file_path: "layouts/page") }
-    let!(:template2) { PandaCms::Template.find_by(file_path: "layouts/homepage") }
-    let!(:template3) { create(:template, max_uses: 3, pages_count: 3, file_path: "layouts/different_page") }
+    let!(:page_template) { PandaCms::Template.find_by!(file_path: "layouts/page") }
+    let!(:homepage_template) { PandaCms::Template.find_by!(file_path: "layouts/homepage") }
+    let!(:different_page_template) { PandaCms::Template.find_or_create_by!(file_path: "layouts/different_page", name: "Different Page") }
+
+    before do
+      homepage_template.update!(max_uses: 1)
+      different_page_template.update!(max_uses: 3, pages_count: 3)
+    end
 
     describe ".available" do
       it "returns all templates with no max_uses or available capacity" do
         available = described_class.available
-        expect(available).to include(template1)
-        expect(available).not_to include(template2, template3)
+        expect(available).to include(page_template, different_page_template)
+        expect(available).not_to include(homepage_template)
       end
     end
   end
 
   describe ".generate_missing_blocks" do
-    # let(:homepage) { create(:page, template: template) }
+    # let(:homepage_template) { create(:template, file_path: "layouts/homepage") }
+    # let(:homepage) { create(:page, template: homepage_template, parent: nil, path: "/") }
+
+    let(:homepage) { PandaCms::Page.find_by!(path: "/") }
     let(:template) { create(:template, file_path: "layouts/different_page") }
     let(:template_content) do
       <<~ERB
@@ -82,7 +92,7 @@ RSpec.describe PandaCms::Template, type: :model do
     end
 
     it "creates block_contents for existing pages" do
-      page = create(:page, template: template)
+      page = create(:page, template: template, parent: homepage)
       described_class.generate_missing_blocks
       expect(page.block_contents.count).to eq(2)
     end

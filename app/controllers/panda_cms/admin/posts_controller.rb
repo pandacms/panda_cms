@@ -34,9 +34,6 @@ module PandaCms
         post = PandaCms::Post.new(post_params)
         post.user_id = current_user.id
 
-        # TODO: Support post tags properly
-        post.tag = PandaCms::PostTag.find_or_create_by(tag: "Uncategorised")
-
         if post.save
           redirect_to edit_admin_post_path(post), notice: "The post was successfully created."
         else

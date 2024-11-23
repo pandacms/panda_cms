@@ -3,6 +3,6 @@
 <h2>Basic Page Layout</h2>
 <%= render PandaCms::TextComponent.new(key: :plain_text) %>
 <%= render PandaCms::CodeComponent.new(key: :html_code) %>
-<%= render PandaCms::RichTextComponent.new(key: :rich_text) %>
+<%= render PandaCms::RichTextComponent.new(key: :main_content) %>
 <%= yield %>
 <%= render "shared/footer" %>

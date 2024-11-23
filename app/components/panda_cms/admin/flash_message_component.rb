@@ -5,9 +5,10 @@ module PandaCms
     class FlashMessageComponent < ::ViewComponent::Base
       attr_reader :kind, :message
 
-      def initialize(message:, kind:)
+      def initialize(message:, kind:, temporary: true)
         @kind = kind.to_sym
         @message = message
+        @temporary = temporary
       end
 
       def text_colour_css

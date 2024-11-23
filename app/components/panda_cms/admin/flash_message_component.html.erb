@@ -1,5 +1,6 @@
-<div class="fixed top-2 right-2 z-50 p-2 space-y-4 w-full max-w-sm pointer-events-none sm:items-end" data-controller="alert"
-     data-alert-dismiss-after-value="3000"
+<div class="fixed top-2 right-2 z-50 p-2 space-y-4 w-full max-w-sm pointer-events-none sm:items-end"
+     data-controller="alert"
+     <% if @temporary %>data-alert-dismiss-after-value="3000"<% end %>
      data-transition-enter="ease-in-out duration-500"
      data-transition-enter-from="translate-x-full opacity-0"
      data-transition-enter-to="translate-x-0 opacity-100"
@@ -13,8 +14,8 @@
           <i class="fa-regular text-xl <%= icon_css %> <%= text_colour_css %>"></i>
         </div>
         <div class="flex-1 pt-0.5 ml-3 w-0">
-          <p class="mb-1 text-sm font-medium <%= text_colour_css %>"><%= kind.to_s.titleize %></p>
-          <p class="mt-1 mb-0 text-sm text-gray-500"><%= message %></p>
+          <p class="mb-1 text-sm font-medium flash-message-title <%= text_colour_css %>"><%= kind.to_s.titleize %></p>
+          <p class="mt-1 mb-0 text-sm text-gray-500 flash-message-text"><%= message %></p>
         </div>
         <div class="flex flex-shrink-0 ml-4">
           <button data-action="alert#close" type="button" class="inline-flex text-gray-400 bg-white rounded-md transition duration-150 ease-in-out hover:text-gray-500 focus:ring-2 focus:ring-offset-2 focus:outline-none focus:ring-sky-500">

@@ -8,9 +8,6 @@ module PandaCms
     isolate_namespace PandaCms
     engine_name "panda_cms"
 
-    initializer "panda_cms" do |app|
-    end
-
     config.to_prepare do
       ApplicationController.helper(::ApplicationHelper)
     end
@@ -55,15 +52,6 @@ module PandaCms
         get "/_maintenance", to: "panda_cms/errors#error_503", as: :panda_cms_maintenance
         get "/*path", to: "panda_cms/pages#show", as: :panda_cms_page
         root to: "panda_cms/pages#root"
-      end
-    end
-
-    # Add the migrations to the main app
-    initializer "panda_cms.migrations" do |app|
-      unless app.root.to_s.match root.to_s
-        config.paths["db/migrate"].expanded.each do |expanded_path|
-          app.config.paths["db/migrate"] << expanded_path
-        end
       end
     end
 

@@ -21,6 +21,7 @@ RSpec.describe "When editing a page", type: :system do
   end
 
   context "when logged in as an administrator" do
+    include_context "with standard pages"
     let(:about_page) { PandaCms::Page.find_by(path: "/about") }
 
     before(:each) do
@@ -70,32 +71,47 @@ RSpec.describe "When editing a page", type: :system do
     end
 
     it "allows editing plain text content of the page" do
-      pending "Not yet implemented"
+      time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+
       within_frame "editablePageFrame" do
-        time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
-        fill_in "[data-editable-kind='plain_text']:first", with: "New plain text content #{time}"
+        page.evaluate_script("document.querySelector('span[contenteditable=\"plaintext-only\"]').innerHTML = 'New plain text content #{time}'")
       end
-      click_button "Save Changes"
+
+      find("a", id: "saveEditableButton").click
+
       visit "/about"
-      expect(page).to have_content "New plain text content #{time}"
+      expect(page).to have_content("New plain text content #{time}")
     end
 
     it "allows editing rich text content of the page" do
-      pending "Not yet implemented"
-      within(".block[data-type='rich_text']") do
-        find(".trix-editor").set("New rich text content")
-        click_button "Save"
+      time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+
+      within_frame "editablePageFrame" do
+        # Click the EditorJS block to focus it
+        find(".codex-editor__redactor").click
+
+        # Type some content - EditorJS will automatically create a paragraph block
+        find(".ce-paragraph").click
+        find(".ce-paragraph").set("New rich text content #{time}")
       end
-      expect(page).to have_content("Block updated successfully")
+
+      find("a", id: "saveEditableButton").click
+
+      visit "/about"
+      expect(page).to have_content("New rich text content")
     end
 
     it "allows editing code content of the page" do
-      pending "Not yet implemented"
-      within(".block[data-type='code']") do
-        fill_in "Content", with: "# New code content"
-        click_button "Save"
+      time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
+      within_frame "editablePageFrame" do
+        page.evaluate_script("document.querySelector('div[data-editable-kind=\"html\"]').innerHTML = '<h1>New code content #{time}</h1><p>Some paragraph</p>'")
       end
-      expect(page).to have_content("Block updated successfully")
+
+      find("a", id: "saveEditableButton").click
+
+      visit "/about"
+      expect(page).to have_content("New code content #{time}")
+      expect(page).to have_content("Some paragraph")
     end
   end
 end

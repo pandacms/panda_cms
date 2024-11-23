@@ -24,10 +24,12 @@ module PandaCms
     validate :validate_template_file_exists
 
     # Scopes
-    scope :available, -> { where("max_uses IS NULL OR (pages_count < max_uses)") }
+    scope :available, -> {
+      where("max_uses IS NULL OR (pages_count IS NOT NULL AND pages_count < max_uses)")
+    }
 
     def self.default
-      find_by(file_path: "layouts/page") || first
+      find_by(file_path: "layouts/page")
     end
 
     # Generate missing blocks for all templates

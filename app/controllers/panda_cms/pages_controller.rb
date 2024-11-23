@@ -26,12 +26,12 @@ module PandaCms
 
       if page.nil? || page.status == "archived" || layout.nil?
         # This works for now, but we may want to override in future (e.g. custom 404s)
-        render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found
+        render file: "#{Rails.root}/public/404.html", layout: false, status: :not_found and return
       end
 
       template_vars = {
         page: page,
-        title: PandaCms::Current.page.title
+        title: PandaCms::Current.page&.title || PandaCms.config.title
       }
 
       render inline: "", assigns: template_vars, status: :ok, layout: layout
