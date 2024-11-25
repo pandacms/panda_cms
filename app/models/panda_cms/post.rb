@@ -10,6 +10,8 @@ module PandaCms
       class_name: "PandaCms::PostVersion"
     }
 
+    has_rich_text :post_content
+
     belongs_to :user, class_name: "PandaCms::User"
 
     validates :title, presence: true

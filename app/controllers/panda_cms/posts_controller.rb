@@ -32,6 +32,7 @@ module PandaCms
         :slug,
         :status,
         :content,
+        :post_content,
         :published_at
       )
     end
