@@ -1,5 +1,4 @@
 require "groupdate"
-require "whois-parser"
 
 module PandaCms
   class Admin::DashboardController < ApplicationController
@@ -8,32 +7,12 @@ module PandaCms
 
     # GET /admin
     def show
-      @domain_expiry = domain_expiry
     end
 
     private
 
     def set_initial_breadcrumb
       add_breadcrumb "Dashboard", PandaCms.route_namespace
-    end
-
-    def domain_expiry
-      return "" if request.domain == "localhost"
-
-      begin
-        whois_record = Whois.whois(request.domain)
-        if (parser = whois_record&.parser)
-          " (expiry date: #{parser.expires_on&.strftime("%d %b %Y")})"
-        else
-          " (error parsing WHOIS data)"
-        end
-      rescue => e
-        if defined?(Sentry)
-          Sentry.capture_exception(e)
-        end
-
-        ""
-      end
     end
   end
 end
