@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-module PandaCms
+module Panda
+  module CMS
   module Admin
     class MenusController < ApplicationController
       before_action :set_initial_breadcrumb, only: %i[index]
@@ -10,14 +11,14 @@ module PandaCms
       # @type GET
       # @return ActiveRecord::Collection An array of all menus
       def index
-        menus = PandaCms::Menu.order(:name)
+        menus = Panda::CMS::Menu.order(:name)
         render :index, locals: {menus: menus}
       end
 
       private
 
       def menu
-        @menu ||= PandaCms::Menu.find(params[:id])
+        @menu ||= Panda::CMS::Menu.find(params[:id])
       end
 
       def set_initial_breadcrumb

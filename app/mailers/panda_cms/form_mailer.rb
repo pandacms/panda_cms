@@ -1,5 +1,6 @@
-module PandaCms
-  class FormMailer < PandaCms::ApplicationMailer
+module Panda
+  module CMS
+  class FormMailer < Panda::CMS::ApplicationMailer
     def notification_email(form:, form_submission:)
       # TODO: Handle fields named just "name", and "email" better
       @submission_data = form_submission.data

@@ -5,13 +5,13 @@ RSpec.shared_context "with standard pages" do
   end
 
   def create_homepage
-    homepage_template = PandaCms::Template.find_or_create_by!(
+    homepage_template = Panda::CMS::Template.find_or_create_by!(
       name: "Homepage",
       file_path: "layouts/homepage",
       max_uses: 1
     )
 
-    homepage = PandaCms::Page.find_or_create_by!(
+    homepage = Panda::CMS::Page.find_or_create_by!(
       path: "/",
       title: "Home",
       template: homepage_template
@@ -39,12 +39,12 @@ RSpec.shared_context "with standard pages" do
   end
 
   def create_about_page(homepage)
-    page_template = PandaCms::Template.find_or_create_by!(
+    page_template = Panda::CMS::Template.find_or_create_by!(
       name: "Page",
       file_path: "layouts/page"
     )
 
-    about_page = PandaCms::Page.find_or_create_by!(
+    about_page = Panda::CMS::Page.find_or_create_by!(
       path: "/about",
       title: "About",
       template: page_template,
@@ -81,9 +81,9 @@ end
 
 def create_content_blocks(page, content_blocks)
   content_blocks.each do |block_data|
-    PandaCms::BlockContent.find_or_create_by!(
+    Panda::CMS::BlockContent.find_or_create_by!(
       page: page,
-      block: PandaCms::Block.find_or_create_by!(block_data.except(:content)),
+      block: Panda::CMS::Block.find_or_create_by!(block_data.except(:content)),
       content: block_data[:content]
     )
   end

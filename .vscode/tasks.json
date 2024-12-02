@@ -43,7 +43,7 @@
     {
       "label": "Run bin/dev",
       "type": "shell",
-      "command": "bundle exec rails app:panda_cms:watch_admin",
+      "command": "bundle exec rails app:panda:cms:watch_admin",
       "options": {
         "cwd": "${workspaceFolder}"
       },

@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   module ApplicationHelper
     #
     # Helper method to render a ViewComponent
@@ -14,9 +15,9 @@ module PandaCms
     # in the calling application
     def title_tag
       if @breadcrumbs.present?
-        "#{@breadcrumbs.last&.name} &middot; #{PandaCms.config.title}".html_safe
+        "#{@breadcrumbs.last&.name} &middot; #{Panda::CMS.config.title}".html_safe
       else
-        PandaCms.config.title
+        Panda::CMS.config.title
       end
     end
 
@@ -42,7 +43,7 @@ module PandaCms
     end
 
     def panda_cms_form_with(**options, &)
-      options[:builder] = PandaCms::FormBuilder
+      options[:builder] = Panda::CMS::FormBuilder
       options[:class] = "p-6 bg-mid/5 rounded-lg border-mid border"
       form_with(**options, &)
     end

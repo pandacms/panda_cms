@@ -1,1 +1,1 @@
-PandaCms::Engine.load_seed
+Panda::CMS::Engine.load_seed

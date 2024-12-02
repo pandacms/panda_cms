@@ -1,15 +1,15 @@
 en:
   activerecord:
     attributes:
-      panda_cms/page:
+      panda/cms/page:
         title: Title
         path: URL
-        panda_cms_template_id: Template
-      panda_cms/post:
+        panda/cms_template_id: Template
+      panda/cms/post:
         title: Title
         slug: URL
         content: Content
-        panda_cms_template_id: Template
+        panda/cms_template_id: Template
         user_id: Author
         published_at: Published At
         post_content: Content
@@ -18,13 +18,13 @@ en:
           draft: Draft
           archived: Archived
           hidden: Hidden
-      panda_cms/menu:
+      panda/cms/menu:
         name: Menu Name
-      panda_cms/menu_item:
+      panda/cms/menu_item:
         text: Menu Item
         external_url: External URL
-        panda_cms_page_id: Page
-  panda_cms:
+        panda/cms_page_id: Page
+  panda/cms:
     authentication:
       sign_in_with: Sign in with %{provider}
       providers:

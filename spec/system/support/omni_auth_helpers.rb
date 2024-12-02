@@ -6,21 +6,19 @@ OmniAuth.config.on_failure = proc { |env|
 
 module OmniAuthHelpers
   # Provider login helpers
-  def login_with_google(user)
-    auth_hash = OmniAuth::AuthHash.new({
-      provider: "google",
-      uid: "123456",
-      info: {
-        email: user.email,
-        first_name: user.firstname,
-        last_name: user.lastname
-      }
-    })
+  def setup_omniauth_config
+    # Configure authentication settings for test environment
+    Panda::CMS.config.authentication[:google_oauth2] = {
+      enabled: true,
+      client_id: "test_client_id",
+      client_secret: "test_client_secret"
+    }
+  end
 
-    OmniAuth.config.mock_auth[:google] = auth_hash
-    Rails.application.env_config["omniauth.auth"] = auth_hash
-
-    visit "/admin"
+  def login_with_google
+    setup_omniauth_config
+    visit admin_login_path
+    expect(page).to have_css("#button-sign-in-google")
     find("#button-sign-in-google").click
   end
 
@@ -60,7 +58,7 @@ module OmniAuthHelpers
   end
 
   def login_as_admin(firstname: nil, lastname: nil, email: nil)
-    login_with_google(admin_user)
+    login_with_google
   end
 
   def login_as_user(firstname: nil, lastname: nil, email: nil)
@@ -70,7 +68,7 @@ module OmniAuthHelpers
   # User defintions
   # TODO: Move to fixtures or Oaken?
   def admin_user
-    PandaCms::User.find_or_create_by!(
+    Panda::CMS::User.find_or_create_by!(
       firstname: "Admin",
       lastname: "User",
       email: "admin@example.com",
@@ -80,7 +78,7 @@ module OmniAuthHelpers
   end
 
   def regular_user
-    PandaCms::User.find_or_create_by!(
+    Panda::CMS::User.find_or_create_by!(
       firstname: "Regular",
       lastname: "User",
       email: "regular@example.com",
@@ -92,4 +90,8 @@ end
 
 RSpec.configure do |config|
   config.include OmniAuthHelpers, type: :system
+
+  config.before(:each, type: :system) do
+    setup_omniauth_config
+  end
 end

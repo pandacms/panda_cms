@@ -1,12 +1,12 @@
 ---
-title: Releasing the panda_cms gem
+title: Releasing the panda-cms gem
 layout: default
 parent: Contributing
 ---
 
 ## Releasing
 
-The **panda_cms** gem uses semantic versioning.
+The **panda-cms** gem uses semantic versioning.
 
 ### Installing `gem-release`
 
@@ -16,7 +16,7 @@ Installing [gem-release](https://github.com/svenfuchs/gem-release) makes some pa
 gem install gem-release
 ```
 
-### Releasing a new version of the `panda_cms` gem
+### Releasing a new version of the `panda-cms` gem
 
 With no staged changes, to set the next version number, run:
 
@@ -44,8 +44,8 @@ git push
 git checkout main
 git merge release/v$RELEASE_VERSION
 git push
-gem build panda_cms.gemspec
-gem push panda_cms-$RELEASE_VERSION.gem
+gem build panda-cms.gemspec
+gem push panda-cms-$RELEASE_VERSION.gem
 ```
 
 To release the gem to another version, set `RELEASE_VERSION` yourself first.

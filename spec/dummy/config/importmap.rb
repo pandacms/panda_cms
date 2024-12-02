@@ -1,4 +1,4 @@
-# The idea is this file needs nothing explicitly pinned from panda_cms,
+# The idea is this file needs nothing explicitly pinned from panda-cms,
 # that should all get handled by the engine.rb, etc.
 
 # This just checks that Stimulus can be included without conflicting

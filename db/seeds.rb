@@ -1,5 +1,5 @@
-generator = PandaCms::DemoSiteGenerator.new
+generator = Panda::CMS::DemoSiteGenerator.new
 generator.create_templates
 generator.create_pages
 generator.create_menus
-PandaCms::Template.generate_missing_blocks
+Panda::CMS::Template.generate_missing_blocks

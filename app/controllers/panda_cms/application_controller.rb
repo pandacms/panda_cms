@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   class ApplicationController < ::ActionController::Base
     include ApplicationHelper
     include ::ApplicationHelper
@@ -25,14 +26,14 @@ module PandaCms
     # Set the current request details
     # @return [void]
     def set_current_request_details
-      PandaCms::Current.request_id = request.uuid
-      PandaCms::Current.user_agent = request.user_agent
-      PandaCms::Current.ip_address = request.ip
-      PandaCms::Current.root = request.base_url
-      PandaCms::Current.page = nil
-      PandaCms::Current.user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+      Panda::CMS::Current.request_id = request.uuid
+      Panda::CMS::Current.user_agent = request.user_agent
+      Panda::CMS::Current.ip_address = request.ip
+      Panda::CMS::Current.root = request.base_url
+      Panda::CMS::Current.page = nil
+      Panda::CMS::Current.user ||= User.find_by(id: session[:user_id]) if session[:user_id]
 
-      PandaCms.config.url ||= PandaCms::Current.root
+      Panda::CMS.config.url ||= Panda::CMS::Current.root
     end
 
     def authenticate_user!
@@ -45,11 +46,11 @@ module PandaCms
 
     # Required for paper_trail and seems as good as convention these days
     def current_user
-      PandaCms::Current.user
+      Panda::CMS::Current.user
     end
 
     def user_signed_in?
-      !!PandaCms::Current.user
+      !!Panda::CMS::Current.user
     end
   end
 end

@@ -1,6 +1,6 @@
 class ConvertPostContentToEditorJs < ActiveRecord::Migration[7.1]
   def up
-    PandaCms::Post.find_each do |post|
+    Panda::CMS::Post.find_each do |post|
       next if post.post_content.blank?
 
       editor_content = {
@@ -21,7 +21,7 @@ class ConvertPostContentToEditorJs < ActiveRecord::Migration[7.1]
   end
 
   def down
-    PandaCms::Post.find_each do |post|
+    Panda::CMS::Post.find_each do |post|
       next if post.post_content.blank?
 
       # Extract plain text from EditorJS format

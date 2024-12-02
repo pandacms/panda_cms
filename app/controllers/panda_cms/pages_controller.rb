@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   class PagesController < ApplicationController
     include ActionView::Helpers::TagHelper
 
@@ -12,14 +13,14 @@ module PandaCms
 
     def show
       page = if @overrides&.dig(:page_path_match)
-        PandaCms::Page.find_by(path: @overrides.dig(:page_path_match))
+        Panda::CMS::Page.find_by(path: @overrides.dig(:page_path_match))
       else
-        PandaCms::Page.find_by(path: "/" + params[:path].to_s)
+        Panda::CMS::Page.find_by(path: "/" + params[:path].to_s)
       end
 
-      PandaCms::Current.page = page || PandaCms::Page.find_by(path: "/404")
+      Panda::CMS::Current.page = page || Panda::CMS::Page.find_by(path: "/404")
       if @overrides
-        PandaCms::Current.page.title = @overrides&.dig(:title) || page.title
+        Panda::CMS::Current.page.title = @overrides&.dig(:title) || page.title
       end
 
       layout = page&.template&.file_path
@@ -31,7 +32,7 @@ module PandaCms
 
       template_vars = {
         page: page,
-        title: PandaCms::Current.page&.title || PandaCms.config.title
+        title: Panda::CMS::Current.page&.title || Panda::CMS.config.title
       }
 
       render inline: "", assigns: template_vars, status: :ok, layout: layout
@@ -40,7 +41,7 @@ module PandaCms
     private
 
     def check_login_required
-      if PandaCms.config.require_login_to_view && !user_signed_in?
+      if Panda::CMS.config.require_login_to_view && !user_signed_in?
         redirect_to panda_cms_maintenance_path and return
       end
     end
@@ -60,7 +61,7 @@ module PandaCms
         user_agent: request.user_agent,
         referrer: request.referrer,
         ip_address: request.remote_ip,
-        page_id: PandaCms::Current.page&.id,
+        page_id: Panda::CMS::Current.page&.id,
         current_user_id: current_user&.id,
         params: params.to_unsafe_h.except(:controller, :action, :path),
         visited_at: Time.zone.now

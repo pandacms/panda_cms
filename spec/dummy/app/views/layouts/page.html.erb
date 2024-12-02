@@ -1,8 +1,8 @@
 <%= render "shared/header" %>
 <h1><%= @page.title %></h1>
 <h2>Basic Page Layout</h2>
-<%= render PandaCms::TextComponent.new(key: :plain_text) %>
-<%= render PandaCms::CodeComponent.new(key: :html_code) %>
-<%= render PandaCms::RichTextComponent.new(key: :main_content) %>
+<%= render Panda::CMS::TextComponent.new(key: :plain_text) %>
+<%= render Panda::CMS::CodeComponent.new(key: :html_code) %>
+<%= render Panda::CMS::RichTextComponent.new(key: :main_content) %>
 <%= yield %>
 <%= render "shared/footer" %>

@@ -1,8 +1,8 @@
 console.debug("[Panda CMS] Importing Panda CMS Stimulus Controller...")
 
-import { Application as PandaCmsApplication } from "@hotwired/stimulus"
+import { Application as Panda:: CMSApplication } from "@hotwired/stimulus"
 
-const pandaCmsApplication = PandaCmsApplication.start()
+const pandaCmsApplication = Panda:: CMSApplication.start()
 
 console.debug("[Panda CMS] Application started...")
 

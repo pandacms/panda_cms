@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   class Admin::SettingsController < ApplicationController
     before_action :set_initial_breadcrumb, only: %i[index show]
     before_action :authenticate_admin_user!

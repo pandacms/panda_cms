@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   class FormBuilder < ActionView::Helpers::FormBuilder
     include ActionView::Helpers::TagHelper
 

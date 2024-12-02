@@ -2,7 +2,7 @@ require "system_helper"
 
 RSpec.describe "When adding a page", type: :system, js: true do
   context "when not logged in" do
-    let(:homepage) { PandaCms::Page.find_by(path: "/") }
+    let(:homepage) { Panda::CMS::Page.find_by(path: "/") }
 
     it "returns a 404 error" do
       visit "/admin/pages/#{homepage.id}/edit"
@@ -11,7 +11,7 @@ RSpec.describe "When adding a page", type: :system, js: true do
   end
 
   context "when not logged in as an administrator" do
-    let(:homepage) { PandaCms::Page.find_by(path: "/") }
+    let(:homepage) { Panda::CMS::Page.find_by(path: "/") }
 
     it "returns a 404 error" do
       login_as_user

@@ -1,6 +1,6 @@
 <nav class="flex flex-col flex-1">
   <ul role="list" class="flex flex-col flex-1">
-    <a class="block p-0 mt-4 mb-4 ml-2 text-xl font-medium text-white"><%= PandaCms.config.title %></a>
+    <a class="block p-0 mt-4 mb-4 ml-2 text-xl font-medium text-white"><%= Panda::CMS.config.title %></a>
     <% [
       { path: admin_dashboard_path, text: "Dashboard", icon: "fa-house", matcher: :exact },
       { path: admin_pages_path, text: "Pages", icon: "fa-page", matcher: :starts_with },
@@ -34,7 +34,7 @@
     </li>
     <li class="">
       <img src="/panda-cms-assets/panda-nav.png" class="inline py-2 mr-1 ml-0.5 w-auto h-14">
-      <span class="text-xs text-white">v<%= PandaCms::VERSION %> | <span class="font-semibold">License:</span> Perpetual</span>
+      <span class="text-xs text-white">v<%= Panda::CMS::VERSION %> | <span class="font-semibold">License:</span> Perpetual</span>
       <a class="absolute right-0 mt-4 mr-5 text-lg text-white lg:hidden" href="#" data-action="click->panda-cms-menu#toggle touch->panda-cms-menu#toggle"><i class="mr-2 text-white fa-sharp fa-solid fa-bars"></i> Menu</a>
     </li>
   </ul>

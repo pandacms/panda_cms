@@ -8,7 +8,6 @@ name: "App Tests"
   push:
     branches:
       - main
-
   merge_group:
     types: [checks_requested]
 
@@ -20,23 +19,17 @@ jobs:
       BUNDLE_PATH: "vendor/bundle"
     steps:
       - uses: "actions/checkout@v4"
-
       - uses: "ruby/setup-ruby@v1"
         with:
           bundler-cache: true
-
       - name: "Bundler Audit"
         run: "bundle exec bundle-audit --update"
-
       - name: "Brakeman"
         run: "bundle exec brakeman --quiet"
-
       - name: "StandardRB Check"
         run: "bundle exec standardrb"
-
       - name: "ERB Check"
         run: "bundle exec erb_lint app/views --lint-all"
-
       - name: "YAML Lint"
         run: "yamllint -c .yamllint ."
 
@@ -64,29 +57,24 @@ jobs:
 
     steps:
       - uses: "actions/checkout@v4"
-
       - name: "Update VERSION"
         env:
           VERSION: ${{ github.event.pull_request.head.sha }}
         run: |
           echo "${VERSION}" >> VERSION
-
       - name: "Set timezone"
         run: |
           sudo timedatectl set-timezone Europe/London
-
       - name: "Install xvfb"
         run: |
           sudo apt-get update
           sudo apt-get install -y xvfb libvips
           export DISPLAY=':99.0'
           Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-
       - name: "Setup Ruby"
         uses: "ruby/setup-ruby@v1"
         with:
           bundler-cache: true
-
       - name: "Run tests"
         env:
           DATABASE_URL: "postgres://postgres:password@localhost:5432/test"
@@ -100,7 +88,6 @@ jobs:
         run: |
           bundle exec rails db:setup
           xvfb-run -a bundle exec rspec -f j -o tmp/rspec_results.json -f p
-
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
@@ -108,7 +95,6 @@ jobs:
           name: screenshots
           path: ${{ github.workspace }}/spec/tmp/capybara
           if-no-files-found: ignore
-
       # - name: "Danger"
       #   env:
       #     DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}

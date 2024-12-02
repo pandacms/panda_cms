@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-module PandaCms
+module Panda
+  module CMS
   module Admin
     class BlockContentsController < ApplicationController
       before_action :set_page, only: %i[update]
@@ -22,15 +23,15 @@ module PandaCms
       private
 
       # @type private
-      # @return PandaCms::Page
+      # @return Panda::CMS::Page
       def set_page
-        @page = PandaCms::Page.find(params[:page_id])
+        @page = Panda::CMS::Page.find(params[:page_id])
       end
 
       # @type private
-      # @return PandaCms::BlockContent
+      # @return Panda::CMS::BlockContent
       def set_block_content
-        @block_content = PandaCms::BlockContent.find(params[:id])
+        @block_content = Panda::CMS::BlockContent.find(params[:id])
       end
 
       # Only allow a list of trusted parameters through.

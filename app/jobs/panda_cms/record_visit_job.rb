@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   class RecordVisitJob < ApplicationJob
     queue_as :default
 
@@ -13,7 +14,7 @@ module PandaCms
       visited_at: nil,
       redirect_id: nil
     )
-      PandaCms::Visit.create!(
+      Panda::CMS::Visit.create!(
         url: url,
         user_agent: user_agent,
         referrer: referrer,

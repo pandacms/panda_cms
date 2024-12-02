@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   class Admin::Settings::BulkEditorController < ApplicationController
     before_action :set_initial_breadcrumb, only: %i[new]
 

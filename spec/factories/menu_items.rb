@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :menu_item, class: "PandaCms::MenuItem" do
+  factory :menu_item, class: "Panda::CMS::MenuItem" do
     text { "Menu Item" }
     association :menu, factory: :menu
 

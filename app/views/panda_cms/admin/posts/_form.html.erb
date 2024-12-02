@@ -1,11 +1,11 @@
 <%= panda_cms_form_with model: post, url: url do |f| %>
   <div data-controller="slug">
-    <input type="hidden" value="<%= PandaCms::Current.root %>" data-slug-target="existing_root">
+    <input type="hidden" value="<%= Panda::CMS::Current.root %>" data-slug-target="existing_root">
     <%= f.text_field :title, { required: true, data: { "slug-target": "input_text", action: "focusout->slug#generatePath" } } %>
-    <%= f.text_field :slug, { required: true, data: { prefix: PandaCms::Current.root + "/#{PandaCms.config.posts[:prefix]}", "slug-target": "output_text" } } %>
-    <%= f.select :user_id, PandaCms::User.for_select_list %>
+    <%= f.text_field :slug, { required: true, data: { prefix: Panda::CMS::Current.root + "/#{Panda::CMS.config.posts[:prefix]}", "slug-target": "output_text" } } %>
+    <%= f.select :user_id, Panda::CMS::User.for_select_list %>
     <%= f.datetime_field :published_at, { required: true } %>
-    <%= f.select :status, PandaCms::Post.statuses.keys.map { |status| [status.humanize, status] } %>
+    <%= f.select :status, Panda::CMS::Post.statuses.keys.map { |status| [status.humanize, status] } %>
     <%= f.rich_text_area :post_content, { meta: "Your content here will not auto-save! 😬 Use Ctrl + ⇧ + V (Win) or ⌘ + ⇧ + V (macOS) to paste without formatting." } %>
     <%= f.button %>
   </div>

@@ -4,7 +4,7 @@ RSpec.describe "Admin authentication", type: :system do
   describe "where provider is" do
     context "Google" do
       it "logs in admin successfully" do
-        PandaCms.config.authentication[:google][:enabled] = true
+        Panda::CMS.config.authentication[:google][:enabled] = true
         login_with_google(admin_user)
         expect(page).to have_content("You are logged in!")
         expect(page).to have_content("Dashboard")
@@ -13,7 +13,7 @@ RSpec.describe "Admin authentication", type: :system do
 
     context "GitHub" do
       it "logs in admin successfully" do
-        PandaCms.config.authentication[:github][:enabled] = true
+        Panda::CMS.config.authentication[:github][:enabled] = true
         login_with_github(admin_user)
         expect(page).to have_content("You are logged in!")
         expect(page).to have_content("Dashboard")
@@ -23,7 +23,7 @@ RSpec.describe "Admin authentication", type: :system do
     context "Microsoft" do
       it "logs in admin successfully" do
         skip "Microsoft login not working properly in tests"
-        PandaCms.config.authentication[:microsoft][:enabled] = true
+        Panda::CMS.config.authentication[:microsoft][:enabled] = true
         login_with_microsoft(admin_user)
         expect(page).to have_content("You are logged in!")
         expect(page).to have_content("Dashboard")

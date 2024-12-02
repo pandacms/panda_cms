@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= PandaCms.config.title %> &middot; <%= @title %></title>
+    <title><%= Panda::CMS.config.title %> &middot; <%= @title %></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -20,7 +20,7 @@
               <span class="sr-only">Panda CMS</span>
               <img class="w-auto h-10" src="/panda-cms-assets/panda-logo-screenprint.png" alt="">
             </a>
-            <% if (main_menu = PandaCms::Menu.find_by(name: "Main Menu")) %>
+            <% if (main_menu = Panda::CMS::Menu.find_by(name: "Main Menu")) %>
               <div class="hidden ml-10 space-x-8 lg:block">
                 <% main_menu.menu_items.each do |menu_item| %>
                   <a href="<%= menu_item.page.path %>" class="text-base font-medium hover:underline text-zinc-800"><%= menu_item.text %></a>

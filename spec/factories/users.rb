@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :user, class: "PandaCms::User" do
+  factory :user, class: "Panda::CMS::User" do
     firstname { "John" }
     lastname { "Doe" }
     sequence(:email) { |n| "user#{n}@example.com" }

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-module PandaCms
+module Panda
+  module CMS
   module Admin
     class PostsController < ApplicationController
       before_action :set_initial_breadcrumb, only: %i[index new edit create update]
@@ -11,7 +12,7 @@ module PandaCms
       # @type GET
       # @return ActiveRecord::Collection A list of all posts
       def index
-        posts = PandaCms::Post.with_user.order(:published_at)
+        posts = Panda::CMS::Post.with_user.order(:published_at)
         render :index, locals: {posts: posts}
       end
 
@@ -31,7 +32,7 @@ module PandaCms
 
       # POST /admin/posts
       def create
-        post = PandaCms::Post.new(post_params)
+        post = Panda::CMS::Post.new(post_params)
         post.user_id = current_user.id
 
         if post.save
@@ -62,12 +63,12 @@ module PandaCms
 
       # Get the post from the ID
       # @type private
-      # @return PandaCms::post
+      # @return Panda::CMS::post
       def post
         @post ||= if params[:id]
-          PandaCms::Post.find_by_slug("/" + params[:id])
+          Panda::CMS::Post.find_by_slug("/" + params[:id])
         else
-          PandaCms::Post.new
+          Panda::CMS::Post.new
         end
       end
 
@@ -78,7 +79,7 @@ module PandaCms
       def setup_new_post_form(post: nil)
         add_breadcrumb "Add Post", new_admin_post_path
 
-        post ||= PandaCms::Post.new(
+        post ||= Panda::CMS::Post.new(
           status: "active",
           published_at: Time.zone.now
         )

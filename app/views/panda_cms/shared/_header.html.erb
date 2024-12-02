@@ -7,9 +7,9 @@
     <script src="https://kit.fontawesome.com/7835d81e75.js" defer="true" crossorigin="anonymous"></script>
     <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" defer="true" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag "panda_cms", "data-turbo-track": "reload", media: "all" %>
-    <%= render "panda_cms/shared/importmap" %>
-    <%= render "panda_cms/shared/favicons" %>
+    <%= render "panda/cms/shared/importmap" %>
+    <%= render "panda/cms/shared/favicons" %>
     <%= yield :head %>
   </head>
   <body class="overflow-hidden h-full">
-    <%= render "panda_cms/admin/shared/flash" %>
+    <%= render "panda/cms/admin/shared/flash" %>

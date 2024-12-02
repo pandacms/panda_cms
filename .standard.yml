@@ -1,1 +1,10 @@
----
+fix: true
+parallel: true
+format: progress
+
+ignore:
+  - 'db/schema.rb'
+  - 'vendor/**/*'
+  - 'bin/**/*'
+  - 'node_modules/**/*'
+  - 'spec/dummy/**/*' 

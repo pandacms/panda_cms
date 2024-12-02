@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   class ErrorsController < ApplicationController
     layout "error"
 

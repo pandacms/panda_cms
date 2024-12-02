@@ -1,8 +1,9 @@
-module PandaCms
+module Panda
+  module CMS
   class PostsController < ApplicationController
     def show
-      @posts_index_page = PandaCms::Page.find_by(path: "/#{PandaCms.config.posts[:prefix]}")
-      @post = PandaCms::Post.find_by(slug: "/#{params[:slug]}")
+      @posts_index_page = Panda::CMS::Page.find_by(path: "/#{Panda::CMS.config.posts[:prefix]}")
+      @post = Panda::CMS::Post.find_by(slug: "/#{params[:slug]}")
       @title = @post.title
 
       render inline: "", status: :ok, layout: "layouts/post"

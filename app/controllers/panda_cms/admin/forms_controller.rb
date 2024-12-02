@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-module PandaCms
+module Panda
+  module CMS
   module Admin
     class FormsController < ApplicationController
       before_action :set_initial_breadcrumb, only: %i[index show]
@@ -11,12 +12,12 @@ module PandaCms
       # @type GET
       # @return ActiveRecord::Collection A list of all forms
       def index
-        forms = PandaCms::Form.order(:name)
+        forms = Panda::CMS::Form.order(:name)
         render :index, locals: {forms: forms}
       end
 
       def show
-        form = PandaCms::Form.find(params[:id])
+        form = Panda::CMS::Form.find(params[:id])
 
         add_breadcrumb form.name, admin_form_path(form)
         submissions = form.form_submissions.order(created_at: :desc)

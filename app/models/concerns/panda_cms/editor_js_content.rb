@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   module EditorJsContent
     extend ActiveSupport::Concern
 

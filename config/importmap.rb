@@ -10,5 +10,5 @@ pin "@editorjs/editorjs", to: "@editorjs--editorjs.js" # @2.30.6
 # pin "@rails/activestorage", to: "@rails--activestorage.js" # @7.2.100
 # pin "@rails/actioncable", to: "@rails--actioncable.js" # @7.2.100
 
-pin_all_from PandaCms::Engine.root.join("app/javascript/panda_cms/controllers"), under: "panda_cms_controllers", to: "panda_cms/controllers"
-pin_all_from PandaCms::Engine.root.join("app/javascript/panda_cms/editor"), under: "editor", to: "panda_cms/editor"
+pin_all_from Panda::CMS::Engine.root.join("app/javascript/panda_cms/controllers"), under: "panda_cms_controllers", to: "panda_cms/controllers"
+pin_all_from Panda::CMS::Engine.root.join("app/javascript/panda_cms/editor"), under: "editor", to: "panda_cms/editor"

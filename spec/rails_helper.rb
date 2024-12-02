@@ -40,7 +40,7 @@ end
 
 RSpec.configure do |config|
   # URL helpers in tests would be nice to use
-  config.include Rails.application.routes.url_helpers
+  config.include Panda::CMS::Engine.routes.url_helpers
 
   # Use transactions, so we don't have to worry about cleaning up the database
   # The idea is to start each example with a clean database, create whatever data
@@ -99,5 +99,13 @@ RSpec.configure do |config|
       Bullet.perform_out_of_channel_notifications if Bullet.notification?
       Bullet.end_request
     end
+  end
+
+  config.before(:each, type: :system) do |example|
+    puts "Starting: #{example.full_description}"
+  end
+
+  config.after(:each, type: :system) do |example|
+    puts "Finished: #{example.full_description}"
   end
 end

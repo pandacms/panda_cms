@@ -1,13 +1,14 @@
-module PandaCms
+module Panda
+  module CMS
   class FormSubmissionsController < ApplicationController
     def create
       vars = params.except(:authenticity_token, :controller, :action, :id)
 
-      form = PandaCms::Form.find(params[:id])
-      form_submission = PandaCms::FormSubmission.create(form_id: params[:id], data: vars.to_unsafe_h)
+      form = Panda::CMS::Form.find(params[:id])
+      form_submission = Panda::CMS::FormSubmission.create(form_id: params[:id], data: vars.to_unsafe_h)
       form.update(submission_count: form.submission_count + 1)
 
-      PandaCms::FormMailer.notification_email(form: form, form_submission: form_submission).deliver_now
+      Panda::CMS::FormMailer.notification_email(form: form, form_submission: form_submission).deliver_now
 
       if (completion_path = form&.completion_path)
         redirect_to completion_path

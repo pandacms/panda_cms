@@ -1,4 +1,5 @@
-module PandaCms
+module Panda
+  module CMS
   module ThemeHelper
     # TODO: Move these into one method?
     def h1(text, icon: "", additional_styles: "")

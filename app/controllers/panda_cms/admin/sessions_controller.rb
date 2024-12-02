@@ -1,33 +1,34 @@
 # frozen_string_literal: true
 
-module PandaCms
+module Panda
+  module CMS
   module Admin
     class SessionsController < ApplicationController
-      layout "panda_cms/public"
+      layout "panda/cms/public"
 
       def new
-        @providers = PandaCms.config.authentication.select { |_, v| v[:enabled] && !v[:hidden] }.keys
+        @providers = Panda::CMS.config.authentication.select { |_, v| v[:enabled] && !v[:hidden] }.keys
       end
 
       def create
         user_info = request.env.dig("omniauth.auth", "info")
         provider = params[:provider].to_sym
 
-        unless PandaCms.config.authentication.dig(provider, :enabled)
+        unless Panda::CMS.config.authentication.dig(provider, :enabled)
           Rails.logger.error "Authentication provider '#{provider}' is not enabled"
           redirect_to admin_login_path, flash: {error: t("panda_cms.admin.sessions.create.error")}
           return
         end
 
-        user = PandaCms::User.find_by(email: user_info["email"])
+        user = Panda::CMS::User.find_by(email: user_info["email"])
 
-        if !user && PandaCms.config.authentication.dig(provider, :create_account_on_first_login)
-          create_as_admin = PandaCms.config.authentication.dig(provider, :create_as_admin)
+        if !user && Panda::CMS.config.authentication.dig(provider, :create_account_on_first_login)
+          create_as_admin = Panda::CMS.config.authentication.dig(provider, :create_as_admin)
 
           # Always create the first user as admin, regardless of what our settings look like
           # else we can't ever really login. :)
           if !create_as_admin
-            create_as_admin = true if !create_as_admin && PandaCms::User.count.zero?
+            create_as_admin = true if !create_as_admin && Panda::CMS::User.count.zero?
           end
 
           if user_info["first_name"] && user_info["last_name"]
@@ -62,7 +63,7 @@ module PandaCms
         end
 
         session[:user_id] = user.id
-        PandaCms::Current.user = user
+        Panda::CMS::Current.user = user
 
         redirect_path = request.env["omniauth.origin"] || admin_dashboard_path
         redirect_to redirect_path, flash: {success: t("panda_cms.admin.sessions.create.success")}
@@ -83,7 +84,7 @@ module PandaCms
       end
 
       def destroy
-        PandaCms::Current.user = nil
+        Panda::CMS::Current.user = nil
         session[:user_id] = nil
         redirect_to admin_login_path, flash: {success: t("panda_cms.admin.sessions.destroy.success")}
       end

@@ -9,8 +9,8 @@ class AddNestedToPandaCmsMenuItems < ActiveRecord::Migration[7.1]
     add_index :panda_cms_menu_items, :lft
     add_index :panda_cms_menu_items, :rgt
 
-    PandaCms::MenuItem.reset_column_information
-    PandaCms::MenuItem.rebuild!
+    Panda::CMS::MenuItem.reset_column_information
+    Panda::CMS::MenuItem.rebuild!
 
     # Update pages whilst we're at it
     add_column :panda_cms_pages, :depth, :integer
@@ -18,7 +18,7 @@ class AddNestedToPandaCmsMenuItems < ActiveRecord::Migration[7.1]
     add_index :panda_cms_pages, :lft
     add_index :panda_cms_pages, :rgt
 
-    PandaCms::Page.reset_column_information
-    PandaCms::Page.rebuild!
+    Panda::CMS::Page.reset_column_information
+    Panda::CMS::Page.rebuild!
   end
 end

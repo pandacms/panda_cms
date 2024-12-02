@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-module PandaCms
+module Panda
+  module CMS
   module Admin
     class PagesController < ApplicationController
       before_action :set_initial_breadcrumb, only: %i[index edit new create update]
@@ -11,7 +12,7 @@ module PandaCms
       # @type GET
       # @return ActiveRecord::Collection A list of all pages
       def index
-        homepage = PandaCms::Page.find_by(path: "/")
+        homepage = Panda::CMS::Page.find_by(path: "/")
         render :index, locals: {root_page: homepage}
       end
 
@@ -32,7 +33,7 @@ module PandaCms
 
       # POST /admin/pages
       def create
-        page = PandaCms::Page.new(page_params)
+        page = Panda::CMS::Page.new(page_params)
         if page.save
           page.update(path: page.parent.path + page.path) unless page.parent.path == "/"
           redirect_to edit_admin_page_path(page), notice: "The page was successfully created."
@@ -60,12 +61,12 @@ module PandaCms
 
       # Get the page from the ID
       # @type private
-      # @return PandaCms::Page
+      # @return Panda::CMS::Page
       def page
         @page ||= if params[:id]
-          PandaCms::Page.find(params[:id])
+          Panda::CMS::Page.find(params[:id])
         else
-          PandaCms::Page.new(template: PandaCms::Template.default)
+          Panda::CMS::Page.new(template: Panda::CMS::Template.default)
         end
       end
 
