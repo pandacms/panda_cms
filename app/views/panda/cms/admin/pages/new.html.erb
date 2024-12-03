@@ -9,7 +9,7 @@
       <%= f.text_field :title, { data: { "slug-target": "input_text", action: "focusout->slug#generatePath" } } %>
       <%= f.text_field :path, { meta: t(".path.meta"), data: { prefix: Panda::CMS::Current.root, "slug-target": "output_text" } } %>
       <%= f.collection_select :panda_cms_template_id, Panda::CMS::Template.available, :id, :name %>
-      <%= f.button %>
+      <%= f.button "Create Page" %>
     </div>
   <% end %>
 <% end %>
