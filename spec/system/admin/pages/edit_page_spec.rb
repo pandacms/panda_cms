@@ -54,13 +54,14 @@ RSpec.describe "When editing a page", type: :system do
     end
 
     it "shows the correct link to the page" do
-      expect(page).to have_link("/about", href: "/about")
+      expect(page).to have_selector("a[href='/about']", text: /\/about/)
     end
 
     it "allows clicking the link to the page" do
-      pending "Not yet implemented"
-      click_link "/about"
-      expect(page).to have_current_path("/about")
+      new_window = window_opened_by { click_link("/about", match: :first) }
+      within_window new_window do
+        expect(page).to have_current_path("/about")
+      end
     end
 
     it "shows the content of the page being edited" do

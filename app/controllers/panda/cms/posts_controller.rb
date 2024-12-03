@@ -10,7 +10,7 @@ module Panda
       end
 
       def update
-        @post = Post.find(params[:id])
+        @post = Post.find_by(id: params[:id])
 
         if @post.update(post_params)
           respond_to do |format|
