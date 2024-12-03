@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    panda-cms (0.6.3)
+    panda-cms (0.7.0)
       groupdate
       panda-core
       pg
