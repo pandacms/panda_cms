@@ -14,8 +14,26 @@ RSpec.describe "Website" do
 
   it "shows the about page with plain text, code and rich text blocks" do
     visit "/about"
-    expect(page).to have_content("Here is some plain text content.")
-    expect(page).to have_content("Here is some HTML code.")
-    expect(page).to have_content("This is the main content of the about page.")
+
+    # Debug output for troubleshooting
+    if ENV["DEBUG"]
+      about = Panda::CMS::Page.find_by(path: "/about")
+      puts "\nPage: #{about.attributes.inspect}"
+      puts "\nBlock Contents:"
+      about.block_contents.each do |bc|
+        puts "\nBlock: #{bc.block.name}"
+        puts "Raw Content: #{bc.content.inspect}"
+        puts "Rendered Content: #{bc.cached_content.inspect}"
+      end
+    end
+
+    # Test what the user sees
+    expect(page).to have_content("This is the main content of the about page")
+    expect(page).to have_content("Here is some HTML code")
+    expect(page).to have_content("Here is some plain text content")
+
+    # Test that HTML is rendered correctly
+    expect(page).to have_css("p strong", text: "Here is some HTML code")
+    expect(page).to have_css("p", text: "This is the main content of the about page")
   end
 end

@@ -78,6 +78,7 @@ RSpec.describe "When editing a page", type: :system do
       end
 
       find("a", id: "saveEditableButton").click
+      expect(page).to have_content("This page was successfully updated!")
 
       visit "/about"
       expect(page).to have_content("New plain text content #{time}")
@@ -87,12 +88,13 @@ RSpec.describe "When editing a page", type: :system do
       time = Time.now.strftime("%Y-%m-%d %H:%M:%S")
 
       within_frame "editablePageFrame" do
-        # Click the EditorJS block to focus it
-        find(".codex-editor__redactor").click
-
-        # Type some content - EditorJS will automatically create a paragraph block
-        find(".ce-paragraph").click
-        find(".ce-paragraph").set("New rich text content #{time}")
+        # Find the specific editor block with the exact text
+        within(:xpath, "//div[contains(@class, 'ce-block')]//p[text()='This is the main content of the about page.']") do
+          # Move up to the parent editor block
+          find(:xpath, "./ancestor::div[contains(@class, 'codex-editor__redactor')]").click
+          # Simulate typing the new content
+          page.driver.browser.keyboard.type("New rich text content #{time}")
+        end
       end
 
       find("a", id: "saveEditableButton").click

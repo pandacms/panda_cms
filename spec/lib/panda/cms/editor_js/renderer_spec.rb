@@ -292,44 +292,42 @@ RSpec.describe Panda::CMS::EditorJs::Renderer do
   end
 
   context "with HTML validation" do
-    context "with HTML validation" do
-      let(:valid_content) do
-        {
-          "blocks" => [
-            {
-              "type" => "quote",
-              "data" => {
-                "text" => "<p>Valid HTML</p>",
-                "caption" => "Valid caption"
-              }
+    let(:valid_content) do
+      {
+        "blocks" => [
+          {
+            "type" => "quote",
+            "data" => {
+              "text" => "<p>Valid HTML</p>",
+              "caption" => "Valid caption"
             }
-          ]
-        }
-      end
+          }
+        ]
+      }
+    end
 
-      let(:invalid_content) do
-        {
-          "blocks" => [
-            {
-              "type" => "quote",
-              "data" => {
-                "text" => "<p>Invalid HTML<p>",
-                "caption" => "Invalid <div>caption"
-              }
+    let(:invalid_content) do
+      {
+        "blocks" => [
+          {
+            "type" => "quote",
+            "data" => {
+              "text" => "<p>Invalid HTML<p>",
+              "caption" => "Invalid <div>caption"
             }
-          ]
-        }
-      end
+          }
+        ]
+      }
+    end
 
-      it "validates HTML structure" do
-        valid_rendered = described_class.new(valid_content, validate_html: true).render
-        expect(normalize_html(valid_rendered)).to eq(
-          normalize_html('<figure class="text-left"><blockquote><p>Valid HTML</p></blockquote><figcaption>Valid caption</figcaption></figure>')
-        )
+    it "validates HTML structure" do
+      valid_rendered = described_class.new(valid_content, validate_html: true).render
+      expect(normalize_html(valid_rendered)).to eq(
+        normalize_html('<figure class="text-left"><blockquote><p>Valid HTML</p></blockquote><figcaption>Valid caption</figcaption></figure>')
+      )
 
-        invalid_rendered = described_class.new(invalid_content, validate_html: true).render
-        expect(invalid_rendered).to eq("")
-      end
+      invalid_rendered = described_class.new(invalid_content, validate_html: true).render
+      expect(invalid_rendered).to eq("")
     end
   end
 

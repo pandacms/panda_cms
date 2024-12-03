@@ -81,10 +81,29 @@ end
 
 def create_content_blocks(page, content_blocks)
   content_blocks.each do |block_data|
+    content = case block_data[:kind]
+    when "rich_text"
+      {
+        time: Time.current.to_i,
+        blocks: [
+          {
+            type: "paragraph",
+            data: {
+              text: block_data[:content]
+            }
+          }
+        ],
+        version: "2.30.7",
+        source: "editorJS"
+      }
+    else
+      block_data[:content]
+    end
+
     Panda::CMS::BlockContent.find_or_create_by!(
       page: page,
       block: Panda::CMS::Block.find_or_create_by!(block_data.except(:content)),
-      content: block_data[:content]
+      content: content
     )
   end
 end

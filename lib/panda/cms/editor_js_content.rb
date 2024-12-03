@@ -5,19 +5,11 @@ module Panda::CMS::EditorJsContent
     include ActiveModel::Validations
     include ActiveModel::Callbacks
 
-    attr_reader :content
-    attr_accessor :content_changed
-
-    def content=(value)
-      @content_changed = (value != @content)
-      @content = value
-    end
-
     before_save :generate_cached_content
   end
 
   def content_changed?
-    @content_changed || will_save_change_to_content?
+    will_save_change_to_content?
   end
 
   def generate_cached_content

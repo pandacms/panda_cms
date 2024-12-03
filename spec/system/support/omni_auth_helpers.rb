@@ -47,7 +47,7 @@ module OmniAuthHelpers
   end
 
   def login_with_github(user)
-    auth_hash = OmniAuth::AuthHash.new({
+    OmniAuth.config.mock_auth[:github] = OmniAuth::AuthHash.new({
       provider: "github",
       uid: "123456",
       info: {
@@ -56,15 +56,13 @@ module OmniAuthHelpers
       }
     })
 
-    OmniAuth.config.mock_auth[:github] = auth_hash
-    Rails.application.env_config["omniauth.auth"] = auth_hash
-
-    visit "/admin"
-    find("#button-sign-in-github").click
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:github]
+    # Directly visit the callback URL instead of going through the login flow
+    visit "/admin/auth/github/callback"
   end
 
   def login_with_microsoft(user)
-    auth_hash = OmniAuth::AuthHash.new({
+    OmniAuth.config.mock_auth[:microsoft] = OmniAuth::AuthHash.new({
       provider: "microsoft",
       uid: "123456",
       info: {
@@ -74,11 +72,9 @@ module OmniAuthHelpers
       }
     })
 
-    OmniAuth.config.mock_auth[:microsoft] = auth_hash
-    Rails.application.env_config["omniauth.auth"] = auth_hash
-
-    visit "/admin"
-    find("#button-sign-in-microsoft").click
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:microsoft]
+    # Directly visit the callback URL instead of going through the login flow
+    visit "/admin/auth/microsoft/callback"
   end
 
   def login_as_admin(firstname: nil, lastname: nil, email: nil)

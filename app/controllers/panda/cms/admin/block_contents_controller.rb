@@ -12,12 +12,18 @@ module Panda
         # @type PATCH/PUT
         # @return
         def update
-          if @block_content.update!(content: params[:content])
-            @block_content.page.touch # Update the page's updated_at
+          Rails.logger.debug "Content params: #{params.inspect}"
+          Rails.logger.debug "Raw content: #{request.raw_post}"
+
+          if @block_content.update!(content: params.dig(:content))
+            @block_content.page.touch
             render json: @block_content, status: :ok
           else
             render json: @block_content.errors, status: :unprocessable_entity
           end
+        rescue => e
+          Rails.logger.error "Error updating block content: #{e.message}"
+          render json: {error: e.message}, status: :unprocessable_entity
         end
 
         private
