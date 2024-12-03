@@ -23,7 +23,7 @@ Panda Software Limited acknowledges that, except as explicitly described in this
 Run the following command and ensure your Gemfile is setup as follows:
 
 ```
-bundle config set panda_cms.local PATH_TO_PANDA_CMS_DIRECTORY
+bundle config set panda.cms.local PATH_TO_PANDA_CMS_DIRECTORY
 ```
 
 ```ruby

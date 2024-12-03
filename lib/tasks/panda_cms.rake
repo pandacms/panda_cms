@@ -13,8 +13,8 @@ namespace :panda do
     task :watch_admin do
       run_tailwind(
         root_path: Panda::CMS::Engine.root,
-        input_path: "app/assets/stylesheets/panda_cms/application.tailwind.css",
-        output_path: "app/assets/builds/panda_cms.css",
+        input_path: "app/assets/stylesheets/panda/cms/application.tailwind.css",
+        output_path: "app/assets/builds/panda.cms.css",
         watch: true,
         minify: false
       )

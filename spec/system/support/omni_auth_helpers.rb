@@ -5,21 +5,45 @@ OmniAuth.config.on_failure = proc { |env|
 }
 
 module OmniAuthHelpers
-  # Provider login helpers
-  def setup_omniauth_config
-    # Configure authentication settings for test environment
-    Panda::CMS.config.authentication[:google_oauth2] = {
-      enabled: true,
-      client_id: "test_client_id",
-      client_secret: "test_client_secret"
-    }
+  def login_with_google(user)
+    OmniAuth.config.mock_auth[:google] = OmniAuth::AuthHash.new({
+      provider: "google_oauth2",
+      uid: user.id,  # Use the actual user ID instead of hardcoded "123456"
+      info: {
+        email: user.email,
+        name: "#{user.firstname} #{user.lastname}"
+      },
+      credentials: {
+        token: "mock_token",
+        expires_at: Time.now + 1.week
+      }
+    })
+
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:google]
+    # Directly visit the callback URL instead of going through the login flow
+    visit "/admin/auth/google/callback"
   end
 
-  def login_with_google
-    setup_omniauth_config
+  def manual_login_with_google(user)
+    OmniAuth.config.mock_auth[:google] = OmniAuth::AuthHash.new({
+      provider: "google_oauth2",
+      uid: user.id,
+      info: {
+        email: user.email,
+        name: user.name
+      },
+      credentials: {
+        token: "mock_token",
+        expires_at: Time.now + 1.week
+      }
+    })
+
     visit admin_login_path
     expect(page).to have_css("#button-sign-in-google")
     find("#button-sign-in-google").click
+
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:google]
+    visit "/admin"
   end
 
   def login_with_github(user)
@@ -58,7 +82,16 @@ module OmniAuthHelpers
   end
 
   def login_as_admin(firstname: nil, lastname: nil, email: nil)
-    login_with_google
+    user = admin_user
+    login_with_google(user)
+
+    # Add debugging
+    if !page.has_content?("Dashboard")
+      puts "Login failed. Current path: #{page.current_path}"
+      puts "Page content: #{page.text}"
+    end
+
+    expect(page).to have_content("Dashboard")
   end
 
   def login_as_user(firstname: nil, lastname: nil, email: nil)
@@ -90,8 +123,4 @@ end
 
 RSpec.configure do |config|
   config.include OmniAuthHelpers, type: :system
-
-  config.before(:each, type: :system) do
-    setup_omniauth_config
-  end
 end

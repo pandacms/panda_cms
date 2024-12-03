@@ -45,5 +45,4 @@ Panda::CMS::Engine.routes.draw do
   ### APPENDED ROUTES ###
 
   # See lib/panda/cms/engine.rb
-  mount Panda::CMS::Engine => "/"
 end

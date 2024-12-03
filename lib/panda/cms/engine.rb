@@ -2,7 +2,7 @@ require "importmap-rails"
 require "turbo-rails"
 require "stimulus-rails"
 require "view_component"
-require "panda/cms/omniauth_config"
+
 require "panda/cms/railtie"
 
 module Panda
@@ -130,13 +130,105 @@ module Panda
       # config.view_component.preview_paths << Panda::CMS::Engine.root.join("lib/component_previews").to_s
       # config.view_component.generate.preview_path = "lib/component_previews"
 
-      # Configure OmniAuth earlier in the initialization process
-      initializer "panda.cms.omniauth", before: :load_config_initializers do |app|
-        if app.config.middleware.frozen?
-          app.config.middleware = app.config.middleware.dup
-        end
+      # Set up authentication
+      initializer "panda_cms.omniauth", before: "omniauth" do |app|
+        app.config.session_store :cookie_store, key: "_panda_cms_session"
+        app.config.middleware.use ActionDispatch::Cookies
+        app.config.middleware.use ActionDispatch::Session::CookieStore, app.config.session_options
 
-        Panda::CMS::OmniauthConfig.configure(app)
+        OmniAuth.config.logger = Rails.logger
+
+        # TODO: Move this to somewhere more sensible?
+        # Define the mapping of our provider "names" to the OmniAuth strategies and configuration
+        auth_path = "#{Panda::CMS.route_namespace}/auth"
+        callback_path = "/callback"
+        available_providers = {
+          microsoft: {
+            strategy: :microsoft_graph,
+            defaults: {
+              name: "microsoft",
+              # Setup at the following URL:
+              # https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
+              client_id: Rails.application.credentials.dig(:microsoft, :client_id),
+              client_secret: Rails.application.credentials.dig(:microsoft, :client_secret),
+              # Don't change this or the sky will fall on your head
+              # https://github.com/synth/omniauth-microsoft_graph/tree/main?tab=readme-ov-file#domain-verification
+              skip_domain_verification: false,
+              # If your application is single-tenanted, replace "common" with your tenant (directory) ID
+              # from https://portal.azure.com/#settings/directory, otherwise you'll likely want to leave
+              # these settings unchanged
+              client_options: {
+                site: "https://login.microsoftonline.com/",
+                token_url: "common/oauth2/v2.0/token",
+                authorize_url: "common/oauth2/v2.0/authorize"
+              },
+              # If you assign specific users or groups, you will likely want to set this to
+              # true to enable auto-provisioning
+              create_account_on_first_login: false,
+              create_admin_account_on_first_login: false,
+              # Don't hide this provider from the login page
+              hidden: false
+            }
+          },
+          google: {
+            strategy: :google_oauth2,
+            defaults: {
+              name: "google",
+              # Setup at the following URL: https://console.developers.google.com/
+              client_id: Rails.application.credentials.dig(:google, :client_id),
+              client_secret: Rails.application.credentials.dig(:google, :client_secret),
+              # If you assign specific users or groups, you will likely want to set this to
+              # true to enable auto-provisioning
+              create_account_on_first_login: false,
+              create_admin_account_on_first_login: false,
+              # Options we need
+              scope: "email, profile",
+              image_aspect_ratio: "square",
+              image_size: 150,
+              # Worth setting select_account as default, as many people have multiple Google accounts now:
+              prompt: "select_account",
+              # You should probably also set the 'hd' option, huh?,
+              # Don't hide this provider from the login page
+              hidden: false
+            }
+          },
+          github: {
+            strategy: :github,
+            defaults: {
+              name: "github",
+              # Setup at the following URL: https://github.com/settings/applications/new
+              # with a callback of
+              # In the meantime, as long as you're set to /admin as your login path, and on
+              # http://localhost:3000, you can use these for a first login :)
+              client_id: Rails.application.credentials.dig(:github, :client_id),
+              client_secret: Rails.application.credentials.dig(:github, :client_secret),
+              scope: "user:email,read:user",
+              create_account_on_first_login: false,
+              create_admin_account_on_first_login: false,
+              # Don't hide this provider from the login page
+              hidden: false
+            }
+          }
+        }
+
+        available_providers.each do |provider, options|
+          if Panda::CMS.config.authentication.dig(provider, :enabled)
+            auth_path = auth_path.starts_with?("/") ? auth_path : "/#{auth_path}"
+            options[:defaults][:path_prefix] = auth_path
+
+            options[:defaults][:redirect_uri] = if Rails.env.test?
+              "#{Capybara.app_host}#{auth_path}/#{provider}#{callback_path}"
+            else
+              "#{Panda::CMS.config.url}#{auth_path}/#{provider}#{callback_path}"
+            end
+
+            provider_config = options[:defaults].merge(Panda::CMS.config.authentication[provider])
+
+            app.config.middleware.use OmniAuth::Builder do
+              provider options[:strategy], provider_config
+            end
+          end
+        end
       end
     end
 

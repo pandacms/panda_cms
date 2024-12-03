@@ -17,69 +17,49 @@ require "capybara/cuprite"
   },
   process_timeout: 60,
   timeout: 30,
-  inspector: ENV["DEBUG"] == "1",
+  inspector: ENV["DEBUG"].in?(%w[y 1 yes true]),
   logger: StringIO.new,
   browser_logger: StringIO.new,
-  slowmo: ENV.fetch("SLOWMO", 0.1).to_f,
-  js_errors: true,
+  slowmo: ENV.fetch("SLOWMO", 0).to_f,
+  js_errors: ENV["JS_ERRORS"].in?(%w[y 1 yes true]),
   headless: !ENV["HEADLESS"].in?(%w[n 0 no false]),
-  pending_connection_errors: false  # Important: don't fail on pending connections
+  pending_connection_errors: false
 }
 
-puts "Registering Cuprite with options: #{@cuprite_options.inspect}"
+if ENV["DEBUG"] == "1"
+  puts "Registering Cuprite with options: #{@cuprite_options.inspect}"
+end
 
 Capybara.register_driver(:better_cuprite) do |app|
   Capybara::Cuprite::Driver.new(app, **@cuprite_options)
 end
 
+# Configure Capybara to use :better_cuprite driver by default
+Capybara.default_driver = Capybara.javascript_driver = :better_cuprite
+
 module CupriteHelpers
-  def debug_info
-    puts "\n=== Debug Info ==="
-    puts "Current URL: #{begin
-      page.current_url
-    rescue
-      "Error getting URL"
-    end}"
-    puts "Browser PID: #{begin
-      page.driver.browser.process.pid
-    rescue
-      "Error getting PID"
-    end}"
-    puts "Browser Status: #{begin
-      page.driver.browser.process.status
-    rescue
-      "Error getting status"
-    end}"
-    puts "Page HTML: #{begin
-      page.html.truncate(500)
-    rescue
-      "Error getting HTML"
-    end}"
-    puts "=================="
+  # Drop #pause anywhere in a test to stop the execution.
+  # Useful when you want to checkout the contents of a web page in the middle of a test
+  # running in a headful mode.
+  def pause
+    page.driver.pause
   end
 
-  def wait_for_page_load(timeout: 10)
-    Timeout.timeout(timeout) do
-      loop do
-        break if page.evaluate_script("document.readyState") == "complete"
-        sleep 0.1
-      end
+  # Drop #debug anywhere in a test to open a Chrome inspector and pause the execution
+  # Usage: debug(binding)
+  def debug(*)
+    page.driver.debug(*)
+  end
+
+  # Allows sending a list of CSS selectors to be clicked on in the correct order (no delay)
+  # Useful where you need to trigger e.g. a blur event on an input field
+  def click_on_selectors(*css_selectors)
+    css_selectors.each do |selector|
+      page.driver.browser.at_css(selector).click
     end
-  rescue Timeout::Error
-    puts "Page load timeout after #{timeout} seconds"
   end
 end
 
 RSpec.configure do |config|
   config.include CupriteHelpers, type: :system
-
-  config.before(:each, type: :system) do
-    puts "Setting up system test..."
-  end
-
-  config.after(:each, type: :system) do
-    puts "Cleaning up system test..."
-    debug_info
-    page.driver.quit
-  end
 end

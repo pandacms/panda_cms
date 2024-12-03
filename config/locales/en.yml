@@ -1,10 +1,34 @@
 en:
+  panda:
+    cms:
+      admin:
+        pages:
+          new:
+            path:
+              meta: "This will be the URL of the page. It should be unique and not contain spaces or special characters. If you're unsure, it'll be auto-generated for you. 🐼"
+        sessions:
+          create:
+            error: There was an error logging you in. Please check your login details and try again, or contact support.
+            success: You are logged in!
+          destroy:
+            success: You have been logged out!
+          new:
+            title: Sign in to your account
+      authentication:
+        sign_in_with: Sign in with %{provider}
+        providers:
+          github: GitHub
+          google: Google
+          microsoft: Microsoft 365
   activerecord:
+    models:
+      panda/cms/page: Page
+      panda/cms/post: Post
     attributes:
       panda/cms/page:
         title: Title
         path: URL
-        panda/cms_template_id: Template
+        panda_cms_template_id: Template
       panda/cms/post:
         title: Title
         slug: URL
@@ -24,23 +48,3 @@ en:
         text: Menu Item
         external_url: External URL
         panda/cms_page_id: Page
-  panda/cms:
-    authentication:
-      sign_in_with: Sign in with %{provider}
-      providers:
-        github: GitHub
-        google: Google
-        microsoft: Microsoft 365
-    admin:
-      pages:
-        new:
-          path:
-            meta: "This will be the URL of the page. It should be unique and not contain spaces or special characters. If you're unsure, it'll be auto-generated for you. 🐼"
-      sessions:
-        create:
-          error: There was an error logging you in. Please check your login details and try again, or contact support.
-          success: You are logged in!
-        destroy:
-          success: You have been logged out!
-        new:
-          title: Sign in to your account

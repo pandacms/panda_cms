@@ -2,7 +2,6 @@ module BetterRailsSystemTests
   # Make failure screenshots compatible with multi-session setup.
   # That's where we use Capybara.last_used_session introduced before.
   def take_screenshot
-    puts "Taking screenshot at #{Time.current}"  # Debug line
     return super unless Capybara.last_used_session
     Capybara.using_session(Capybara.last_used_session) { super }
   end
@@ -23,7 +22,7 @@ RSpec.configure do |config|
   # Make sure this hook runs before others
   # Means you don't have to set js: true in every system spec
   config.prepend_before(:each, type: :system) do
-    driven_by Capybara.javascript_driver
+    driven_by :better_cuprite
     # Load our seeds, but make sure to keep them lean!
     Rails.application.load_seed
   end

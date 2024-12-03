@@ -1,3 +1,2 @@
 web: bin/rails server
-admin_css: rake panda-cms:assets:watch_admin
-dummy_css: rake panda-cms:assets:watch_dummy
+admin_css: rake panda:cms:watch_admin

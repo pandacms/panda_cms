@@ -13,12 +13,16 @@ module Panda
         end
 
         def render
-          return "" if content.nil? || !content.is_a?(Hash) || !content["blocks"]
+          return "" if content.nil? || content.empty? || !content["blocks"]
 
-          blocks = remove_empty_paragraphs(content["blocks"])
-          rendered = blocks.map { |block| render_block_with_cache(block) }.join("\n")
+          blocks = content["blocks"].reject { |block| empty_paragraph?(block) }
+          rendered = blocks.map do |block|
+            rendered_block = render_block(block)
+            # Apply HTML validation if enabled
+            @validate_html ? validate_html(rendered_block) : rendered_block
+          end.join("\n")
 
-          @validate_html ? validate_html(rendered) : rendered
+          rendered.presence || ""
         end
 
         def section(blocks)
@@ -49,30 +53,24 @@ module Panda
         def validate_html(html)
           return "" if html.blank?
 
-          # Parse input for validation
-          input = html.to_s
+          begin
+            config = Sanitize::Config::RELAXED.dup
+            config[:elements] = config[:elements] + ["figure", "figcaption"]
+            config[:attributes] = config[:attributes].merge({
+              "figure" => ["class"],
+              "blockquote" => ["class"],
+              "p" => ["class"],
+              "figcaption" => []
+            })
 
-          # Check for unclosed or improperly nested tags
-          stack = []
-          input.scan(/<\/?(\w+)[^>]*>/) do |tag, _|
-            if tag =~ /^(\w+)$/  # Opening tag
-              stack.push($1)
-            elsif tag =~ /^\/(\w+)$/  # Closing tag
-              return "" if stack.empty? || stack.pop != $1
-            end
+            sanitized = Sanitize.fragment(html, config)
+
+            # Return the original HTML if sanitization doesn't remove content
+            sanitized.present? ? html : ""
+          rescue => e
+            Rails.logger.error("HTML validation error: #{e.message}")
+            ""
           end
-
-          # Check if all tags were closed
-          return "" unless stack.empty?
-
-          # Check for malformed attributes
-          return "" if /=[^"'\s][^\s>]*/.match?(input)
-
-          # Check for improperly nested paragraph tags
-          doc = Nokogiri::HTML.fragment(input)
-          return "" if doc.css("p p").any?
-
-          html
         end
 
         def render_block_with_cache(block)
@@ -103,6 +101,15 @@ module Panda
           blocks.reject do |block|
             block["type"] == "paragraph" && block["data"]["text"].blank?
           end
+        end
+
+        def empty_paragraph?(block)
+          block["type"] == "paragraph" && block["data"]["text"].blank?
+        end
+
+        def render_block(block)
+          renderer = renderer_for(block)
+          renderer.render
         end
       end
     end

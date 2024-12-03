@@ -13,7 +13,6 @@ require "view_component"
 require "panda/cms/exceptions_app"
 require "panda/cms/engine"
 require "panda/cms/version"
-require "panda/cms/omniauth_config"
 
 require "panda/cms/demo_site_generator"
 require "panda/cms/editor_js"
@@ -35,16 +34,14 @@ module Panda
     setting :title, default: "Demo Site"
     setting :admin_path, default: "/admin"
     setting :require_login_to_view, default: false
-    setting :authentication, default: {
-      google_oauth2: {
-        enabled: true,
-        client_id: ENV.fetch("GOOGLE_CLIENT_ID", nil),
-        client_secret: ENV.fetch("GOOGLE_CLIENT_SECRET", nil)
-      }
-    }
+    setting :authentication, default: {}
     setting :posts, default: {enabled: true, prefix: "blog"}
     setting :route_namespace, default: "/admin"
     setting :url
+
+    def self.root_path
+      config.admin_path
+    end
 
     class << self
       def route_namespace

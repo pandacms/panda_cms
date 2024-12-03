@@ -8,13 +8,14 @@ module Panda
             caption = data["caption"]
             alignment = data["alignment"] || "left"
 
-            # Don't sanitize text immediately to preserve nested HTML
-            html_safe(
-              "<figure class=\"text-#{alignment}\">" \
-                "<blockquote>#{wrap_text_in_p(text)}</blockquote>" \
-                "#{caption_element(caption)}" \
+            # Build the HTML structure
+            html = "<figure class=\"text-#{alignment}\">" \
+              "<blockquote>#{wrap_text_in_p(text)}</blockquote>" \
+              "#{caption_element(caption)}" \
               "</figure>"
-            )
+
+            # Return raw HTML - validation will be handled by the main renderer if enabled
+            html_safe(html)
           end
 
           private

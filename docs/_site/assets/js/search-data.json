@@ -15,7 +15,7 @@
   },"2": {
     "doc": "Contributing",
     "title": "Developing",
-    "content": "Run the following command and ensure your Gemfile is setup as follows: . bundle config set panda_cms.local PATH_TO_PANDA_CMS_DIRECTORY . gem \"panda_cms\", github: \"pandacms/panda_cms\", branch: \"main\" . Alternatively, you may want to use a path to a folder on disk in the Gemfile itself: . gem \"panda_cms\", path: \"../panda_cms\" . ",
+    "content": "Run the following command and ensure your Gemfile is setup as follows: . bundle config set panda.cms.local PATH_TO_PANDA_CMS_DIRECTORY . gem \"panda_cms\", github: \"pandacms/panda_cms\", branch: \"main\" . Alternatively, you may want to use a path to a folder on disk in the Gemfile itself: . gem \"panda_cms\", path: \"../panda_cms\" . ",
     "url": "/developers/contributing/#developing",
     
     "relUrl": "/developers/contributing/#developing"

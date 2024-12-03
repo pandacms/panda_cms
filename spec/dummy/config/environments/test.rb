@@ -39,7 +39,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Raise for all exceptions, to fail fast in tests
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = true
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false

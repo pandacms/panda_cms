@@ -4,7 +4,6 @@ RSpec.describe "Admin authentication", type: :system do
   describe "where provider is" do
     context "Google" do
       it "logs in admin successfully" do
-        Panda::CMS.config.authentication[:google][:enabled] = true
         login_with_google(admin_user)
         expect(page).to have_content("You are logged in!")
         expect(page).to have_content("Dashboard")
@@ -22,7 +21,6 @@ RSpec.describe "Admin authentication", type: :system do
 
     context "Microsoft" do
       it "logs in admin successfully" do
-        skip "Microsoft login not working properly in tests"
         Panda::CMS.config.authentication[:microsoft][:enabled] = true
         login_with_microsoft(admin_user)
         expect(page).to have_content("You are logged in!")
@@ -59,8 +57,14 @@ RSpec.describe "Admin authentication", type: :system do
 
   describe "on error" do
     it "handles invalid credentials" do
+      # Initialize the authentication config hash if it doesn't exist
       OmniAuth.config.mock_auth[:google] = :invalid_credentials
       visit "/admin"
+
+      # Add debugging and wait for page load
+      expect(page).to have_current_path("/admin")
+      expect(page).to have_selector("#button-sign-in-google", wait: 5)
+
       find("#button-sign-in-google").click
       expect(page).to have_current_path("/admin")
       expect(page).to have_content("There was an error logging you in")

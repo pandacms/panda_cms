@@ -1,29 +1,21 @@
 require "system_helper"
 
-RSpec.describe "Website", type: :system do
+RSpec.describe "Website" do
+  include_context "with standard pages"
   it "shows the homepage with rich text blocks and rendered JS" do
-    puts "\n=== Test Starting ==="
-    puts "Driver: #{Capybara.current_driver}"
+    visit "/"
+    # TODO: Look at Percy.io for visual regression testing
+    expect(page).to have_content("Homepage Layout")
+    # Simple JS
+    expect(page).to have_content("I like ice cream!")
+    # Stimulus JS
+    expect(page).to have_content("Hello, Stimulus!")
+  end
 
-    begin
-      puts "Attempting to visit homepage..."
-      visit "/"
-
-      puts "Waiting for page load..."
-      wait_for_page_load
-
-      puts "Homepage visited successfully"
-      puts "Current URL: #{page.current_url}"
-      puts "Page title: #{page.title}"
-
-      # Take a screenshot regardless of test outcome
-      page.save_screenshot("tmp/capybara/debug_#{Time.now.to_i}.png")
-
-      puts "=== Test Ending ==="
-    rescue => e
-      puts "!!! Error occurred: #{e.class} - #{e.message}"
-      puts e.backtrace.take(5)
-      raise e
-    end
+  it "shows the about page with plain text, code and rich text blocks" do
+    visit "/about"
+    expect(page).to have_content("Here is some plain text content.")
+    expect(page).to have_content("Here is some HTML code.")
+    expect(page).to have_content("This is the main content of the about page.")
   end
 end
