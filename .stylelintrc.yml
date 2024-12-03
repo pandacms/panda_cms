@@ -3,4 +3,4 @@ extends:
   - stylelint-config-recommended-vue/scss
 rules:
   declaration-empty-line-before: null
-  no-descending-specificity: null 
+  no-descending-specificity: null
