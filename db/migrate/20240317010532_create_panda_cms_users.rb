@@ -1,4 +1,4 @@
-class CreatePandaCmsUsers < ActiveRecord::Migration[7.1]
+class CreatePandaCMSUsers < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_users, id: :uuid do |t|
       t.string :firstname

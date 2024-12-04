@@ -1,4 +1,4 @@
-class AddNestedToPandaCmsMenuItems < ActiveRecord::Migration[7.1]
+class AddNestedToPandaCMSMenuItems < ActiveRecord::Migration[7.1]
   def change
     add_column :panda_cms_menu_items, :parent_id, :uuid
     add_column :panda_cms_menu_items, :lft, :integer

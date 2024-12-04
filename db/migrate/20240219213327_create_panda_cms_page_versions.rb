@@ -1,4 +1,4 @@
-class CreatePandaCmsPageVersions < ActiveRecord::Migration[7.1]
+class CreatePandaCMSPageVersions < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_page_versions, id: :uuid do |t|
       t.string :item_type, null: false

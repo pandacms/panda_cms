@@ -1,4 +1,4 @@
-class CreatePandaCmsBlockContents < ActiveRecord::Migration[7.1]
+class CreatePandaCMSBlockContents < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_block_contents, id: :uuid do |t|
       t.references :panda_cms_page, null: false, foreign_key: true, type: :uuid

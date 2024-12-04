@@ -1,4 +1,4 @@
-class CreatePandaCmsTemplates < ActiveRecord::Migration[7.1]
+class CreatePandaCMSTemplates < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_templates, id: :uuid do |t|
       t.string :name

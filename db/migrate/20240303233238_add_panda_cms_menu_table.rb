@@ -1,4 +1,4 @@
-class AddPandaCmsMenuTable < ActiveRecord::Migration[7.1]
+class AddPandaCMSMenuTable < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_menus, id: :uuid do |t|
       t.string :name, null: false

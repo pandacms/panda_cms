@@ -1,4 +1,4 @@
-class CreatePandaCmsVisits < ActiveRecord::Migration[7.1]
+class CreatePandaCMSVisits < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_visits, id: :uuid do |t|
       t.string :ip_address, null: true

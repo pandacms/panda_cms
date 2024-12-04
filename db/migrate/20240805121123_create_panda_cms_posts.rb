@@ -1,4 +1,4 @@
-class CreatePandaCmsPosts < ActiveRecord::Migration[7.1]
+class CreatePandaCMSPosts < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_post_tags, id: :uuid do |t|
       t.string :tag

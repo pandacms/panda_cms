@@ -1,4 +1,4 @@
-class AddStatusToPandaCmsPages < ActiveRecord::Migration[7.1]
+class AddStatusToPandaCMSPages < ActiveRecord::Migration[7.1]
   def change
     unless column_exists?(:panda_cms_pages, :status)
       create_enum :panda_cms_page_status, ["active", "draft", "hidden", "archived"]

@@ -1,4 +1,4 @@
-class CreatePandaCmsRedirects < ActiveRecord::Migration[7.1]
+class CreatePandaCMSRedirects < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_redirects, id: :uuid do |t|
       t.string :origin_path, null: true

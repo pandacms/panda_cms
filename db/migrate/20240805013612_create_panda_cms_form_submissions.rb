@@ -1,4 +1,4 @@
-class CreatePandaCmsFormSubmissions < ActiveRecord::Migration[7.1]
+class CreatePandaCMSFormSubmissions < ActiveRecord::Migration[7.1]
   def change
     create_table :panda_cms_form_submissions, id: :uuid do |t|
       t.references :form, type: :uuid, null: false, foreign_key: {to_table: :panda_cms_forms}

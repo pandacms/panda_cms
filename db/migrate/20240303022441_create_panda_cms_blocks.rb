@@ -1,4 +1,4 @@
-class CreatePandaCmsBlocks < ActiveRecord::Migration[7.1]
+class CreatePandaCMSBlocks < ActiveRecord::Migration[7.1]
   def change
     create_enum :panda_cms_block_kind, ["plain_text", "rich_text", "image", "video", "audio", "file", "code", "iframe", "quote", "list", "table", "form"]
 

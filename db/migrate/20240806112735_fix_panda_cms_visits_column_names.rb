@@ -1,4 +1,4 @@
-class FixPandaCmsVisitsColumnNames < ActiveRecord::Migration[7.1]
+class FixPandaCMSVisitsColumnNames < ActiveRecord::Migration[7.1]
   def change
     change_table :panda_cms_visits do |t|
       t.rename :panda_cms_page_id, :page_id
