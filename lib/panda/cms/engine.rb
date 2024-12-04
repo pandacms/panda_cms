@@ -11,16 +11,6 @@ module Panda
       isolate_namespace Panda::CMS
       engine_name "panda_cms"
 
-      # Add lib to autoload paths
-      config.autoload_paths << root.join("lib")
-      config.eager_load_paths << root.join("lib")
-
-      # You might also need these specific paths
-      config.autoload_paths << root.join("lib", "panda")
-      config.autoload_paths << root.join("lib", "panda", "cms")
-      config.autoload_paths << root.join("lib", "panda", "cms", "editor_js")
-      config.autoload_paths << root.join("lib", "panda", "cms", "editor_js", "blocks")
-
       # Basic session setup only
       initializer "panda.cms.session", before: :load_config_initializers do |app|
         if app.config.middleware.frozen?
