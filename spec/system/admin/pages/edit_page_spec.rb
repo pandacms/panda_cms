@@ -65,6 +65,7 @@ RSpec.describe "When editing a page", type: :system do
     end
 
     it "shows the content of the page being edited" do
+      expect(page).to have_css("iframe#editablePageFrame", wait: 10)
       within_frame "editablePageFrame" do
         expect(page).to have_content("About")
         expect(page).to have_content("Basic Page Layout")
