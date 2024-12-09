@@ -33,7 +33,6 @@ en:
         title: Title
         slug: URL
         content: Content
-        panda/cms_template_id: Template
         user_id: Author
         published_at: Published At
         post_content: Content

@@ -83,27 +83,76 @@
     
     "relUrl": "/developer-documentation/"
   },"12": {
+    "doc": "Cookies",
+    "title": "Customizing EditorJS in Panda CMS",
+    "content": "Panda CMS uses EditorJS as its rich text editor. You can customize the editor in several ways to add new tools, modify existing ones, or extend its functionality. ",
+    "url": "/developers/editor_js_customization/#customizing-editorjs-in-panda-cms",
+    
+    "relUrl": "/developers/editor_js_customization/#customizing-editorjs-in-panda-cms"
+  },"13": {
+    "doc": "Cookies",
+    "title": "Default Configuration",
+    "content": "By default, Panda CMS includes these EditorJS tools: . | Header (with levels 1-4) | List (with inline toolbar) | Paragraph | . ",
+    "url": "/developers/editor_js_customization/#default-configuration",
+    
+    "relUrl": "/developers/editor_js_customization/#default-configuration"
+  },"14": {
+    "doc": "Cookies",
+    "title": "Adding Custom Tools",
+    "content": "There are two ways to customize EditorJS in your application: . 1. Using Configuration (Ruby) . Create an initializer in your application to configure EditorJS tools: . # config/initializers/panda_cms.rb Panda::CMS.configure do |config| # Add additional EditorJS tools config.editor_js_tools = [ { url: \"https://cdn.jsdelivr.net/npm/@editorjs/image@latest\" }, { url: \"https://cdn.jsdelivr.net/npm/@editorjs/embed@latest\" } ] # Configure the tools config.editor_js_tool_config = { image: { class: 'ImageTool', config: { endpoints: { byFile: '/upload/image' } } }, embed: { class: 'Embed', config: { services: { youtube: true, vimeo: true } } } } end . 2. Using JavaScript Hooks . You can also customize the editor using JavaScript hooks in your application: . // app/javascript/panda_cms_customizations.js // Customize editor configuration before initialization window.customizeEditorJS = function(config) { // Add or modify tools config.tools.myCustomTool = { class: MyCustomTool, config: { // tool-specific configuration } }; // Modify other editor settings config.placeholder = 'Start writing your content...'; config.autofocus = true; }; // Add functionality after editor initialization window.onEditorJSReady = function(editor) { // Add custom event listeners editor.on('change', () =&gt; { console.log('Content changed'); }); // Add custom methods editor.customMethod = function() { // Custom functionality }; }; . Make sure to include your customization file in your application’s JavaScript bundle. ",
+    "url": "/developers/editor_js_customization/#adding-custom-tools",
+    
+    "relUrl": "/developers/editor_js_customization/#adding-custom-tools"
+  },"15": {
+    "doc": "Cookies",
+    "title": "Configuration Order",
+    "content": "The editor configuration is built in this order: . | Default tools (header, list, paragraph) | Tools from editor_js_tools configuration | Tool configurations from editor_js_tool_config | JavaScript modifications via customizeEditorJS | Post-initialization hooks via onEditorJSReady | . Later configurations can override earlier ones. ",
+    "url": "/developers/editor_js_customization/#configuration-order",
+    
+    "relUrl": "/developers/editor_js_customization/#configuration-order"
+  },"16": {
+    "doc": "Cookies",
+    "title": "Common Examples",
+    "content": "Adding an Image Tool . Panda::CMS.configure do |config| config.editor_js_tools = [ { url: \"https://cdn.jsdelivr.net/npm/@editorjs/image@latest\" } ] config.editor_js_tool_config = { image: { class: 'ImageTool', config: { endpoints: { byFile: '/upload/image', byUrl: '/fetch/image' }, types: '.jpg, .png, .gif, .webp' } } } end . Adding a Code Block Tool . Panda::CMS.configure do |config| config.editor_js_tools = [ { url: \"https://cdn.jsdelivr.net/npm/@editorjs/code@latest\" } ] config.editor_js_tool_config = { code: { class: 'CodeTool', config: { placeholder: 'Enter code here...' } } } end . Custom Save Handling . window.onEditorJSReady = function(editor) { editor.on('save', async () =&gt; { const data = await editor.save(); // Custom save handling console.log('Content saved:', data); }); }; . ",
+    "url": "/developers/editor_js_customization/#common-examples",
+    
+    "relUrl": "/developers/editor_js_customization/#common-examples"
+  },"17": {
+    "doc": "Cookies",
+    "title": "Available Tools",
+    "content": "EditorJS has many official and community tools available. Here are some popular ones: . | Image Tool | Embed Tool | Table Tool | Code Tool | Link Tool | Raw HTML Tool | Checklist Tool | . For a complete list, visit the EditorJS Tools Directory. ",
+    "url": "/developers/editor_js_customization/#available-tools",
+    
+    "relUrl": "/developers/editor_js_customization/#available-tools"
+  },"18": {
+    "doc": "Cookies",
+    "title": "Cookies",
+    "content": " ",
+    "url": "/developers/editor_js_customization/",
+    
+    "relUrl": "/developers/editor_js_customization/"
+  },"19": {
     "doc": "Getting Started",
     "title": "Panda CMS",
     "content": "Thanks for your interest in Panda CMS! Please check back soon for documentation. ",
     "url": "/#panda-cms",
     
     "relUrl": "/#panda-cms"
-  },"13": {
+  },"20": {
     "doc": "Getting Started",
     "title": "Getting Started",
     "content": " ",
     "url": "/",
     
     "relUrl": "/"
-  },"14": {
+  },"21": {
     "doc": "Releasing the panda-cms gem",
     "title": "Releasing",
     "content": "The panda-cms gem uses semantic versioning. Installing gem-release . Installing gem-release makes some parts of the release cycle easier: . gem install gem-release . Releasing a new version of the panda-cms gem . With no staged changes, to set the next version number, run: . RELEASE_VERSION=$(gem bump --pretend --no-commit | awk '{ print $4 }' | tr -d '[:space:]') echo $RELEASE_VERSION . This should output the next patch release version. You can also set RELEASE_VERSION manually: . RELEASE_VERSION=0.6.2 . To release the gem to this version number, run: . gem bump --version \"$RELEASE_VERSION\" bundle install git checkout -b release/v$RELEASE_VERSION git add . &amp;&amp; git commit --message \"[RELEASE] v$RELEASE_VERSION\" git push git checkout main git merge release/v$RELEASE_VERSION git push gem build panda-cms.gemspec gem push panda-cms-$RELEASE_VERSION.gem . To release the gem to another version, set RELEASE_VERSION yourself first. ",
     "url": "/developers/contributing/releasing-the-panda_cms-gem/#releasing",
     
     "relUrl": "/developers/contributing/releasing-the-panda_cms-gem/#releasing"
-  },"15": {
+  },"22": {
     "doc": "Releasing the panda-cms gem",
     "title": "Releasing the panda-cms gem",
     "content": " ",

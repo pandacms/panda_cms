@@ -45,7 +45,7 @@ For initial setup, run:
 ```shell
 bundle install
 rails generate panda-cms:install
-rails db:schema:load
+rails panda-cms:install:migrations
 rails db:seed
 ```
 

@@ -27,6 +27,22 @@ Gem::Specification.new do |spec|
   spec.add_dependency "groupdate"
 
   spec.add_development_dependency "cuprite"
+  spec.add_development_dependency "lookbook"
+  spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "simplecov"
+  spec.add_development_dependency "simplecov-json"
+
+  # temp:
+  spec.add_dependency "omniauth", "~> 2.1"
+  spec.add_development_dependency "omniauth"
+  spec.add_development_dependency "omniauth-github", "~> 2.0"
+  spec.add_development_dependency "omniauth-google-oauth2", "~> 1.1"
+  spec.add_development_dependency "omniauth-microsoft_graph", "~> 2.0"
+  spec.add_development_dependency "omniauth-rails_csrf_protection", "~> 1.0"
+  spec.add_development_dependency "shoulda-matchers"
+  spec.add_development_dependency "faker"
+  spec.add_development_dependency "factory_bot_rails"
+  spec.add_development_dependency "puma"
 
   spec.post_install_message = "🐼 💜"
 end

@@ -1,0 +1,86 @@
+/* EditorJS Styles */
+.codex-editor__redactor {
+  padding-bottom: 0 !important;
+}
+
+.ce-block {
+  margin: 0;
+  padding: 0;
+}
+
+/* Exclude header blocks from content styles */
+/* .content .ce-block h1,
+.content .ce-block h2 {
+  margin-top: 0;
+} */
+
+/* Header styles */
+.ce-header {
+  margin-top: -3rem !important;
+  padding: 0;
+  font-weight: 700;
+  color: rgb(var(--color-dark));
+}
+
+/* First header should have less top margin */
+.ce-block:first-child .ce-header {
+  margin-top: 0;
+}
+
+/* Paragraph styles */
+.ce-paragraph {
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+}
+
+/* Links */
+.ce-block a {
+  color: rgb(var(--color-mid));
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.ce-block a:hover {
+  color: rgb(var(--color-dark));
+}
+
+/* Content width fixes */
+.ce-block__content {
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.ce-toolbar__content {
+  max-width: none !important;
+}
+
+/* List styles */
+.ce-block--list {
+  margin: 0 0 1rem 1.5em;
+}
+
+.ce-block--list ul {
+  list-style-type: disc;
+}
+
+.ce-block--list ol {
+  list-style-type: decimal;
+}
+
+/* Quote styles */
+.ce-block--quote {
+  border-left: 4px solid rgb(var(--color-mid));
+  padding-left: 1em;
+  margin: 1.5rem 0;
+  font-style: italic;
+}
+
+/* Fix toolbar positioning */
+.ce-toolbar__plus {
+  left: -2rem;
+}
+
+/* Ensure proper spacing between blocks */
+.ce-block + .ce-block {
+  margin-top: 0.5rem;
+}

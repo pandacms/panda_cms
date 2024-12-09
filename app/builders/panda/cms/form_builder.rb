@@ -27,14 +27,14 @@ module Panda
       end
 
       def email_field(method, options = {})
-        wrap_field(method, options) do
-          super(method, options.reverse_merge(class: input_styles))
+        content_tag :div, class: container_styles do
+          label(method) + meta_text(options) + super(method, options.reverse_merge(class: input_styles))
         end
       end
 
       def datetime_field(method, options = {})
-        wrap_field(method, options) do
-          super(method, options.reverse_merge(class: input_styles))
+        content_tag :div, class: container_styles do
+          label(method) + meta_text(options) + super(method, options.reverse_merge(class: input_styles))
         end
       end
 
@@ -52,7 +52,7 @@ module Panda
 
       def select(method, choices = nil, options = {}, html_options = {}, &block)
         content_tag :div, class: container_styles do
-          label(method) + meta_text(options) + super(method, choices, options, html_options.reverse_merge(class: input_styles))
+          label(method) + meta_text(options) + super(method, choices, options, html_options.reverse_merge(class: select_styles)) + select_svg
         end
       end
 
@@ -92,7 +92,7 @@ module Panda
         base_classes = [
           "inline-flex items-center rounded-md",
           "px-3 py-2",
-          "text-sm font-semibold",
+          "text-base font-semibold",
           "shadow-sm"
         ]
 
@@ -112,7 +112,27 @@ module Panda
       end
 
       def submit(value = nil, options = {})
-        super(value, options.reverse_merge(class: button_styles))
+        value ||= submit_default_value
+
+        # Use the same style logic as ButtonComponent
+        action = object.persisted? ? :save : :create
+        button_classes = case action
+        when :save, :create
+          "text-white bg-active"
+        when :save_inactive
+          "text-white bg-inactive"
+        when :secondary
+          "text-dark border-2 border-mid bg-transparent hover:bg-light transition-all"
+        else
+          "text-dark border-2 border-mid bg-transparent hover:bg-light transition-all"
+        end
+
+        # Combine with common button classes
+        classes = "inline-flex items-center rounded-md font-medium shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 px-3 py-2 #{button_classes}"
+
+        options[:class] = options[:class] ? "#{options[:class]} #{classes}" : classes
+
+        super
       end
 
       def check_box(method, options = {}, checked_value = "1", unchecked_value = "0")
@@ -151,7 +171,7 @@ module Panda
 
       def meta_text(options)
         return unless options[:meta]
-        @template.content_tag(:p, options[:meta], class: "block text-black/60")
+        @template.content_tag(:p, options[:meta], class: "block text-black/60 text-sm mb-2")
       end
 
       private
@@ -160,16 +180,30 @@ module Panda
         "font-light inline-block mb-1 text-base leading-6"
       end
 
+      def base_input_styles
+        "bg-white block w-full rounded-md border border-mid focus:border-mid p-2 text-dark outline-none focus:outline-0 ring-0 focus:ring-none focus:ring-mid ring-offset-0 focus:ring-offset-0 shadow-none focus:shadow-none border-mid"
+      end
+
       def input_styles
-        "bg-white block w-full rounded-md border border-mid focus:border-dark p-2 text-base text-dark outline-none focus:outline-none ring-0 focus:ring-0 focus:ring-black ring-offset-0 focus:ring-offset-0 shadow-none focus:shadow-none focus:text-black"
+        base_input_styles
       end
 
       def input_styles_prefix
         input_styles.concat(" prefix")
       end
 
+      def select_styles
+        "col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-dark text-base outline-none outline-dark focus:outline focus:-outline-offset-2 focus:outline-dark"
+      end
+
+      def select_svg
+        @template.content_tag(:svg, class: "pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-400", aria_hidden: true) do
+          @template.content_tag(:path, d: "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z")
+        end
+      end
+
       def button_styles
-        "inline-flex items-center rounded-md font-medium shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 text-dark border-2 border-dark bg-transparent hover:bg-light transition-all gap-x-1.5 px-3 py-2 text-base gap-x-1.5 px-2.5 py-1.5 text-sm mt-2 "
+        "inline-flex items-center rounded-md font-medium shadow-sm focus-visible:outline focus-visible:outline-none focus-visible:outline-offset-none text-dark border-2 border-mid bg-transparent hover:bg-light transition-all gap-x-1.5 px-3 py-2 text-base gap-x-1.5 px-2.5 py-1.5 mt-2 "
       end
 
       def container_styles
@@ -181,7 +215,7 @@ module Panda
       end
 
       def submit_default_value
-        (object.respond_to?(:persisted?) && object.persisted?) ? "Update" : "Create"
+        object.persisted? ? "Update #{object.class.name.demodulize}" : "Create #{object.class.name.demodulize}"
       end
 
       def wrap_field(method, options = {}, &block)
@@ -190,10 +224,6 @@ module Panda
             meta_text(options) +
             @template.content_tag(:div, class: field_wrapper_styles, &block)
         end
-      end
-
-      def select_styles
-        "form-select w-full"
       end
 
       def field_wrapper_styles

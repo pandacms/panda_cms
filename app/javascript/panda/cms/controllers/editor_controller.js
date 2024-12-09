@@ -1,8 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
 import { PlainTextEditor } from "panda/cms/editor/plain_text_editor";
 import { ResourceLoader } from "panda/cms/editor/resource_loader";
+import { EditorJSInitializer } from "panda/cms/editor/editor_js_initializer";
 
-export class EditorController extends Controller {
+export default class extends Controller {
   /**
    * Defines the static values that can be set on the EditorController.
    *
@@ -105,7 +106,6 @@ export class EditorController extends Controller {
     console.debug(`[Panda CMS] Found ${richTextElements.length} rich text elements`)
 
     if (richTextElements.length > 0) {
-      // Add save button if it doesn't exist
       if (!parent.document.getElementById('saveEditableButton')) {
         const saveButton = parent.document.createElement('a')
         saveButton.id = 'saveEditableButton'
@@ -115,142 +115,14 @@ export class EditorController extends Controller {
         parent.document.querySelector('.editor-controls').appendChild(saveButton)
       }
 
-      Promise.all([
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"), // Base EditorJS
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/header@latest"), // Header Tool
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/list@latest"), // List Tool
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"), // Quote Tool
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/nested-list@latest"), // Nested List Tool
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"), // Simple Image Tool
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/table@latest"), // Table Tool
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"), // Link Tool
-        ResourceLoader.loadScript(this.frameDocument, this.head, "https://cdn.jsdelivr.net/npm/editorjs-alert@latest"), // Alert Tool
-        ResourceLoader.embedCSS(this.frameDocument, this.head, ".ce-toolbar__content { margin: 0 !important; margin-left: 40px; max-width: 100% !important; width: 100% !important; } .ce-block__content { max-width: 100%; margin: 0 !important; margin-left: 10px !important; }")
-      ]).then(() => {
-        richTextElements.forEach(element => {
-          console.debug(`[Panda CMS] Initializing rich text editor for element:`, element)
+      const initializer = new EditorJSInitializer(
+        this.frameDocument
+      )
 
-          // TODO: Need a way to override this per-site ... or rather, block/editor?
-          const elementAsId = element.id.replace(/-/g, "_")
-          const adminPathValue = this.adminPathValue
-          const pageId = element.getAttribute("data-editable-page-id")
-          const blockContentId = element.getAttribute("data-editable-block-content-id")
-          const csrfToken = this.csrfToken
-          const previousData = element.getAttribute("data-editable-previous-data")
-          const editorConfig = `{
-            holder: '${element.id}',
-            data: ${previousData},
-            tools: {
-              header: {
-                class: Header,
-                config: {
-                  placeholder: 'Enter a header',
-                  levels: [2, 3],
-                  defaultLevel: 2
-                }
-              },
-              list: {
-                class: NestedList,
-                inlineToolbar: true,
-                config: {
-                  defaultStyle: 'unordered'
-                },
-              },
-              alert: {
-                class: Alert,
-                inlineToolbar: true,
-                config: {
-                  defaultType: 'primary',
-                  messagePlaceholder: 'Enter something',
-                  types: {
-                    primary: 'Primary',
-                    secondary: 'Secondary',
-                    success: 'Success',
-                    danger: 'Danger',
-                    warning: 'Warning',
-                    info: 'Info'
-                  }
-                }
-              },
-              quote: Quote,
-              table: {
-                class: Table,
-                inlineToolbar: true,
-                config: {
-                  rows: 2,
-                  cols: 3
-                }
-              },
-              image: SimpleImage,
-              embed: {
-                class: Embed,
-                config: {
-                  services: {
-                    youtube: true,
-                    instagram: true,
-                    miro: true,
-                    vimeo: true,
-                    pinterest: true,
-                    github: true
-                  }
-                }
-              },
-            }
-          }`
-
-          // console.log(editorConfig);
-
-          ResourceLoader.embedScript(
-            `EditorJS configuration for ${element.id}`,
-            this.frameDocument,
-            this.head,
-            `
-              const ${elementAsId} = new EditorJS(${editorConfig})
-              parent.document.getElementById('saveEditableButton').addEventListener('click', (element) => {
-                ${elementAsId}.save().then((outputData) => {
-                  outputData.source = "editorJS"
-                  // console.log('Saving successful, here is outputData:')
-                  dataToSend = JSON.stringify({ content: outputData })
-                  console.log(dataToSend)
-                  fetch("${adminPathValue}/pages/${pageId}/block_contents/${blockContentId}", {
-                    method: "PATCH",
-                    headers: {
-                      "Content-Type": "application/json",
-                      "X-CSRF-Token": "${this.csrfToken}"
-                    },
-                    body: dataToSend
-                  })
-                  .then(response => console.log(response))
-                  .then((success) => {
-                    parent.document.getElementById("successMessage").classList.remove("hidden")
-                    setTimeout(() => {
-                      parent.document.getElementById("successMessage").classList.add("hidden")
-                    }, 3000)
-                  })
-                  .catch((error) => {
-                    parent.document.getElementById("errorMessage").getElementsByClassName('flash-message-text')[0].textContent = error
-                    parent.document.getElementById("errorMessage").classList.remove("hidden")
-                    setTimeout(() => {
-                      parent.document.getElementById("errorMessage").classList.add("hidden")
-                    }, 3000)
-                    console.error(error)
-                  })
-                }).catch((error) => {
-                    parent.document.getElementById("errorMessage").getElementsByClassName('flash-message-text')[0].textContent = error
-                    parent.document.getElementById("errorMessage").classList.remove("hidden")
-                    setTimeout(() => {
-                      parent.document.getElementById("errorMessage").classList.add("hidden")
-                    }, 3000)
-                    console.error(error)
-                })
-              })
-
-              console.debug("[Panda CMS] Initialized rich text editor for element: ${elementAsId}")
-            `
-          )
-          this.editors.push(elementAsId)
-        })
-      }).then(() => {
+      Promise.all(
+        Array.from(richTextElements).map(element => initializer.initialize(element))
+      ).then(editors => {
+        this.editors.push(...editors)
         this.editorsInitialized.rich = true
         this.checkAllEditorsInitialized()
       })
@@ -279,5 +151,85 @@ export class EditorController extends Controller {
   setiFrameVisible() {
     console.debug("[Panda CMS] Setting iFrame to visible")
     this.frame.style.display = ""
+  }
+
+  /**
+   * Initializes an individual editor instance for a given element.
+   * This method creates a unique identifier for the editor, retrieves necessary data attributes,
+   * and embeds the editor configuration script into the document.
+   *
+   * @param {HTMLElement} element - The DOM element to initialize the editor on
+   * @returns {string} The generated element ID used for the editor instance
+   */
+  initializeEditor(element) {
+    const pageId = element.getAttribute("data-editable-page-id")
+    const blockContentId = element.getAttribute("data-editable-block-content-id")
+
+    ResourceLoader.embedScript(
+      `EditorJS AJAX save button for ${element.id}`,
+      this.frameDocument,
+      this.head,
+      this.generateEditorScript(elementAsId, element.id, previousData, pageId, blockContentId)
+    )
+
+    return elementAsId
+  }
+
+  /**
+   * Generates the JavaScript code for initializing an editor instance.
+   * This method constructs the JavaScript code that initializes an EditorJS instance for a given element.
+   * It includes the editor configuration, event listeners for saving changes, and error handling.
+   *
+   * @param {string} elementAsId - The unique identifier for the editor element
+   * @param {string} elementId - The ID of the element being initialized
+   * @param {string} previousData - The previous data stored in the element
+   * @param {number} pageId - The ID of the page being edited
+   * @param {number} blockContentId - The ID of the block content being edited
+   * @returns {string} The generated JavaScript code for initializing the editor
+   */
+  generateEditorScript(elementAsId, elementId, previousData, pageId, blockContentId) {
+    const saveButton = parent.document.getElementById('saveEditableButton')
+    saveButton.addEventListener('click', async () => {
+      try {
+        const outputData = await window[elementAsId].save()
+        outputData.source = "editorJS"
+
+        const response = await fetch(`${this.adminPath}/pages/${pageId}/block_contents/${blockContentId}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": this.csrfToken
+          },
+          body: JSON.stringify({ content: outputData })
+        })
+
+        console.debug("[Panda CMS] Response:", response)
+
+        const successMessage = parent.document.getElementById("successMessage")
+        successMessage.classList.remove("hidden")
+        setTimeout(() => successMessage.classList.add("hidden"), 3000)
+      } catch (error) {
+        this.handleError(error)
+      }
+    })
+
+    console.debug(`[Panda CMS] Initialized rich text editor for element: ${elementAsId}`)
+    return elementAsId
+  }
+
+  /**
+   * Handles errors that occur during editor operations.
+   * This method displays an error message to the user in a flash message,
+   * automatically hides it after 3 seconds, and logs the error to the console.
+   *
+   * @param {Error} error - The error object to handle
+   */
+  handleError(error) {
+    parent.document.getElementById("errorMessage").getElementsByClassName('flash-message-text')[0].textContent = error
+    parent.document.getElementById("errorMessage").classList.remove("hidden")
+    setTimeout(() => {
+      parent.document.getElementById("errorMessage").classList.add("hidden")
+    }, 3000)
+    console.error(error)
   }
 }

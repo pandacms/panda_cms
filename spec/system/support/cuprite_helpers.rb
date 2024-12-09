@@ -21,7 +21,7 @@ require "capybara/cuprite"
   logger: StringIO.new,
   browser_logger: StringIO.new,
   slowmo: ENV.fetch("SLOWMO", 0).to_f,
-  js_errors: ENV["JS_ERRORS"].in?(%w[y 1 yes true]),
+  js_errors: !ENV["JS_ERRORS"].in?(%w[y 1 yes true]),
   headless: !ENV["HEADLESS"].in?(%w[n 0 no false]),
   pending_connection_errors: false
 }

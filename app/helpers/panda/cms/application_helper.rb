@@ -16,6 +16,8 @@ module Panda
       def title_tag
         if @breadcrumbs.present?
           "#{@breadcrumbs.last&.name} &middot; #{Panda::CMS.config.title}".html_safe
+        elsif @title.present?
+          "#{@title} &middot; #{Panda::CMS.config.title}".html_safe
         else
           Panda::CMS.config.title
         end
@@ -44,7 +46,7 @@ module Panda
 
       def panda_cms_form_with(**options, &)
         options[:builder] = Panda::CMS::FormBuilder
-        options[:class] = "p-6 bg-mid/5 rounded-lg border-mid border"
+        options[:class] = ["block visible p-6 bg-mid/5 rounded-lg border-mid border", options[:class]].compact.join(" ")
         form_with(**options, &)
       end
 

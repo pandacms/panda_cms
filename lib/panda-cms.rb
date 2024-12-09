@@ -21,6 +21,8 @@ module Panda
     setting :posts, default: {enabled: true, prefix: "blog"}
     setting :route_namespace, default: "/admin"
     setting :url
+    setting :editor_js_tools, default: []
+    setting :editor_js_tool_config, default: {}
 
     def self.root_path
       config.admin_path

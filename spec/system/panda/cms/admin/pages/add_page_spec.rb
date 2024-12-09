@@ -88,6 +88,7 @@ RSpec.describe "When adding a page", type: :system, js: true do
     end
 
     it "shows validation errors with an incorrect URL" do
+      fill_in "Title", with: "New Test Page"
       fill_in "URL", with: "new-test-page"
       click_button "Create Page"
       expect(page).to have_content("URL must start with a forward slash")

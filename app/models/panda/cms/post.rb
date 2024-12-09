@@ -11,8 +11,6 @@ module Panda
         class_name: "Panda::CMS::PostVersion"
       }
 
-      has_rich_text :post_content
-
       belongs_to :user, class_name: "Panda::CMS::User"
 
       validates :title, presence: true
@@ -35,25 +33,23 @@ module Panda
       }
 
       def to_param
-        formatted_slug.to_s
+        slug.delete_prefix("/")
       end
 
       def excerpt(length = 100, squish: true)
-        excerpt = post_content.to_plain_text
-        excerpt = excerpt.squish if squish
-        excerpt.truncate(length).html_safe
-      end
+        return "" if content.blank?
 
-      def path
-        "/" + Panda::CMS.config.posts[:prefix] + slug.to_s
-      end
-
-      def formatted_slug
-        if slug[0] == "/"
-          slug[1, slug.length].to_s
+        text = if content.is_a?(Hash) && content["blocks"]
+          content["blocks"]
+            .select { |block| block["type"] == "paragraph" }
+            .map { |block| block["data"]["text"] }
+            .join(" ")
         else
-          slug
+          content.to_s
         end
+
+        text = text.squish if squish
+        text.truncate(length).html_safe
       end
     end
   end

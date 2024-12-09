@@ -84,17 +84,17 @@ def create_content_blocks(page, content_blocks)
     content = case block_data[:kind]
     when "rich_text"
       {
-        time: Time.current.to_i,
-        blocks: [
+        "time" => Time.current.to_i,
+        "blocks" => [
           {
-            type: "paragraph",
-            data: {
-              text: block_data[:content]
+            "type" => "paragraph",
+            "data" => {
+              "text" => block_data[:content]
             }
           }
         ],
-        version: "2.30.7",
-        source: "editorJS"
+        "version" => "2.30.7",
+        "source" => "editorJS"
       }
     else
       block_data[:content]

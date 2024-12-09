@@ -11,6 +11,11 @@ module Panda
       isolate_namespace Panda::CMS
       engine_name "panda_cms"
 
+      # Add services directory to autoload paths
+      config.autoload_paths += %W[
+        #{root}/app/services
+      ]
+
       # Basic session setup only
       initializer "panda.cms.session", before: :load_config_initializers do |app|
         if app.config.middleware.frozen?
@@ -47,8 +52,18 @@ module Panda
 
       initializer "panda.cms.assets" do |app|
         if Rails.configuration.respond_to?(:assets)
+          # Add JavaScript paths
           app.config.assets.paths << root.join("app/javascript")
-          app.config.assets.precompile += %w[panda_cms_manifest]
+          app.config.assets.paths << root.join("app/javascript/panda")
+          app.config.assets.paths << root.join("app/javascript/panda/cms")
+          app.config.assets.paths << root.join("app/javascript/panda/cms/controllers")
+
+          # Make sure these files are precompiled
+          app.config.assets.precompile += %w[
+            panda_cms_manifest.js
+            panda/cms/controllers/**/*.js
+            panda/cms/application_panda_cms.js
+          ]
         end
       end
 
@@ -218,6 +233,19 @@ module Panda
               provider options[:strategy], provider_config
             end
           end
+        end
+      end
+
+      config.before_initialize do |app|
+        # Default configuration
+        Panda::CMS.configure do |config|
+          # Array of additional EditorJS tools to load
+          # Example: [{ url: "https://cdn.jsdelivr.net/npm/@editorjs/image@latest" }]
+          config.editor_js_tools ||= []
+
+          # Hash of EditorJS tool configurations
+          # Example: { image: { class: 'ImageTool', config: { ... } } }
+          config.editor_js_tool_config ||= {}
         end
       end
     end

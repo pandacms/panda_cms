@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus";
 
-export class SlugController extends Controller {
+export default class extends Controller {
   static targets = [
     "existing_root",
     "input_select",

@@ -107,7 +107,7 @@
 }
 
 /*
-! tailwindcss v3.4.15 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -977,6 +977,14 @@ a.block-link:after {
   top: 0.5rem;
 }
 
+.right-3 {
+  right: 0.75rem;
+}
+
+.top-1\/2 {
+  top: 50%;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -987,6 +995,14 @@ a.block-link:after {
 
 .col-span-3 {
   grid-column: span 3 / span 3;
+}
+
+.col-start-1 {
+  grid-column-start: 1;
+}
+
+.row-start-1 {
+  grid-row-start: 1;
 }
 
 .m-0 {
@@ -1333,6 +1349,10 @@ a.block-link:after {
   min-width: 100%;
 }
 
+.max-w-lg {
+  max-width: 32rem;
+}
+
 .max-w-sm {
   max-width: 24rem;
 }
@@ -1379,6 +1399,11 @@ a.block-link:after {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.-translate-y-1\/2 {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .scale-100 {
   --tw-scale-x: 1;
   --tw-scale-y: 1;
@@ -1405,6 +1430,12 @@ a.block-link:after {
 
 .list-disc {
   list-style-type: disc;
+}
+
+.appearance-none {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .grid-cols-1 {
@@ -2036,6 +2067,18 @@ a.block-link:after {
   outline-style: solid;
 }
 
+.outline-1 {
+  outline-width: 1px;
+}
+
+.-outline-offset-1 {
+  outline-offset: -1px;
+}
+
+.outline-dark {
+  outline-color: rgb(var(--color-dark) / 1);
+}
+
 .ring-0 {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -2139,37 +2182,6 @@ a.block-link:after {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
-/*
- * Provides a drop-in pointer for the default Trix stylesheet that will format the toolbar and
- * the trix-editor content (whether displayed or under editing). Feel free to incorporate this
- * inclusion directly in any other asset bundle and remove this file.
-*/
-
-/*
- * We need to override trix.css’s image gallery styles to accommodate the
- * <action-text-attachment> element we wrap around attachments. Otherwise,
- * images in galleries will be squished by the max-width: 33%; rule.
-*/
-
-.trix-content .attachment-gallery > action-text-attachment,
-.trix-content .attachment-gallery > .attachment {
-  flex: 1 0 33%;
-  padding: 0 0.5em;
-  max-width: 33%;
-}
-
-.trix-content .attachment-gallery.attachment-gallery--2 > action-text-attachment,
-.trix-content .attachment-gallery.attachment-gallery--2 > .attachment, .trix-content .attachment-gallery.attachment-gallery--4 > action-text-attachment,
-.trix-content .attachment-gallery.attachment-gallery--4 > .attachment {
-  flex-basis: 50%;
-  max-width: 50%;
-}
-
-.trix-content action-text-attachment .attachment {
-  padding: 0 !important;
-  max-width: 100% !important;
-}
-
 .file\:rounded::file-selector-button {
   border-radius: 0.25rem;
 }
@@ -2250,6 +2262,11 @@ a.block-link:after {
   border-color: rgb(var(--color-dark) / var(--tw-border-opacity, 1));
 }
 
+.focus\:border-mid:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(var(--color-mid) / var(--tw-border-opacity, 1));
+}
+
 .focus\:text-black:focus {
   --tw-text-opacity: 1;
   color: rgb(var(--color-black) / var(--tw-text-opacity, 1));
@@ -2268,6 +2285,26 @@ a.block-link:after {
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
+}
+
+.focus\:outline:focus {
+  outline-style: solid;
+}
+
+.focus\:outline-2:focus {
+  outline-width: 2px;
+}
+
+.focus\:outline-0:focus {
+  outline-width: 0px;
+}
+
+.focus\:-outline-offset-2:focus {
+  outline-offset: -2px;
+}
+
+.focus\:outline-dark:focus {
+  outline-color: rgb(var(--color-dark) / 1);
 }
 
 .focus\:ring-0:focus {
@@ -2302,12 +2339,22 @@ a.block-link:after {
   --tw-ring-color: rgb(var(--color-dark) / var(--tw-ring-opacity, 1));
 }
 
+.focus\:ring-mid:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(var(--color-mid) / var(--tw-ring-opacity, 1));
+}
+
 .focus\:ring-offset-0:focus {
   --tw-ring-offset-width: 0px;
 }
 
 .focus\:ring-offset-2:focus {
   --tw-ring-offset-width: 2px;
+}
+
+.focus-visible\:outline-none:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
 .focus-visible\:outline:focus-visible {
@@ -2361,6 +2408,10 @@ a.block-link:after {
     max-width: 24rem;
   }
 
+  .sm\:max-w-xs {
+    max-width: 20rem;
+  }
+
   .sm\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -2386,6 +2437,11 @@ a.block-link:after {
   .sm\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
+  }
+
+  .sm\:text-sm\/6 {
+    font-size: 0.875rem;
+    line-height: 1.5rem;
   }
 
   .sm\:leading-6 {

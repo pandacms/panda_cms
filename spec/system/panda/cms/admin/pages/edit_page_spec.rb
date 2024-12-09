@@ -91,9 +91,9 @@ RSpec.describe "When editing a page", type: :system do
 
       within_frame "editablePageFrame" do
         # Find the specific editor block with the exact text
-        within(:xpath, "//div[contains(@class, 'ce-block')]//p[text()='This is the main content of the about page.']") do
-          # Move up to the parent editor block
-          find(:xpath, "./ancestor::div[contains(@class, 'codex-editor__redactor')]").click
+        find(:xpath, "//div[contains(@class, 'ce-paragraph') and contains(text(), 'This is the main content of the about page')]") do
+          # Find the editor block directly
+          find(:xpath, "//div[contains(@class, 'codex-editor__redactor')]").click
           # Simulate typing the new content
           page.driver.browser.keyboard.type("New rich text content #{time}")
         end
@@ -102,7 +102,7 @@ RSpec.describe "When editing a page", type: :system do
       find("a", id: "saveEditableButton").click
 
       visit "/about"
-      expect(page).to have_content("New rich text content")
+      expect(page).to have_content("New rich text content #{time}")
     end
 
     it "allows editing code content of the page" do

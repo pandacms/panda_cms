@@ -1,16 +1,30 @@
-<%= panda_cms_form_with model: post, url: url do |f| %>
-  <div data-controller="slug">
-    <input type="hidden" value="<%= Panda::CMS::Current.root %>" data-slug-target="existing_root">
-    <%= f.text_field :title, { required: true, data: { "slug-target": "input_text", action: "focusout->slug#generatePath" } } %>
-    <%= f.text_field :slug, { required: true, data: { prefix: Panda::CMS::Current.root + "/#{Panda::CMS.config.posts[:prefix]}", "slug-target": "output_text" } } %>
-    <%= f.select :user_id, Panda::CMS::User.for_select_list %>
-    <%= f.datetime_field :published_at, { required: true } %>
-    <%= f.select :status, Panda::CMS::Post.statuses.keys.map { |status| [status.humanize, status] } %>
-    <%= f.rich_text_area :post_content, { meta: "Your content here will not auto-save! 😬 Use Ctrl + ⇧ + V (Win) or ⌘ + ⇧ + V (macOS) to paste without formatting." } %>
-    <%= f.button %>
+<%= panda_cms_form_with model: post, url: url, method: :post do |f| %>
+    <div data-controller="slug">
+      <%= f.text_field :title, { data: { "slug-target": "input_text", action: "focusout->slug#generatePath" } } %>
+      <input type="hidden" value="<%= Panda::CMS::Current.root %>" data-slug-target="existing_root">
+      <%= f.text_field :path, { data: { prefix: Panda::CMS::Current.root + "/#{Panda::CMS.config.posts[:prefix]}", "slug-target": "output_text" } } %>
+    </div>
+    <%= f.select :user_id, Panda::CMS::User.for_select_list, { id: "post_user_id" } %>
+    <%= f.datetime_field :published_at, { id: "post_published_at", required: true, class: "max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs border-gray-300 rounded-md", meta: "You can set this to a date/time in the future for the post not to show up until that time.", value: post.published_at.present? ? post.published_at.strftime("%Y-%m-%dT%H:%M") : nil } %>
+    <%= f.select :status, Panda::CMS::Post.statuses.keys.map { |status| [status.humanize, status] }, { id: "post_status" }, { class: "max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs border-gray-300 rounded-md" } %>
+
+    <div data-controller="editor-form">
+      <%= f.hidden_field :content,
+          id: "editor-content-input",
+          data: {
+            editor_form_target: "content",
+            initial_content: f.object.content.to_json
+          } %>
+      <div id="editorjs"
+           data-editor-form-target="container"
+           class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md">
+      </div>
+    </div>
+
+    <%= f.submit post.persisted? ? "Update Post" : "Create Post",
+        data: {
+          disable_with: "Saving...",
+          action: "editor-form#submit"
+        } %>
   </div>
-<% end %>
-<% content_for :head do %>
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-  <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
 <% end %>

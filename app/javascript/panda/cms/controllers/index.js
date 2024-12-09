@@ -14,14 +14,17 @@ console.debug("[Panda CMS] window.pandaCmsStimulus available...")
 
 console.debug("[Panda CMS] Registering controllers...")
 
-// Grab our internal controllers manually, prefixed with panda/cms/controllers so not to conflict
-import { DashboardController } from "panda/cms/controllers/dashboard_controller"
+// Use the same paths as defined in _importmap.html.erb
+import DashboardController from "panda/cms/controllers/dashboard_controller"
 pandaCmsApplication.register("dashboard", DashboardController)
 
-import { SlugController } from "panda/cms/controllers/slug_controller"
+import EditorFormController from "panda/cms/controllers/editor_form_controller"
+pandaCmsApplication.register("editor-form", EditorFormController)
+
+import SlugController from "panda/cms/controllers/slug_controller"
 pandaCmsApplication.register("slug", SlugController)
 
-import { EditorController } from "panda/cms/controllers/editor_controller"
+import EditorController from "panda/cms/controllers/editor_controller"
 pandaCmsApplication.register("editor", EditorController)
 
 console.debug("[Panda CMS] Registering components...")
